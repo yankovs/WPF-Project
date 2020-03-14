@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WPF_Project"
         mc:Ignorable="d"
         Title="FlightGear Simulator" Height="450" Width="800">
-    <Grid>
+    <Grid Margin="3,0,-3.4,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -28,16 +28,23 @@
                 <ColumnDefinition Width="98*"/>
                 <ColumnDefinition Width="106*"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="Connect" Margin="93,1,0,8.8" Content="Connect" HorizontalAlignment="Left" Command="{Binding}" RenderTransformOrigin="0.5,0.5" Grid.Column="1">
-                <Button.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform Angle="-0.11"/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Button.RenderTransform>
-            </Button>
+            <Button x:Name="Connect" Margin="93,1,0,8.8" Content="Connect" HorizontalAlignment="Left" Command="{Binding}" RenderTransformOrigin="0.5,0.5" Grid.Column="1"/>
+            <Button x:Name="settButton" Margin="44.2,1,50.8,8.8" Grid.Column="2" Content="Settings" HorizontalAlignment="Center" Command="{Binding}"/>
         </Grid>
+        <TabControl BorderThickness="0" Margin="24.8,28.6,0,10.4" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1">
+            <TabItem Header="Manual">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontWeight="Bold" FontSize="13" VerticalAlignment="Center" RenderTransformOrigin="2.228,-2.304">
+                        <TextBlock.LayoutTransform>
+                            <RotateTransform Angle="90"/>
+                        </TextBlock.LayoutTransform>
+                        &lt;- throttle -&gt;
+                    </TextBlock>
+                    <Slider x:Name="throttleSlider" Margin="5,29,5,96.2" Minimum="-1" Maximum="1" Ticks="-1, -0.9, -0.8, -0.7, -0.6, -0.5, -0.4, -0.3, -0.2, -0.1, 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1" TickPlacement="BottomRight" HorizontalContentAlignment="Left" VerticalContentAlignment="Stretch" Orientation="Vertical">
+                        
+                    </Slider>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>
