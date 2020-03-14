@@ -5,8 +5,39 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_Project"
         mc:Ignorable="d"
-        Title="Test" Height="450" Width="800">
+        Title="FlightGear Simulator" Height="450" Width="800">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock FontWeight="Bold" FontSize="20" Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Center">
+            FlightGear Simulator
+        </TextBlock>
+        <Grid Margin="7" Grid.Row="1" Grid.ColumnSpan="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="29*"/>
+                <RowDefinition Height="510*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="9*"/>
+                <ColumnDefinition Width="98*"/>
+                <ColumnDefinition Width="106*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="Connect" Margin="93,1,0,8.8" Content="Connect" HorizontalAlignment="Left" Command="{Binding}" RenderTransformOrigin="0.5,0.5" Grid.Column="1">
+                <Button.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="-0.11"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Button.RenderTransform>
+            </Button>
+        </Grid>
     </Grid>
 </Window>
