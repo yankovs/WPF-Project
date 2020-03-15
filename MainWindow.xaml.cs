@@ -24,5 +24,15 @@ namespace WPF_Project
         {
             InitializeComponent();
         }
+
+        private void aileronSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+
+        }
+
+        private void throttleSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+
+        }
     }
 }

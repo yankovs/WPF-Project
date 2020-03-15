@@ -2,49 +2,153 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"        
         xmlns:local="clr-namespace:WPF_Project"
         mc:Ignorable="d"
         Title="FlightGear Simulator" Height="450" Width="800">
-    <Grid Margin="3,0,-3.4,0">
+    <Grid Background = "LightGray">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <TextBlock FontWeight="Bold" FontSize="20" Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Center">
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock FontWeight="Bold" Grid.Row="0" FontSize="15" HorizontalAlignment="Center">
+                Map
+                </TextBlock>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock FontWeight="Bold" Grid.Row="0" FontSize="15" HorizontalAlignment="Center">
+                    Dashboard
+                    </TextBlock>
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0" FontSize="10" HorizontalAlignment="Left">
+                         heading-deg
+                        </TextBlock>
+                        <TextBlock Grid.Row="1" Grid.Column="0" FontSize="10" HorizontalAlignment="Left">
+                         gps_vertical-speed
+                        </TextBlock>
+                        <TextBlock Grid.Row="2" Grid.Column="0" FontSize="10" HorizontalAlignment="Left">
+                         gps_ground-speed
+                        </TextBlock>
+                        <TextBlock Grid.Row="3" Grid.Column="0" FontSize="10" HorizontalAlignment="Left">
+                         indicated-speed
+                        </TextBlock>
+                        <TextBlock Grid.Row="0" Grid.Column="2" FontSize="10" HorizontalAlignment="Left">
+                         gps_altitude-ft
+                        </TextBlock>
+                        <TextBlock Grid.Row="1" Grid.Column="2" FontSize="10" HorizontalAlignment="Left">
+                         internal-roll-deg
+                        </TextBlock>
+                        <TextBlock Grid.Row="2" Grid.Column="2" FontSize="10" HorizontalAlignment="Left">
+                        internal-pitch-deg
+                        </TextBlock>
+                        <TextBlock Grid.Row="3" Grid.Column="2" FontSize="10" HorizontalAlignment="Left">
+                         altimeter_altitude-ft
+                        </TextBlock>
+
+                        <TextBlock Grid.Row="0" Grid.Column="1" FontSize="10" HorizontalAlignment="Left">
+                         0.0
+                        </TextBlock>
+                        <TextBlock Grid.Row="1" Grid.Column="1" FontSize="10" HorizontalAlignment="Left">
+                         0.0
+                        </TextBlock>
+                        <TextBlock Grid.Row="2" Grid.Column="1" FontSize="10" HorizontalAlignment="Left">
+                         0.0
+                        </TextBlock>
+                        <TextBlock Grid.Row="3" Grid.Column="1" FontSize="10" HorizontalAlignment="Left">
+                         0.0
+                        </TextBlock>
+                        <TextBlock Grid.Row="0" Grid.Column="3" FontSize="10" HorizontalAlignment="Left">
+                         0.0
+                        </TextBlock>
+                        <TextBlock Grid.Row="1" Grid.Column="3" FontSize="10" HorizontalAlignment="Left">
+                         0.0
+                        </TextBlock>
+                        <TextBlock Grid.Row="2" Grid.Column="3" FontSize="10" HorizontalAlignment="Left">
+                        0.0
+                        </TextBlock>
+                        <TextBlock Grid.Row="3" Grid.Column="3" FontSize="10" HorizontalAlignment="Left">
+                         0.0
+                        </TextBlock>
+                    </Grid>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock FontWeight="Bold" Grid.Row="0" FontSize="15" HorizontalAlignment="Center">
+                    Controllers
+                    </TextBlock>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="2*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock FontWeight="Bold" Grid.Row="0" FontSize="12" HorizontalAlignment="Center">
+                            Aileron
+                            </TextBlock>
+                            <Slider Grid.Row="1"
+                                    VerticalAlignment="Center"
+                                    x:Name="aileronSlider"  
+                                    Minimum="0" 
+                                    Maximum="10"                                    
+                                    AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0"
+                                    ValueChanged="aileronSlider_ValueChanged"/>                                
+                            <TextBlock FontWeight="Bold" Grid.Row="2" FontSize="12" HorizontalAlignment="Center">
+                            Throttle
+                            </TextBlock>
+                            <Slider Grid.Row="3"
+                                    VerticalAlignment="Center"
+                                    x:Name="throttleSlider"  
+                                    Minimum="0" 
+                                    Maximum="10"                                    
+                                    AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0"
+                                    ValueChanged="throttleSlider_ValueChanged"/>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+        <TextBlock FontWeight="Bold" Grid.Row="0" FontSize="20" HorizontalAlignment="Center">
             FlightGear Simulator
         </TextBlock>
-        <Grid Margin="7" Grid.Row="1" Grid.ColumnSpan="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="29*"/>
-                <RowDefinition Height="510*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="9*"/>
-                <ColumnDefinition Width="98*"/>
-                <ColumnDefinition Width="106*"/>
-            </Grid.ColumnDefinitions>
-            <Button x:Name="Connect" Margin="93,1,0,8.8" Content="Connect" HorizontalAlignment="Left" Command="{Binding}" RenderTransformOrigin="0.5,0.5" Grid.Column="1"/>
-            <Button x:Name="settButton" Margin="44.2,1,50.8,8.8" Grid.Column="2" Content="Settings" HorizontalAlignment="Center" Command="{Binding}"/>
-        </Grid>
-        <TabControl BorderThickness="0" Margin="24.8,28.6,0,10.4" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1">
-            <TabItem Header="Manual">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock FontWeight="Bold" FontSize="13" VerticalAlignment="Center" RenderTransformOrigin="2.228,-2.304">
-                        <TextBlock.LayoutTransform>
-                            <RotateTransform Angle="90"/>
-                        </TextBlock.LayoutTransform>
-                        &lt;- throttle -&gt;
-                    </TextBlock>
-                    <Slider x:Name="throttleSlider" Margin="5,29,5,96.2" Minimum="-1" Maximum="1" Ticks="-1, -0.9, -0.8, -0.7, -0.6, -0.5, -0.4, -0.3, -0.2, -0.1, 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1" TickPlacement="BottomRight" HorizontalContentAlignment="Left" VerticalContentAlignment="Stretch" Orientation="Vertical">
-                        
-                    </Slider>
-                </StackPanel>
-            </TabItem>
-        </TabControl>
     </Grid>
 </Window>
