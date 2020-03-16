@@ -116,6 +116,29 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0" RenderTransformOrigin="0.5,0.5">
+                            <Grid.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="0.95" ScaleY="0.95"/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform X="-25" Y="-6"/>
+                                </TransformGroup>
+                            </Grid.RenderTransform>
+                            <Views:Joystick RenderTransformOrigin="0.5,0.5">
+                                <Views:Joystick.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform ScaleX="0.45" ScaleY="0.45"/>
+                                        <SkewTransform/>
+                                        <RotateTransform/>
+                                        <TranslateTransform X="-33" Y="-40"/>
+                                    </TransformGroup>
+                                </Views:Joystick.RenderTransform>
+                                <Views:Joystick.DataContext>
+                                    <Views:Joystick/>
+                                </Views:Joystick.DataContext>
+                            </Views:Joystick>
+                        </Grid>
                         <Grid Grid.Column="1">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
@@ -132,7 +155,7 @@
                                     Minimum="0" 
                                     Maximum="10"                                    
                                     AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0"
-                                    ValueChanged="aileronSlider_ValueChanged"/>                                
+                                    ValueChanged="aileronSlider_ValueChanged"/>
                             <TextBlock FontWeight="Bold" Grid.Row="2" FontSize="12" HorizontalAlignment="Center">
                             Throttle
                             </TextBlock>
