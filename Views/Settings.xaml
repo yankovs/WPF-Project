@@ -5,8 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_Project.Views"
         mc:Ignorable="d"
-        Title="Settings" Height="450" Width="800">
-    <Grid>
+        Title="Settings" Height="300" Width="360" Background="LightGray">
+    <Grid TextBlock.FontSize="14">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MinWidth="170" Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Column="0" Grid.Row="0" Margin="65,20,19.6,20">
+            IP:
+        </TextBlock>
+        <TextBlock Grid.Column="0" Grid.Row="1" Margin="65,20,19.6,20.4">
+            Source Port:
+        </TextBlock>
+        <TextBlock Grid.Column="0" Grid.Row="2" Margin="65,19.6,19.6,19.8">
+            Dest Port:
+        </TextBlock>
+
+        <TextBox x:Name="IP" Grid.Column="1" Grid.Row="0" Margin="29.4,18,29.6,20"/>
+        <TextBox x:Name="sourcePort" Grid.Column="1" Grid.Row="1" Margin="29.4,20,29.6,28.4"/>
+        <TextBox x:Name="destPort" Grid.Column="1" Grid.Row="2" Margin="29.4,27.6,29.6,20.8"/>
+
+        <Button x:Name="saveButton" Content="Save" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="65,11,0,0" Grid.Row="3" Width="60" Height="30"/>
         
     </Grid>
 </Window>
