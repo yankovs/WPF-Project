@@ -34,5 +34,12 @@ namespace WPF_Project
         {
 
         }
+
+        private void SettingsButton_Click(object Sender, RoutedEventArgs e)
+        {
+            WPF_Project.Views.Settings s = new Views.Settings();
+            s.Show();
+
+        }
     }
 }
