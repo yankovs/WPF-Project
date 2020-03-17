@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"        
         xmlns:local="clr-namespace:WPF_Project"
         xmlns:Views="clr-namespace:WPF_Project.Views"
+        xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
         mc:Ignorable="d"
         Title="FlightGear Simulator" Height="450" Width="800">
     <Grid Background = "LightGray">
@@ -32,6 +33,13 @@
                 Map
                 </TextBlock>
             </Grid>
+            <m:Map Mode="Road" ZoomLevel="2" Margin="0,28,9.8,0" CredentialsProvider="AgaQmHHnv60XlDswbLa6YTuKKX8RqzUoV1XdINhXuOgXQgv9c6YiY22ZqwsKoE6l">
+                <Canvas m:MapLayer.Position="-2, -50"
+                        m:MapLayer.PositionOrigin="BottomCenter" Width="30" Height="30"
+                        >
+                    <Button/>
+                </Canvas>
+            </m:Map>
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
