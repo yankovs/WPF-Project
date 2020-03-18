@@ -170,10 +170,11 @@
                             <Slider Grid.Row="1"
                                     VerticalAlignment="Center"
                                     x:Name="aileronSlider"  
-                                    Minimum="0" 
-                                    Maximum="10"                                    
-                                    AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0"
-                                    ValueChanged="aileronSlider_ValueChanged"/>
+                                    Minimum="-1" 
+                                    Maximum="1"
+                                    Value="0"
+                                    TickFrequency="0.01" AutoToolTipPrecision="2"
+                                    ValueChanged="aileronSlider_ValueChanged" AutoToolTipPlacement="TopLeft"/>
                             <TextBlock FontWeight="Bold" Grid.Row="2" FontSize="12" HorizontalAlignment="Center">
                             Throttle
                             </TextBlock>
@@ -181,8 +182,10 @@
                                     VerticalAlignment="Center"
                                     x:Name="throttleSlider"  
                                     Minimum="0" 
-                                    Maximum="10"                                    
-                                    AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0"
+                                    Maximum="1"
+                                    Value="0.5"
+                                    TickFrequency="0.01"
+                                    AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="2"
                                     ValueChanged="throttleSlider_ValueChanged"/>
                         </Grid>
                     </Grid>

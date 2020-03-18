@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WPF_Project.Server
 {
-    interface Server
+    interface IServer
     {
         void Connect();
 
