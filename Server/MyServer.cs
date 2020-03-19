@@ -5,19 +5,26 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using WPF_Project.Model;
 
 namespace WPF_Project.Server
 {
     class MyServer : IServer
     {
+        TcpListener server = null;
         TcpClient client = null;
-        NetworkStream ns;
-        public void Connect(string ip, int port)
+        StreamReader ns;
+        public void Connect(ISettingsModel settings)
         {
             try
             {
-                client = new TcpClient(ip, port);
-                ns = client.GetStream();
+                string ip = settings.IP;
+                int destPort = settings.destPort;
+                this.server = new TcpListener(System.Net.IPAddress.Parse(ip), destPort);
+
+                this.server.Start();
+                this.client = this.server.AcceptTcpClient();
+                this.ns = new StreamReader(this.client.GetStream());
             }
             catch (SocketException)
             {
@@ -31,9 +38,9 @@ namespace WPF_Project.Server
             {
                 try
                 {
-                    StreamWriter sw = new StreamWriter(ns);
-                    sw.WriteLine(command);
-                    sw.Flush();
+                    //StreamWriter sw = new StreamWriter();
+                    //sw.WriteLine(command);
+                    //sw.Flush();
                 }
                 catch
                 {
@@ -52,8 +59,7 @@ namespace WPF_Project.Server
             {
                 try
                 {
-                    StreamReader sr = new StreamReader(ns);
-                    return sr.ReadLine();                    
+                    return ns.ReadLine();           
                 }
                 catch
                 {
