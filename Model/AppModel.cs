@@ -35,7 +35,8 @@ namespace WPF_Project
             set
             {
                 positionLongitudeDeg = value;
-                NotifyPropertyChanged("/position/longitude-deg");
+                NotifyPropertyChanged("PositionLongitudeDeg");
+                // "/position/longitude-deg"
             }
         }
         public double PositionLatitudeDeg
@@ -44,7 +45,8 @@ namespace WPF_Project
             set
             {
                 positionLatitudeDeg = value;
-                NotifyPropertyChanged("/position/latitude-deg");
+                NotifyPropertyChanged("PositionLatitudeDeg");
+                // "/position/latitude-deg"
             }
         }
         public double Rudder
@@ -53,7 +55,8 @@ namespace WPF_Project
             set
             {
                 rudder = value;
-                NotifyPropertyChanged("/controls/flight/rudder");
+                NotifyPropertyChanged("Rudder");
+                // "/controls/flight/rudder"
             }
         }
         public double Elevator
@@ -62,7 +65,8 @@ namespace WPF_Project
             set
             {
                 elevator = value;
-                NotifyPropertyChanged("/controls/flight/elevator");
+                NotifyPropertyChanged("Elevator");
+                // "/controls/flight/elevator"
             }
         }
         public double Aileron
@@ -71,7 +75,8 @@ namespace WPF_Project
             set
             {
                 aileron = value;
-                NotifyPropertyChanged("/controls/flight/aileron");
+                NotifyPropertyChanged("Aileron");
+                // "/controls/flight/aileron"
             }
         }
         public double Throttle
@@ -80,7 +85,8 @@ namespace WPF_Project
             set
             {
                 throttle = value;
-                NotifyPropertyChanged("/controls/engines/engine/throttle");
+                NotifyPropertyChanged("Throttle");
+                // "/controls/engines/engine/throttle"
             }
         }
         public double IndicatedHeadingDeg
@@ -89,7 +95,8 @@ namespace WPF_Project
             set
             {
                 indicatedHeadingDeg = value;
-                NotifyPropertyChanged("/instrumentation/heading-indicator/indicated-heading-deg");
+                NotifyPropertyChanged("IndicatedHeadingDeg");
+                // "/instrumentation/heading-indicator/indicated-heading-deg"
             }
         }
         public double GpsIndicatedVerticalSpeed
@@ -98,7 +105,8 @@ namespace WPF_Project
             set
             {
                 gpsIndicatedVerticalSpeed = value;
-                NotifyPropertyChanged("/instrumentation/gps/indicated-vertical-speed");
+                NotifyPropertyChanged("GpsIndicatedVerticalSpeed");
+                // "/instrumentation/gps/indicated-vertical-speed"
             }
         }
         public double GpsIndicatedGroundSpeedKt
@@ -107,7 +115,8 @@ namespace WPF_Project
             set
             {
                 gpsIndicatedGroundSpeedKt = value;
-                NotifyPropertyChanged("/instrumentation/gps/indicated-ground-speed-kt");
+                NotifyPropertyChanged("GpsIndicatedGroundSpeedKt");
+                // "/instrumentation/gps/indicated-ground-speed-kt"
             }
         }
         public double AirspeedIndicatorIndicatedSpeedKt
@@ -116,7 +125,8 @@ namespace WPF_Project
             set
             {
                 airspeedIndicatorIndicatedSpeedKt = value;
-                NotifyPropertyChanged("/instrumentation/airspeed-indicator/indicated-speed-kt");
+                NotifyPropertyChanged("AirspeedIndicatorIndicatedSpeedKt");
+                // "/instrumentation/airspeed-indicator/indicated-speed-kt"
             }
         }
         public double GpsIndicatedAltitudeFt
@@ -125,7 +135,8 @@ namespace WPF_Project
             set
             {
                 gpsIndicatedAltitudeFt = value;
-                NotifyPropertyChanged("/instrumentation/gps/indicated-altitude-ft");
+                NotifyPropertyChanged("GpsIndicatedAltitudeFt");
+                // "/instrumentation/gps/indicated-altitude-ft"
             }
         }
         public double AttitudeIndicatorInternalRollDeg
@@ -134,7 +145,8 @@ namespace WPF_Project
             set
             {
                 attitudeIndicatorInternalRollDeg = value;
-                NotifyPropertyChanged("/instrumentation/attitude-indicator/internal-roll-deg");
+                NotifyPropertyChanged("AttitudeIndicatorInternalRollDeg");
+                // "/instrumentation/attitude-indicator/internal-roll-deg"
             }
         }
         public double AttitudeIndicatorInternalPitchDeg
@@ -143,7 +155,8 @@ namespace WPF_Project
             set
             {
                 attitudeIndicatorInternalPitchDeg = value;
-                NotifyPropertyChanged("/instrumentation/attitude-indicator/internal-pitch-deg");
+                NotifyPropertyChanged("AttitudeIndicatorInternalPitchDeg");
+                // "/instrumentation/attitude-indicator/internal-pitch-deg"
             }
         }
         public double AltimeterIndicatedAltitudeFt
@@ -152,7 +165,8 @@ namespace WPF_Project
             set
             {
                 altimeterIndicatedAltitudeFt = value;
-                NotifyPropertyChanged("/instrumentation/altimeter/indicated-altitude-ft");
+                NotifyPropertyChanged("AltimeterIndicatedAltitudeFt");
+                // "/instrumentation/altimeter/indicated-altitude-ft"
             }
         }
 
@@ -174,7 +188,7 @@ namespace WPF_Project
 
         public void connect(string ip, int port)
         {
-            server.Connect(ip, port);
+            //server.Connect(ISettingsModel settings);
         }
 
         public void disconnect()
@@ -201,12 +215,12 @@ namespace WPF_Project
 
         public void controlAileron(double a)
         {
-            throw new NotImplementedException();
+            Aileron = a;
         }
 
         public void controlThrottle(double t)
         {
-            throw new NotImplementedException();
+            Throttle = t;
         }
     }
 }

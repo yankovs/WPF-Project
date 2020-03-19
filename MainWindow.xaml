@@ -95,30 +95,14 @@
                          altimeter_altitude-ft
                         </TextBlock>
 
-                        <TextBlock Grid.Row="0" Grid.Column="1" FontSize="10" HorizontalAlignment="Left">
-                         0.0
-                        </TextBlock>
-                        <TextBlock Grid.Row="1" Grid.Column="1" FontSize="10" HorizontalAlignment="Left">
-                         0.0
-                        </TextBlock>
-                        <TextBlock Grid.Row="2" Grid.Column="1" FontSize="10" HorizontalAlignment="Left">
-                         0.0
-                        </TextBlock>
-                        <TextBlock Grid.Row="3" Grid.Column="1" FontSize="10" HorizontalAlignment="Left">
-                         0.0
-                        </TextBlock>
-                        <TextBlock Grid.Row="0" Grid.Column="3" FontSize="10" HorizontalAlignment="Left">
-                         0.0
-                        </TextBlock>
-                        <TextBlock Grid.Row="1" Grid.Column="3" FontSize="10" HorizontalAlignment="Left">
-                         0.0
-                        </TextBlock>
-                        <TextBlock Grid.Row="2" Grid.Column="3" FontSize="10" HorizontalAlignment="Left">
-                        0.0
-                        </TextBlock>
-                        <TextBlock Grid.Row="3" Grid.Column="3" FontSize="10" HorizontalAlignment="Left">
-                         0.0
-                        </TextBlock>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding VM_IndicatedHeadingDeg, Mode=OneWay}" FontSize="10" HorizontalAlignment="Left"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding VM_GpsIndicatedVerticalSpeed, Mode=OneWay}" FontSize="10" HorizontalAlignment="Left"/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding VM_GpsIndicatedGroundSpeedKt, Mode=OneWay}" FontSize="10" HorizontalAlignment="Left"/>
+                        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding VM_AirspeedIndicatorIndicatedSpeedKt, Mode=OneWay}" FontSize="10" HorizontalAlignment="Left"/>
+                        <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding VM_GpsIndicatedAltitudeFt, Mode=OneWay}" FontSize="10" HorizontalAlignment="Left"/>
+                        <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding VM_AttitudeIndicatorInternalRollDeg, Mode=OneWay}" FontSize="10" HorizontalAlignment="Left"/>
+                        <TextBlock Grid.Row="2" Grid.Column="3" Text="{Binding VM_AttitudeIndicatorInternalPitchDeg, Mode=OneWay}" FontSize="10" HorizontalAlignment="Left"/>
+                        <TextBlock Grid.Row="3" Grid.Column="3" Text="{Binding VM_AltimeterIndicatedAltitudeFt, Mode=OneWay}" FontSize="10" HorizontalAlignment="Left"/>
                     </Grid>
                 </Grid>
                 <Grid Grid.Row="1">
@@ -172,9 +156,15 @@
                                     x:Name="aileronSlider"  
                                     Minimum="-1" 
                                     Maximum="1"
-                                    Value="0"
-                                    TickFrequency="0.01" AutoToolTipPrecision="2"
-                                    ValueChanged="aileronSlider_ValueChanged" AutoToolTipPlacement="TopLeft"/>
+                                    Value="{Binding VM_Aileron, Mode=TwoWay}"
+                                    TickFrequency="0.1"
+                                    AutoToolTipPrecision="2"
+                                    ValueChanged="aileronSlider_ValueChanged"
+                                    AutoToolTipPlacement="TopLeft"
+                                    TickPlacement="BottomRight"
+                                    Background="#FF101457"
+                                    LargeChange="0.1"
+                                    SmallChange="0.1"/>
                             <TextBlock FontWeight="Bold" Grid.Row="2" FontSize="12" HorizontalAlignment="Center">
                             Throttle
                             </TextBlock>
@@ -183,10 +173,15 @@
                                     x:Name="throttleSlider"  
                                     Minimum="0" 
                                     Maximum="1"
-                                    Value="0.5"
-                                    TickFrequency="0.01"
-                                    AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="2"
-                                    ValueChanged="throttleSlider_ValueChanged"/>
+                                    Value="{Binding VM_Throttle, Mode=TwoWay}"
+                                    TickFrequency="0.05"
+                                    AutoToolTipPrecision="2"
+                                    AutoToolTipPlacement="TopLeft"
+                                    TickPlacement="BottomRight"
+                                    ValueChanged="throttleSlider_ValueChanged"                 
+                                    Background="#FF101457"
+                                    LargeChange="0.05"
+                                    SmallChange="0.05"/>
                         </Grid>
                     </Grid>
                 </Grid>

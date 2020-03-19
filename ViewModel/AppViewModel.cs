@@ -91,9 +91,6 @@ namespace WPF_Project.ViewModel
             get { return model.AltimeterIndicatedAltitudeFt; }
         }
 
-
-
-
         public AppViewModel(IAppModel model)
         {
             this.model = model;
