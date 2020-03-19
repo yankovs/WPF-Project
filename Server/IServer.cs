@@ -9,10 +9,10 @@ namespace WPF_Project.Server
 {
     interface IServer
     {
-        void Connect();
-
+        void Connect(string ip, int port);
+        void write(string command);
+        string read();
         void CloseConnection();
-
         TcpClient GetClient();
     }
 }

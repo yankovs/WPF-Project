@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using WPF_Project.Server;
 
 namespace WPF_Project
 {
@@ -24,6 +26,8 @@ namespace WPF_Project
         private double attitudeIndicatorInternalPitchDeg;
         private double altimeterIndicatedAltitudeFt;
 
+        IServer server;
+        volatile Boolean stop;
 
         public double PositionLongitudeDeg
         {
@@ -34,7 +38,8 @@ namespace WPF_Project
                 NotifyPropertyChanged("/position/longitude-deg");
             }
         }
-        public double PositionLatitudeDeg {
+        public double PositionLatitudeDeg
+        {
             get { return positionLatitudeDeg; }
             set
             {
@@ -42,7 +47,8 @@ namespace WPF_Project
                 NotifyPropertyChanged("/position/latitude-deg");
             }
         }
-        public double Rudder {
+        public double Rudder
+        {
             get { return rudder; }
             set
             {
@@ -50,7 +56,8 @@ namespace WPF_Project
                 NotifyPropertyChanged("/controls/flight/rudder");
             }
         }
-        public double Elevator {
+        public double Elevator
+        {
             get { return elevator; }
             set
             {
@@ -58,7 +65,8 @@ namespace WPF_Project
                 NotifyPropertyChanged("/controls/flight/elevator");
             }
         }
-        public double Aileron {
+        public double Aileron
+        {
             get { return aileron; }
             set
             {
@@ -66,7 +74,8 @@ namespace WPF_Project
                 NotifyPropertyChanged("/controls/flight/aileron");
             }
         }
-        public double Throttle {
+        public double Throttle
+        {
             get { return throttle; }
             set
             {
@@ -74,7 +83,8 @@ namespace WPF_Project
                 NotifyPropertyChanged("/controls/engines/engine/throttle");
             }
         }
-        public double IndicatedHeadingDeg {
+        public double IndicatedHeadingDeg
+        {
             get { return indicatedHeadingDeg; }
             set
             {
@@ -82,7 +92,8 @@ namespace WPF_Project
                 NotifyPropertyChanged("/instrumentation/heading-indicator/indicated-heading-deg");
             }
         }
-        public double GpsIndicatedVerticalSpeed {
+        public double GpsIndicatedVerticalSpeed
+        {
             get { return gpsIndicatedVerticalSpeed; }
             set
             {
@@ -90,7 +101,8 @@ namespace WPF_Project
                 NotifyPropertyChanged("/instrumentation/gps/indicated-vertical-speed");
             }
         }
-        public double GpsIndicatedGroundSpeedKt {
+        public double GpsIndicatedGroundSpeedKt
+        {
             get { return gpsIndicatedGroundSpeedKt; }
             set
             {
@@ -98,7 +110,8 @@ namespace WPF_Project
                 NotifyPropertyChanged("/instrumentation/gps/indicated-ground-speed-kt");
             }
         }
-        public double AirspeedIndicatorIndicatedSpeedKt {
+        public double AirspeedIndicatorIndicatedSpeedKt
+        {
             get { return airspeedIndicatorIndicatedSpeedKt; }
             set
             {
@@ -106,7 +119,8 @@ namespace WPF_Project
                 NotifyPropertyChanged("/instrumentation/airspeed-indicator/indicated-speed-kt");
             }
         }
-        public double GpsIndicatedAltitudeFt {
+        public double GpsIndicatedAltitudeFt
+        {
             get { return gpsIndicatedAltitudeFt; }
             set
             {
@@ -114,7 +128,8 @@ namespace WPF_Project
                 NotifyPropertyChanged("/instrumentation/gps/indicated-altitude-ft");
             }
         }
-        public double AttitudeIndicatorInternalRollDeg {
+        public double AttitudeIndicatorInternalRollDeg
+        {
             get { return attitudeIndicatorInternalRollDeg; }
             set
             {
@@ -122,7 +137,8 @@ namespace WPF_Project
                 NotifyPropertyChanged("/instrumentation/attitude-indicator/internal-roll-deg");
             }
         }
-        public double AttitudeIndicatorInternalPitchDeg {
+        public double AttitudeIndicatorInternalPitchDeg
+        {
             get { return attitudeIndicatorInternalPitchDeg; }
             set
             {
@@ -130,7 +146,8 @@ namespace WPF_Project
                 NotifyPropertyChanged("/instrumentation/attitude-indicator/internal-pitch-deg");
             }
         }
-        public double AltimeterIndicatedAltitudeFt {
+        public double AltimeterIndicatedAltitudeFt
+        {
             get { return altimeterIndicatedAltitudeFt; }
             set
             {
@@ -149,5 +166,47 @@ namespace WPF_Project
             }
         }
 
+        public AppModel(IServer server)
+        {
+            this.server = server;
+            stop = false;
+        }
+
+        public void connect(string ip, int port)
+        {
+            server.Connect(ip, port);
+        }
+
+        public void disconnect()
+        {
+            stop = true;
+            server.CloseConnection();
+        }
+
+        public void start()
+        {
+            new Thread(delegate ()
+            {
+                while (!stop)
+                {
+
+                }
+            }).Start();
+        }
+
+        public void controlJoystick(double r, double e)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void controlAileron(double a)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void controlThrottle(double t)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -27,7 +27,9 @@ namespace WPF_Project
         double AttitudeIndicatorInternalPitchDeg { set; get; } // /instrumentation/attitude-indicator/internal-pitch-deg
         double AltimeterIndicatedAltitudeFt { set; get; } // /instrumentation/altimeter/indicated-altitude-ft
 
-
+        void controlJoystick(double r, double e);
+        void controlAileron(double a);
+        void controlThrottle(double t);
 
 
     }
