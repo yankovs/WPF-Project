@@ -180,13 +180,13 @@ namespace WPF_Project
 
         public void connect(string ip, int port)
         {
-            //server.Connect(ISettingsModel settings);
+            server.Connect(ip, port);
         }
 
         public void disconnect()
         {
             stop = true;
-            server.CloseConnection();
+            server.disconnect();
         }
 
         public void start()
@@ -195,7 +195,9 @@ namespace WPF_Project
             {
                 while (!stop)
                 {
-
+                    server.write("get /controls/flight/rudder");
+                    rudder = Double.Parse(server.read());
+                    Thread.Sleep(250);
                 }
             }).Start();
         }

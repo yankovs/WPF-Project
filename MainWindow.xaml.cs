@@ -24,11 +24,12 @@ namespace WPF_Project
     /// </summary>
     public partial class MainWindow : Window
     {
-        AppViewModel vm;        
+        AppViewModel vm;
+        private MyServer ms = new MyServer();        
 
         public MainWindow()
         {                       
-            vm = new AppViewModel(new AppModel(new MyServer()));
+            vm = new AppViewModel(new AppModel(ms));
             DataContext = vm;
             InitializeComponent();
             myJoystick.DataContext = vm.VM_JoystickModel;            
@@ -44,11 +45,9 @@ namespace WPF_Project
             vm.VM_Throttle = Convert.ToDouble(e.NewValue);            
         }
 
-        private void SettingsButton_Click(object Sender, RoutedEventArgs e)
+        private void Button_Click(object Sender, RoutedEventArgs e)
         {
-            WPF_Project.Views.Settings s = new Views.Settings();
-            s.Show();
-
+           ms.Connect("127.0.0.1", 5402);
         }
     }
 }

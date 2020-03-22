@@ -18,7 +18,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="SettingsButton" Content="Settings" Click="SettingsButton_Click"/>
+            <Button Content="Button" HorizontalAlignment="Left" Margin="90,22,-64.2,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.776,0.375" Click="Button_Click"/>
         </Grid>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -139,7 +139,7 @@
                                 </Views:Joystick.RenderTransform>
                             </Views:Joystick>
                         </Grid>
-                        <Grid Grid.Column="1">
+                        <Grid Grid.ColumnSpan="2" Margin="198,0,-0.2,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="2*"/>
