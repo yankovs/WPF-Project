@@ -4,8 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"        
         xmlns:local="clr-namespace:WPF_Project"
-        xmlns:Views="clr-namespace:WPF_Project.Views"
-        xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
+        xmlns:Views="clr-namespace:WPF_Project.Views"    
+        xmlns:vm="clr-namespace:WPF_Project.ViewModel"
+        xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"            
         mc:Ignorable="d"
         Title="FlightGear Simulator" Height="450" Width="800">
     <Grid Background = "LightGray">
@@ -127,7 +128,7 @@
                                     <TranslateTransform X="-25" Y="-6"/>
                                 </TransformGroup>
                             </Grid.RenderTransform>
-                            <Views:Joystick RenderTransformOrigin="0.5,0.5">
+                            <Views:Joystick RenderTransformOrigin="0.5,0.5" x:Name="myJoystick">                                
                                 <Views:Joystick.RenderTransform>
                                     <TransformGroup>
                                         <ScaleTransform ScaleX="0.45" ScaleY="0.45"/>
@@ -136,9 +137,6 @@
                                         <TranslateTransform X="-33" Y="-40"/>
                                     </TransformGroup>
                                 </Views:Joystick.RenderTransform>
-                                <Views:Joystick.DataContext>
-                                    <Views:Joystick/>
-                                </Views:Joystick.DataContext>
                             </Views:Joystick>
                         </Grid>
                         <Grid Grid.Column="1">

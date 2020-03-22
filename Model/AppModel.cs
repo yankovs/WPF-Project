@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using WPF_Project.Model;
 using WPF_Project.Server;
 
 namespace WPF_Project
@@ -12,9 +13,8 @@ namespace WPF_Project
     class AppModel : IAppModel
     {
         private double positionLongitudeDeg;
-        private double positionLatitudeDeg;
-        private double rudder;
-        private double elevator;
+        private double positionLatitudeDeg;        
+        private IJoystickModel joystickModel;
         private double aileron;
         private double throttle;
         private double indicatedHeadingDeg;
@@ -25,7 +25,7 @@ namespace WPF_Project
         private double attitudeIndicatorInternalRollDeg;
         private double attitudeIndicatorInternalPitchDeg;
         private double altimeterIndicatedAltitudeFt;
-
+        
         IServer server;
         volatile Boolean stop;
 
@@ -49,26 +49,17 @@ namespace WPF_Project
                 // "/position/latitude-deg"
             }
         }
-        public double Rudder
+        public IJoystickModel JoystickModel
         {
-            get { return rudder; }
-            set
+            get
             {
-                rudder = value;
-                NotifyPropertyChanged("Rudder");
-                // "/controls/flight/rudder"
+                return joystickModel;
             }
-        }
-        public double Elevator
-        {
-            get { return elevator; }
             set
-            {
-                elevator = value;
-                NotifyPropertyChanged("Elevator");
-                // "/controls/flight/elevator"
+            {                
+                joystickModel.controlJoystick(value.Rudder, value.Elevator);                
             }
-        }
+        }       
         public double Aileron
         {
             get { return aileron; }
@@ -183,6 +174,7 @@ namespace WPF_Project
         public AppModel(IServer server)
         {
             this.server = server;
+            this.joystickModel = new JoystickModel(this);
             stop = false;
         }
 
@@ -210,17 +202,39 @@ namespace WPF_Project
 
         public void controlJoystick(double r, double e)
         {
-            throw new NotImplementedException();
+            joystickModel.controlJoystick(r, e);          
         }
 
         public void controlAileron(double a)
-        {
-            Aileron = a;
+        {            
+            if (a > 1)
+            {
+                Aileron = 1;
+            }
+            else if (a < -1)
+            {
+                Aileron = -1;
+            }
+            else
+            {
+                Aileron = a;
+            }
         }
 
         public void controlThrottle(double t)
         {
-            Throttle = t;
+            if (t > 1)
+            {
+                Throttle = 1;
+            }
+            else if (t < 0)
+            {
+                Throttle = 0;
+            }
+            else
+            {
+                Throttle = t;
+            }
         }
     }
 }

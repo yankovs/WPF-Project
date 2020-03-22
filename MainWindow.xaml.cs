@@ -12,8 +12,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WPF_Project.Model;
 using WPF_Project.Server;
 using WPF_Project.ViewModel;
+using WPF_Project.Views;
 
 namespace WPF_Project
 {
@@ -22,13 +24,15 @@ namespace WPF_Project
     /// </summary>
     public partial class MainWindow : Window
     {
-        AppViewModel vm;
+        AppViewModel vm;        
+
         public MainWindow()
-        {
-            InitializeComponent();
+        {                       
             vm = new AppViewModel(new AppModel(new MyServer()));
             DataContext = vm;
-        }
+            InitializeComponent();
+            myJoystick.DataContext = vm.VM_JoystickModel;            
+        }        
 
         private void aileronSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {

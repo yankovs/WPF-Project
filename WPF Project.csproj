@@ -60,10 +60,13 @@
     </ApplicationDefinition>
     <Compile Include="Model\AppModel.cs" />
     <Compile Include="Model\IAppModel.cs" />
+    <Compile Include="Model\IJoystickModel.cs" />
     <Compile Include="Model\ISettingsModel.cs" />
+    <Compile Include="Model\JoystickModel.cs" />
     <Compile Include="Server\IServer.cs" />
     <Compile Include="Server\MyServer.cs" />
     <Compile Include="ViewModel\AppViewModel.cs" />
+    <Compile Include="ViewModel\JoystickViewModel.cs" />
     <Compile Include="Views\Joystick.xaml.cs">
       <DependentUpon>Joystick.xaml</DependentUpon>
     </Compile>

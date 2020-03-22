@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WPF_Project.Model;
 
 namespace WPF_Project.ViewModel
 {
@@ -11,26 +12,44 @@ namespace WPF_Project.ViewModel
     {
         private IAppModel model;
 
-        private double rudder, elevator, aileron, throttle;
+        private double aileron, throttle;
 
-        public double VM_Rudder
+        private JoystickViewModel vm_joystick; //viewmodel of joystick inside general viewmodel
+
+        private const double Ratio = 168.421052631579;
+
+        public JoystickViewModel VM_JoystickModel
         {
-            get { return rudder; }
+            get { return vm_joystick; }
             set
             {
-                rudder = value;
-                model.controlJoystick(rudder, elevator);
+                vm_joystick.VM_Rudder = value.VM_Rudder;
+                vm_joystick.VM_Elevator = value.VM_Elevator;
+
+                model.controlJoystick(value.VM_Rudder, value.VM_Elevator);
+            }
+        }
+
+        //properties related to joystick
+        public double VM_Rudder
+        {
+            get { return VM_JoystickModel.VM_Rudder; }
+            set
+            {
+                VM_JoystickModel.VM_Rudder = value/Ratio;
+                model.controlJoystick(VM_JoystickModel.VM_Rudder, VM_JoystickModel.VM_Elevator);
             }
         }
         public double VM_Elevator
         {
-            get { return elevator; }
+            get { return VM_JoystickModel.VM_Elevator; }
             set
             {
-                elevator = value;
-                model.controlJoystick(rudder, elevator);
+                VM_JoystickModel.VM_Elevator = -value/Ratio;
+                model.controlJoystick(VM_JoystickModel.VM_Rudder, VM_JoystickModel.VM_Elevator);
             }
         }
+
         public double VM_Aileron
         {
             get { return aileron; }
@@ -94,7 +113,8 @@ namespace WPF_Project.ViewModel
         public AppViewModel(IAppModel model)
         {
             this.model = model;
-            model.PropertyChanged +=
+            this.vm_joystick = new JoystickViewModel(model.JoystickModel, this); //creating joystick part
+            this.model.PropertyChanged +=
                 delegate (Object sender, PropertyChangedEventArgs e)
                 {
                     NotifyPropertyChanged("VM_" + e.PropertyName);

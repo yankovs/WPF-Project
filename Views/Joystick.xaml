@@ -113,7 +113,7 @@
                 <Path Data="M9.74935,11.916 L13.084,15.166 L12.1668,16.833 L11.3333,18.583 L10.4999,20.416 L9.24961,20.833 L6.99967,20.583 L6.75,18.333 L7.66697,15.333 L8.75037,12.916 z M3.6672,9.74999 L7.084,10.083 L5.75037,12.25 L4.66704,14 L4.33365,16.583 L4.25036,18.75 L4.41695,20.5 L0,20.166 L0.16699,16.916 L1.16693,13.833 L2.50016,11.583 z M18.1671,6.33301 L21.167,6.33301 L21.667,8.5 L20.75,9.75 L18.5841,10.833 L15.8337,13 L12.584,8.83301 L15.2502,7 z M20.917,0 L20.917,3.16601 L18.1674,2.99999 L15.8337,3.583 L13.5837,4.833 L11.3337,5.99999 L10.5003,6.416 L8.584,3.833 L11.0842,2.41601 L13.3341,0.833006 L16.417,0.166016 z" Fill="#99EEEEEE" HorizontalAlignment="Left" Height="20.833" Stretch="Fill" UseLayoutRounding="False" VerticalAlignment="Top" Width="21.667" Canvas.Left="18.166" Canvas.Top="15.917" />
 
                 <Canvas.RenderTransform>
-                    <TranslateTransform x:Name="knobPosition" />
+                    <TranslateTransform x:Name="knobPosition" X="{Binding VM_Rudder, Mode=TwoWay}" Y="{Binding VM_Elevator, Mode=TwoWay}"/>
                 </Canvas.RenderTransform>
                 <Canvas.Resources>
 
