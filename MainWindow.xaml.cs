@@ -23,10 +23,11 @@ namespace WPF_Project
     public partial class MainWindow : Window
     {
         AppViewModel vm;
+        private MyServer ms = new MyServer();
         public MainWindow()
         {
             InitializeComponent();
-            vm = new AppViewModel(new AppModel(new MyServer()));
+            vm = new AppViewModel(new AppModel(ms));
             DataContext = vm;
         }
 
@@ -40,11 +41,9 @@ namespace WPF_Project
             vm.VM_Throttle = Convert.ToDouble(e.NewValue);            
         }
 
-        private void SettingsButton_Click(object Sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            WPF_Project.Views.Settings s = new Views.Settings();
-            s.Show();
-
+            ms.Connect("127.0.0.1", 5402);
         }
     }
 }

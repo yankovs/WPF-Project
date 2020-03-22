@@ -2,29 +2,29 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-using WPF_Project.Model;
 
 namespace WPF_Project.Server
 {
     class MyServer : IServer
     {
-        TcpListener server = null;
         TcpClient client = null;
-        StreamReader ns;
-        public void Connect(ISettingsModel settings)
+        NetworkStream ns = null;
+        StreamWriter sw = null;
+        StreamReader sr = null;
+
+        public void Connect(string ip, int port)
         {
             try
             {
-                string ip = settings.IP;
-                int destPort = settings.destPort;
-                this.server = new TcpListener(System.Net.IPAddress.Parse(ip), destPort);
-
-                this.server.Start();
-                this.client = this.server.AcceptTcpClient();
-                this.ns = new StreamReader(this.client.GetStream());
+                this.client = new TcpClient();
+                client.Connect(IPAddress.Parse(ip), port);
+                this.ns = client.GetStream();
+                this.sw = new StreamWriter(ns);
+                this.sr = new StreamReader(ns);
             }
             catch (SocketException)
             {
@@ -38,9 +38,8 @@ namespace WPF_Project.Server
             {
                 try
                 {
-                    //StreamWriter sw = new StreamWriter();
-                    //sw.WriteLine(command);
-                    //sw.Flush();
+                    this.sw.WriteLine(command);
+                    this.sw.Flush();
                 }
                 catch
                 {
@@ -59,7 +58,9 @@ namespace WPF_Project.Server
             {
                 try
                 {
-                    return ns.ReadLine();           
+                    string line = sr.ReadLine();
+                    Console.WriteLine(line);
+                    return line;
                 }
                 catch
                 {
@@ -72,18 +73,15 @@ namespace WPF_Project.Server
             }
         }
 
-        public void CloseConnection()
+        public void disconnect()
         {
             if(client != null)
             {
                 ns.Close();
+                sw.Close();
+                sr.Close();
                 client.Close();
             }            
-        }
-
-        public TcpClient GetClient()
-        {
-            return client;
         }
     }
 }
