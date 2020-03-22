@@ -196,7 +196,7 @@ namespace WPF_Project
                 while (!stop)
                 {
                     server.write("get /controls/flight/rudder");
-                    rudder = Double.Parse(server.read());
+                    //rudder = Double.Parse(server.read());
                     Thread.Sleep(250);
                 }
             }).Start();
