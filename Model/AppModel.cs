@@ -190,16 +190,20 @@ namespace WPF_Project
         }
 
         public void start()
-        {
+        {            
             new Thread(delegate ()
             {
                 while (!stop)
                 {
-                    server.write("get /controls/flight/rudder");
-                    //rudder = Double.Parse(server.read());
+                    /*
+                    server.write("get /controls/flight/rudder/n");
+                    JoystickModel.Rudder = Double.Parse(server.read());
+                    */
+                    server.write("get /instrumentation/heading-indicator/indicated-heading-deg");
+                    IndicatedHeadingDeg = Double.Parse(server.read());
                     Thread.Sleep(250);
                 }
-            }).Start();
+            }).Start();            
         }
 
         public void controlJoystick(double r, double e)

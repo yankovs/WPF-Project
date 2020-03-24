@@ -49,5 +49,10 @@ namespace WPF_Project
         {
            ms.Connect("127.0.0.1", 5402);
         }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            ms.disconnect();
+        }
     }
 }

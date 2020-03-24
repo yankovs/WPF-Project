@@ -8,7 +8,7 @@
         xmlns:vm="clr-namespace:WPF_Project.ViewModel"
         xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"            
         mc:Ignorable="d"
-        Title="FlightGear Simulator" Height="450" Width="800">
+        Title="FlightGear Simulator" Height="450" Width="800" Closed="Window_Closed">
     <Grid Background = "LightGray">
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
