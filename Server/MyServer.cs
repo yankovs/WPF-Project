@@ -16,25 +16,32 @@ namespace WPF_Project.Server
         StreamWriter sw = null;
         StreamReader sr = null;
 
+        bool connected = false;
+
         public void Connect(string ip, int port)
         {
-            try
+            if (!isConnected())
             {
-                this.client = new TcpClient();
-                client.Connect(IPAddress.Parse(ip), port);
-                this.ns = client.GetStream();
-                this.sw = new StreamWriter(ns);
-                this.sr = new StreamReader(ns);
+                try
+                {
+                    this.client = new TcpClient();
+                    client.Connect(IPAddress.Parse(ip), port);
+                    this.ns = client.GetStream();
+                    this.sw = new StreamWriter(ns);
+                    this.sr = new StreamReader(ns);
+                    connected = true;
+                }
+                catch (SocketException e)
+                {
+                    throw new Exception("Unable to connect");
+                }
             }
-            catch (SocketException)
-            {
-                throw new Exception("Unable to connect");
-            }            
+
         }
 
         public void write(string command)
         {
-            if(client != null)
+            if (client != null)
             {
                 try
                 {
@@ -75,13 +82,20 @@ namespace WPF_Project.Server
 
         public void disconnect()
         {
-            if(client != null)
+            if (isConnected())
             {
                 ns.Close();
                 sw.Close();
                 sr.Close();
                 client.Close();
-            }            
+                connected = false;
+            }
         }
+
+        public bool isConnected()
+        {
+            return connected;
+        }
+
     }
 }

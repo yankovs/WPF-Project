@@ -13,5 +13,6 @@ namespace WPF_Project.Server
         void write(string command);
         string read();
         void disconnect();
+        bool isConnected();
     }
 }
