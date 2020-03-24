@@ -40,7 +40,7 @@ namespace WPF_Project
 
         private void aileronSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            vm.VM_Aileron = Convert.ToDouble(e.NewValue);            
+            vm.VM_Aileron = Convert.ToDouble(e.NewValue);          
         }
 
         private void throttleSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -86,6 +86,7 @@ namespace WPF_Project
             if(ms.isConnected())
             {
                 ms.disconnect();
+                am.stopModel();
             }            
         }
     }
