@@ -208,25 +208,25 @@ namespace WPF_Project
                 while (!stop)
                 {
                     server.write("get /controls/flight/rudder\n");
-                    JoystickModel.Rudder = Double.Parse(server.read());
+                    JoystickModel.Rudder = Math.Round(Double.Parse(server.read()), 2);
 
                     server.write("get /instrumentation/heading-indicator/indicated-heading-deg\n");
-                    IndicatedHeadingDeg = Double.Parse(server.read());
+                    IndicatedHeadingDeg = Math.Round(Double.Parse(server.read()), 2);
 
                     server.write("get /instrumentation/gps/indicated-vertical-speed\n");
-                    GpsIndicatedVerticalSpeed = Double.Parse(server.read());
+                    GpsIndicatedVerticalSpeed = Math.Round(Double.Parse(server.read()), 2);
 
                     server.write("get /instrumentation/gps/indicated-ground-speed-kt\n");
-                    gpsIndicatedGroundSpeedKt = Double.Parse(server.read());
+                    gpsIndicatedGroundSpeedKt = Math.Round(Double.Parse(server.read()), 2);
 
                     server.write("get /instrumentation/attitude-indicator/internal-roll-deg\n");
-                    AttitudeIndicatorInternalRollDeg = Double.Parse(server.read());
+                    AttitudeIndicatorInternalRollDeg = Math.Round(Double.Parse(server.read()), 2);
 
                     server.write("get /instrumentation/attitude-indicator/internal-pitch-deg\n");
-                    AttitudeIndicatorInternalPitchDeg = Double.Parse(server.read());
+                    AttitudeIndicatorInternalPitchDeg = Math.Round(Double.Parse(server.read()), 2);
 
                     server.write("get /instrumentation/gps/indicated-altitude-ft\n");
-                    altimeterIndicatedAltitudeFt = Double.Parse(server.read());
+                    altimeterIndicatedAltitudeFt = Math.Round(Double.Parse(server.read()), 2);
 
                     Thread.Sleep(250);
                 }
