@@ -89,7 +89,7 @@ namespace WPF_Project
             {
                 throttle = value;
                 NotifyPropertyChanged("Throttle");
-                // "/controls/engines/engine/throttle"
+                // "/controls/engines/current-engine/throttle"
             }
         }
         public double IndicatedHeadingDeg
@@ -240,7 +240,7 @@ namespace WPF_Project
                 server.write("set /controls/flight/aileron " + Aileron + "\n");
                 //Aileron = Math.Round(Double.Parse(server.read()), 2);
 
-                server.write("set /controls/engines/engine/throttle " + Throttle + "\n");
+                server.write("set /controls/engines/current-engine/throttle " + Throttle + "\n");
                 //Throttle = Math.Round(Double.Parse(server.read()), 2);
 
                 server.write("set /controls/flight/rudder " + JoystickModel.Rudder + "\n");
@@ -250,7 +250,6 @@ namespace WPF_Project
                 //JoystickModel.Elevator = Math.Round(Double.Parse(server.read()), 2);
 
                 Thread.Sleep(250);
-            }
             }).Start();
     }
 

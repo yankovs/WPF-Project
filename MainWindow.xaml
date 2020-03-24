@@ -19,6 +19,7 @@
                 <ColumnDefinition Width="100"/>
             </Grid.ColumnDefinitions>
             <Button Content="Connect" HorizontalAlignment="Left" VerticalAlignment="Top" Width="91" RenderTransformOrigin="0.776,0.375" Click="Button_Click" Height="30" BorderBrush="#FFEEEEEE" Background="#FF454545" Cursor="" Foreground="White"/>
+            <Button Content="Button" HorizontalAlignment="Left" Margin="694,0,-693.2,0" VerticalAlignment="Top" Width="100" Height="30"/>
         </Grid>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -128,7 +129,7 @@
                                     <TranslateTransform X="-25" Y="-6"/>
                                 </TransformGroup>
                             </Grid.RenderTransform>
-                            <Views:Joystick RenderTransformOrigin="0.5,0.5" x:Name="myJoystick">
+                            <Views:Joystick RenderTransformOrigin="0.5,0.5" x:Name="myJoystick" Margin="24,0,-23.6,0">
                                 <Views:Joystick.RenderTransform>
                                     <TransformGroup>
                                         <ScaleTransform ScaleX="0.45" ScaleY="0.45"/>

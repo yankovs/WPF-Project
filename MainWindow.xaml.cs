@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
@@ -59,7 +60,7 @@ namespace WPF_Project
                     {
                         am.startModel();
                     }
-                    ms.Connect("127.0.0.1", 5402);
+                    ms.Connect(ConfigurationManager.AppSettings["IP"], int.Parse(ConfigurationManager.AppSettings["Port"]));
                     am.start();
                     button.Content = "Disconnect";
                 }
