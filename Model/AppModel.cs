@@ -13,7 +13,7 @@ namespace WPF_Project
     class AppModel : IAppModel
     {
         private double positionLongitudeDeg;
-        private double positionLatitudeDeg;        
+        private double positionLatitudeDeg;
         private IJoystickModel joystickModel;
         private double aileron;
         private double throttle;
@@ -25,7 +25,7 @@ namespace WPF_Project
         private double attitudeIndicatorInternalRollDeg;
         private double attitudeIndicatorInternalPitchDeg;
         private double altimeterIndicatedAltitudeFt;
-        
+
         IServer server;
         volatile Boolean stop;
         public void stopModel()
@@ -68,10 +68,10 @@ namespace WPF_Project
                 return joystickModel;
             }
             set
-            {                
-                joystickModel.controlJoystick(value.Rudder, value.Elevator);                
+            {
+                joystickModel.controlJoystick(value.Rudder, value.Elevator);
             }
-        }       
+        }
         public double Aileron
         {
             get { return aileron; }
@@ -202,13 +202,12 @@ namespace WPF_Project
         }
 
         public void start()
-        {            
+        {
             new Thread(delegate ()
             {
                 while (!stop)
                 {
-                    server.write("get /controls/flight/rudder\n");
-                    JoystickModel.Rudder = Math.Round(Double.Parse(server.read()), 2);
+                    //Dashboard:
 
                     server.write("get /instrumentation/heading-indicator/indicated-heading-deg\n");
                     IndicatedHeadingDeg = Math.Round(Double.Parse(server.read()), 2);
@@ -217,7 +216,13 @@ namespace WPF_Project
                     GpsIndicatedVerticalSpeed = Math.Round(Double.Parse(server.read()), 2);
 
                     server.write("get /instrumentation/gps/indicated-ground-speed-kt\n");
-                    gpsIndicatedGroundSpeedKt = Math.Round(Double.Parse(server.read()), 2);
+                    GpsIndicatedGroundSpeedKt = Math.Round(Double.Parse(server.read()), 2);
+
+                    server.write("get /instrumentation/airspeed-indicator/indicated-speed-kt\n");
+                    AirspeedIndicatorIndicatedSpeedKt = Math.Round(Double.Parse(server.read()), 2);
+
+                    server.write("get /instrumentation/gps/indicated-altitude-ft\n");
+                    GpsIndicatedAltitudeFt = Math.Round(Double.Parse(server.read()), 2);
 
                     server.write("get /instrumentation/attitude-indicator/internal-roll-deg\n");
                     AttitudeIndicatorInternalRollDeg = Math.Round(Double.Parse(server.read()), 2);
@@ -226,48 +231,64 @@ namespace WPF_Project
                     AttitudeIndicatorInternalPitchDeg = Math.Round(Double.Parse(server.read()), 2);
 
                     server.write("get /instrumentation/gps/indicated-altitude-ft\n");
-                    altimeterIndicatedAltitudeFt = Math.Round(Double.Parse(server.read()), 2);
-
-                    Thread.Sleep(250);
+                    AltimeterIndicatedAltitudeFt = Math.Round(Double.Parse(server.read()), 2);
                 }
-            }).Start();            
-        }
 
-        public void controlJoystick(double r, double e)
+
+                //Controllers:
+
+                server.write("set /controls/flight/aileron " + Aileron + "\n");
+                //Aileron = Math.Round(Double.Parse(server.read()), 2);
+
+                server.write("set /controls/engines/engine/throttle " + Throttle + "\n");
+                //Throttle = Math.Round(Double.Parse(server.read()), 2);
+
+                server.write("set /controls/flight/rudder " + JoystickModel.Rudder + "\n");
+                //JoystickModel.Rudder = Math.Round(Double.Parse(server.read()), 2);
+
+                server.write("set /controls/flight/elevator " + JoystickModel.Elevator + "\n");
+                //JoystickModel.Elevator = Math.Round(Double.Parse(server.read()), 2);
+
+                Thread.Sleep(250);
+            }
+            }).Start();
+    }
+
+    public void controlJoystick(double r, double e)
+    {
+        joystickModel.controlJoystick(r, e);
+    }
+
+    public void controlAileron(double a)
+    {
+        if (a > 1)
         {
-            joystickModel.controlJoystick(r, e);          
+            Aileron = 1;
         }
-
-        public void controlAileron(double a)
-        {            
-            if (a > 1)
-            {
-                Aileron = 1;
-            }
-            else if (a < -1)
-            {
-                Aileron = -1;
-            }
-            else
-            {
-                Aileron = a;
-            }
-        }
-
-        public void controlThrottle(double t)
+        else if (a < -1)
         {
-            if (t > 1)
-            {
-                Throttle = 1;
-            }
-            else if (t < 0)
-            {
-                Throttle = 0;
-            }
-            else
-            {
-                Throttle = t;
-            }
+            Aileron = -1;
+        }
+        else
+        {
+            Aileron = a;
         }
     }
+
+    public void controlThrottle(double t)
+    {
+        if (t > 1)
+        {
+            Throttle = 1;
+        }
+        else if (t < 0)
+        {
+            Throttle = 0;
+        }
+        else
+        {
+            Throttle = t;
+        }
+    }
+}
 }

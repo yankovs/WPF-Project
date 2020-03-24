@@ -38,7 +38,7 @@
                 <Canvas m:MapLayer.Position="-2, -50"
                         m:MapLayer.PositionOrigin="BottomCenter" Width="30" Height="30"
                         >
-                    <m:Pushpin/>
+                    <m:Pushpin />
                 </Canvas>
             </m:Map>
             <Grid Grid.Column="1">

@@ -65,7 +65,7 @@ namespace WPF_Project.Server
             {
                 try
                 {
-                    string line = sr.ReadLine();
+                    string line = sr.ReadLine();                    
                     Console.WriteLine(line);
                     return line;
                 }
