@@ -28,7 +28,19 @@ namespace WPF_Project
         
         IServer server;
         volatile Boolean stop;
+        public void stopModel()
+        {
+            this.stop = true;
+        }
 
+        public void startModel()
+        {
+            this.stop = false;
+        }
+        public bool getStop()
+        {
+            return this.stop;
+        }
         public double PositionLongitudeDeg
         {
             get { return positionLongitudeDeg; }
@@ -195,12 +207,27 @@ namespace WPF_Project
             {
                 while (!stop)
                 {
-                    /*
-                    server.write("get /controls/flight/rudder/n");
+                    server.write("get /controls/flight/rudder\n");
                     JoystickModel.Rudder = Double.Parse(server.read());
-                    */
-                    server.write("get /instrumentation/heading-indicator/indicated-heading-deg");
+
+                    server.write("get /instrumentation/heading-indicator/indicated-heading-deg\n");
                     IndicatedHeadingDeg = Double.Parse(server.read());
+
+                    server.write("get /instrumentation/gps/indicated-vertical-speed\n");
+                    GpsIndicatedVerticalSpeed = Double.Parse(server.read());
+
+                    server.write("get /instrumentation/gps/indicated-ground-speed-kt\n");
+                    gpsIndicatedGroundSpeedKt = Double.Parse(server.read());
+
+                    server.write("get /instrumentation/attitude-indicator/internal-roll-deg\n");
+                    AttitudeIndicatorInternalRollDeg = Double.Parse(server.read());
+
+                    server.write("get /instrumentation/attitude-indicator/internal-pitch-deg\n");
+                    AttitudeIndicatorInternalPitchDeg = Double.Parse(server.read());
+
+                    server.write("get /instrumentation/gps/indicated-altitude-ft\n");
+                    altimeterIndicatedAltitudeFt = Double.Parse(server.read());
+
                     Thread.Sleep(250);
                 }
             }).Start();            

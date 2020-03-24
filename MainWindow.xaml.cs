@@ -55,6 +55,10 @@ namespace WPF_Project
             {
                 try
                 {
+                    if (am.getStop())
+                    {
+                        am.startModel();
+                    }
                     ms.Connect("127.0.0.1", 5402);
                     am.start();
                     button.Content = "Disconnect";
@@ -67,6 +71,7 @@ namespace WPF_Project
             else if ((string) button.Content == "Disconnect")
             {
                 ms.disconnect();
+                am.stopModel();
                 button.Content = "Connect";
             }
             
