@@ -65,7 +65,9 @@ namespace WPF_Project
                 }
                 catch (Exception)
                 {
+                    MessageBox.Show("Couldn't connect, is the server on?");
                     ms.disconnect();
+                    am.stopModel();
                 }
             }
             else if ((string) button.Content == "Disconnect")
