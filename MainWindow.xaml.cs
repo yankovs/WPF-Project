@@ -26,11 +26,13 @@ namespace WPF_Project
     public partial class MainWindow : Window
     {
         AppViewModel vm;
-        private MyServer ms = new MyServer();        
+        private MyServer ms = new MyServer();
+        private AppModel am;
 
         public MainWindow()
-        {                       
-            vm = new AppViewModel(new AppModel(ms));
+        {
+            this.am = new AppModel(this.ms);
+            vm = new AppViewModel(am);
             DataContext = vm;
             InitializeComponent();
             myJoystick.DataContext = vm.VM_JoystickModel;            
@@ -54,6 +56,7 @@ namespace WPF_Project
                 try
                 {
                     ms.Connect("127.0.0.1", 5402);
+                    am.start();
                     button.Content = "Disconnect";
                 }
                 catch (Exception)
