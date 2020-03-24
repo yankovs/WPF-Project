@@ -26,6 +26,9 @@ namespace WPF_Project
         double AttitudeIndicatorInternalRollDeg { set; get; } // /instrumentation/attitude-indicator/internal-roll-deg
         double AttitudeIndicatorInternalPitchDeg { set; get; } // /instrumentation/attitude-indicator/internal-pitch-deg
         double AltimeterIndicatedAltitudeFt { set; get; } // /instrumentation/altimeter/indicated-altitude-ft
+       
+        /*returns whether it's connected to server or not, (for content of botton)*/
+        string ConnectionButton { set; get; }
 
         void NotifyPropertyChanged(string propName);
         void controlJoystick(double r, double e);

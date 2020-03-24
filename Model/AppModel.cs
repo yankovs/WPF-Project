@@ -26,21 +26,40 @@ namespace WPF_Project
         private double attitudeIndicatorInternalPitchDeg;
         private double altimeterIndicatedAltitudeFt;
 
+        private string connectionButton;
+
         IServer server;
         volatile Boolean stop;
         public void stopModel()
         {
             this.stop = true;
+            ConnectionButton = "Connect";
         }
 
         public void startModel()
         {
             this.stop = false;
+            ConnectionButton = "Disconnect";
         }
         public bool getStop()
         {
             return this.stop;
         }
+
+        public string ConnectionButton
+        {
+            get
+            {
+                return connectionButton;
+            }
+            set
+            {
+                connectionButton = value;
+                NotifyPropertyChanged("ConnectionButton");
+            }
+        }
+
+
         public double PositionLongitudeDeg
         {
             get { return positionLongitudeDeg; }
@@ -187,7 +206,7 @@ namespace WPF_Project
         {
             this.server = server;
             this.joystickModel = new JoystickModel(this);
-            stop = false;
+            stopModel();           
         }
 
         public void connect(string ip, int port)
@@ -204,90 +223,97 @@ namespace WPF_Project
         public void start()
         {
             new Thread(delegate ()
-            {
-                while (!stop)
+            {                
+                try
                 {
-                    //Dashboard:
+                    while (!stop)
+                    {
+                        //Dashboard:
 
-                    server.write("get /instrumentation/heading-indicator/indicated-heading-deg\n");
-                    IndicatedHeadingDeg = Math.Round(Double.Parse(server.read()), 2);
+                        server.write("get /instrumentation/heading-indicator/indicated-heading-deg\n");
+                        IndicatedHeadingDeg = Math.Round(Double.Parse(server.read()), 2);
 
-                    server.write("get /instrumentation/gps/indicated-vertical-speed\n");
-                    GpsIndicatedVerticalSpeed = Math.Round(Double.Parse(server.read()), 2);
+                        server.write("get /instrumentation/gps/indicated-vertical-speed\n");
+                        GpsIndicatedVerticalSpeed = Math.Round(Double.Parse(server.read()), 2);
 
-                    server.write("get /instrumentation/gps/indicated-ground-speed-kt\n");
-                    GpsIndicatedGroundSpeedKt = Math.Round(Double.Parse(server.read()), 2);
+                        server.write("get /instrumentation/gps/indicated-ground-speed-kt\n");
+                        GpsIndicatedGroundSpeedKt = Math.Round(Double.Parse(server.read()), 2);
 
-                    server.write("get /instrumentation/airspeed-indicator/indicated-speed-kt\n");
-                    AirspeedIndicatorIndicatedSpeedKt = Math.Round(Double.Parse(server.read()), 2);
+                        server.write("get /instrumentation/airspeed-indicator/indicated-speed-kt\n");
+                        AirspeedIndicatorIndicatedSpeedKt = Math.Round(Double.Parse(server.read()), 2);
 
-                    server.write("get /instrumentation/gps/indicated-altitude-ft\n");
-                    GpsIndicatedAltitudeFt = Math.Round(Double.Parse(server.read()), 2);
+                        server.write("get /instrumentation/gps/indicated-altitude-ft\n");
+                        GpsIndicatedAltitudeFt = Math.Round(Double.Parse(server.read()), 2);
 
-                    server.write("get /instrumentation/attitude-indicator/internal-roll-deg\n");
-                    AttitudeIndicatorInternalRollDeg = Math.Round(Double.Parse(server.read()), 2);
+                        server.write("get /instrumentation/attitude-indicator/internal-roll-deg\n");
+                        AttitudeIndicatorInternalRollDeg = Math.Round(Double.Parse(server.read()), 2);
 
-                    server.write("get /instrumentation/attitude-indicator/internal-pitch-deg\n");
-                    AttitudeIndicatorInternalPitchDeg = Math.Round(Double.Parse(server.read()), 2);
+                        server.write("get /instrumentation/attitude-indicator/internal-pitch-deg\n");
+                        AttitudeIndicatorInternalPitchDeg = Math.Round(Double.Parse(server.read()), 2);
 
-                    server.write("get /instrumentation/gps/indicated-altitude-ft\n");
-                    AltimeterIndicatedAltitudeFt = Math.Round(Double.Parse(server.read()), 2);
+                        server.write("get /instrumentation/gps/indicated-altitude-ft\n");
+                        AltimeterIndicatedAltitudeFt = Math.Round(Double.Parse(server.read()), 2);
+
+                        //Controllers:
+
+                        server.write("set /controls/flight/aileron " + Aileron + "\n");
+                        Aileron = Math.Round(Double.Parse(server.read()), 2);
+
+                        server.write("set /controls/engines/current-engine/throttle " + Throttle + "\n");
+                        Throttle = Math.Round(Double.Parse(server.read()), 2);
+
+                        server.write("set /controls/flight/rudder " + JoystickModel.Rudder + "\n");
+                        JoystickModel.Rudder = Math.Round(Double.Parse(server.read()), 2);
+
+                        server.write("set /controls/flight/elevator " + JoystickModel.Elevator + "\n");
+                        JoystickModel.Elevator = Math.Round(Double.Parse(server.read()), 2);
+
+                        Thread.Sleep(25);
+                    }
                 }
-
-
-                //Controllers:
-
-                server.write("set /controls/flight/aileron " + Aileron + "\n");
-                //Aileron = Math.Round(Double.Parse(server.read()), 2);
-
-                server.write("set /controls/engines/current-engine/throttle " + Throttle + "\n");
-                //Throttle = Math.Round(Double.Parse(server.read()), 2);
-
-                server.write("set /controls/flight/rudder " + JoystickModel.Rudder + "\n");
-                //JoystickModel.Rudder = Math.Round(Double.Parse(server.read()), 2);
-
-                server.write("set /controls/flight/elevator " + JoystickModel.Elevator + "\n");
-                //JoystickModel.Elevator = Math.Round(Double.Parse(server.read()), 2);
-
-                Thread.Sleep(250);
+                catch (Exception)
+                {
+                    server.disconnect();
+                    stopModel();
+                }                
             }).Start();
-    }
+        }
 
-    public void controlJoystick(double r, double e)
-    {
-        joystickModel.controlJoystick(r, e);
-    }
+        public void controlJoystick(double r, double e)
+        {
+            joystickModel.controlJoystick(r, e);
+        }
 
-    public void controlAileron(double a)
-    {
-        if (a > 1)
+        public void controlAileron(double a)
         {
-            Aileron = 1;
+            if (a > 1)
+            {
+                Aileron = 1;
+            }
+            else if (a < -1)
+            {
+                Aileron = -1;
+            }
+            else
+            {
+                Aileron = a;
+            }
         }
-        else if (a < -1)
-        {
-            Aileron = -1;
-        }
-        else
-        {
-            Aileron = a;
-        }
-    }
 
-    public void controlThrottle(double t)
-    {
-        if (t > 1)
+        public void controlThrottle(double t)
         {
-            Throttle = 1;
-        }
-        else if (t < 0)
-        {
-            Throttle = 0;
-        }
-        else
-        {
-            Throttle = t;
+            if (t > 1)
+            {
+                Throttle = 1;
+            }
+            else if (t < 0)
+            {
+                Throttle = 0;
+            }
+            else
+            {
+                Throttle = t;
+            }
         }
     }
-}
 }

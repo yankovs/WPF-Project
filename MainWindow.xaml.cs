@@ -36,23 +36,23 @@ namespace WPF_Project
             vm = new AppViewModel(am);
             DataContext = vm;
             InitializeComponent();
-            myJoystick.DataContext = vm.VM_JoystickModel;            
-        }        
+            myJoystick.DataContext = vm.VM_JoystickModel;
+        }
 
         private void aileronSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            vm.VM_Aileron = Convert.ToDouble(e.NewValue);          
+            vm.VM_Aileron = Convert.ToDouble(e.NewValue);
         }
 
         private void throttleSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            vm.VM_Throttle = Convert.ToDouble(e.NewValue);            
+            vm.VM_Throttle = Convert.ToDouble(e.NewValue);
         }
 
         private void Button_Click(object Sender, RoutedEventArgs e)
         {
             var button = Sender as Button;
-            if((string) button.Content == "Connect")
+            if ((string)button.Content == "Connect")
             {
                 try
                 {
@@ -60,9 +60,8 @@ namespace WPF_Project
                     {
                         am.startModel();
                     }
-                    ms.Connect(ConfigurationManager.AppSettings["IP"], int.Parse(ConfigurationManager.AppSettings["Port"]));
+                    ms.Connect(ConfigurationManager.AppSettings["IP"], int.Parse(ConfigurationManager.AppSettings["Port"]));                    
                     am.start();
-                    button.Content = "Disconnect";
                 }
                 catch (Exception)
                 {
@@ -71,24 +70,23 @@ namespace WPF_Project
                     am.stopModel();
                 }
             }
-            else if ((string) button.Content == "Disconnect")
+            else if ((string)button.Content == "Disconnect")
             {
                 ms.disconnect();
-                am.stopModel();
-                button.Content = "Connect";
+                am.stopModel();                
             }
-            
 
-           
+
+
         }
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            if(ms.isConnected())
+            if (ms.isConnected())
             {
                 ms.disconnect();
                 am.stopModel();
-            }            
+            }
         }
     }
 }

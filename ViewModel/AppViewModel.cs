@@ -18,6 +18,11 @@ namespace WPF_Project.ViewModel
 
         private const double Ratio = 168.421052631579;
 
+        public string VM_ConnectionButton
+        {
+            get { return model.ConnectionButton; }
+        }
+
         public JoystickViewModel VM_JoystickModel
         {
             get { return vm_joystick; }
@@ -36,7 +41,7 @@ namespace WPF_Project.ViewModel
             get { return VM_JoystickModel.VM_Rudder; }
             set
             {
-                VM_JoystickModel.VM_Rudder = value/Ratio;
+                VM_JoystickModel.VM_Rudder = value / Ratio;
                 model.controlJoystick(VM_JoystickModel.VM_Rudder, VM_JoystickModel.VM_Elevator);
             }
         }
@@ -45,7 +50,7 @@ namespace WPF_Project.ViewModel
             get { return VM_JoystickModel.VM_Elevator; }
             set
             {
-                VM_JoystickModel.VM_Elevator = -value/Ratio;
+                VM_JoystickModel.VM_Elevator = -value / Ratio;
                 model.controlJoystick(VM_JoystickModel.VM_Rudder, VM_JoystickModel.VM_Elevator);
             }
         }
