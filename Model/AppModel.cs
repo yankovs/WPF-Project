@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Maps.MapControl.WPF;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace WPF_Project
     {
         private double positionLongitudeDeg;
         private double positionLatitudeDeg;
+        private Location location; //default
         private IJoystickModel joystickModel;
         private double aileron;
         private double throttle;
@@ -78,6 +80,18 @@ namespace WPF_Project
                 positionLatitudeDeg = value;
                 NotifyPropertyChanged("PositionLatitudeDeg");
                 // "/position/latitude-deg"
+            }
+        }
+
+        public Location Location
+        {
+            get { return location; }
+            set
+            {
+                location = value;
+                PositionLatitudeDeg = location.Latitude;
+                PositionLongitudeDeg = location.Longitude;
+                NotifyPropertyChanged("Location");                
             }
         }
         public IJoystickModel JoystickModel
@@ -206,7 +220,8 @@ namespace WPF_Project
         {
             this.server = server;
             this.joystickModel = new JoystickModel(this);
-            stopModel();           
+            stopModel();
+            Location = new Location(0, 0); //default
         }
 
         public void connect(string ip, int port)
@@ -267,6 +282,16 @@ namespace WPF_Project
 
                         server.write("set /controls/flight/elevator " + JoystickModel.Elevator + "\n");
                         JoystickModel.Elevator = Math.Round(Double.Parse(server.read()), 2);
+
+                        //Position:
+
+                        server.write("get /position/longitude-deg\n");
+                        PositionLongitudeDeg = Math.Round(Double.Parse(server.read()), 6);
+
+                        server.write("get /position/latitude-deg\n");
+                        PositionLatitudeDeg = Math.Round(Double.Parse(server.read()), 6);
+
+                        Location = new Location(PositionLatitudeDeg, PositionLongitudeDeg); //updating location
 
                         Thread.Sleep(25);
                     }

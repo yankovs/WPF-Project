@@ -36,7 +36,7 @@ namespace WPF_Project
             vm = new AppViewModel(am);
             DataContext = vm;
             InitializeComponent();
-            myJoystick.DataContext = vm.VM_JoystickModel;
+            myJoystick.DataContext = vm.VM_JoystickModel;            
         }
 
         private void aileronSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -87,6 +87,6 @@ namespace WPF_Project
                 ms.disconnect();
                 am.stopModel();
             }
-        }
+        }      
     }
 }

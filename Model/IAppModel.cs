@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using WPF_Project.Model;
+using Microsoft.Maps.MapControl.WPF;
 
 namespace WPF_Project
 {
@@ -13,6 +14,7 @@ namespace WPF_Project
         /*Position properties for map*/
         double PositionLongitudeDeg { set; get; } // /position/longitude-deg
         double PositionLatitudeDeg { set; get; } // /position/latitude-deg
+        Location Location { set; get; }
         /*Controllers properties*/        
         IJoystickModel JoystickModel { set; get; } //JoystickModel has Rudder and Elevator properties     
         double Aileron { set; get; } // /controls/flight/aileron

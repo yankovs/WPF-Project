@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Maps.MapControl.WPF;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -82,6 +83,11 @@ namespace WPF_Project.ViewModel
         {
             get { return model.PositionLatitudeDeg; }
         }
+        public Location VM_Location
+        {
+            get { return model.Location; }
+        }
+
         public double VM_IndicatedHeadingDeg
         {
             get { return model.IndicatedHeadingDeg; }

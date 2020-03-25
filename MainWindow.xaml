@@ -9,7 +9,7 @@
         xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"            
         mc:Ignorable="d"
         Title="FlightGear Simulator" Height="450" Width="800" Closed="Window_Closed">
-    <Grid Background = "LightGray">
+    <Grid Background = "LightGray">        
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
@@ -35,12 +35,8 @@
                 Map
                 </TextBlock>
             </Grid>
-            <m:Map Mode="Road" ZoomLevel="2" Margin="0,28,9.8,0" CredentialsProvider="AgaQmHHnv60XlDswbLa6YTuKKX8RqzUoV1XdINhXuOgXQgv9c6YiY22ZqwsKoE6l">
-                <Canvas m:MapLayer.Position="-2, -50"
-                        m:MapLayer.PositionOrigin="BottomCenter" Width="30" Height="30"
-                        >
-                    <m:Pushpin />
-                </Canvas>
+            <m:Map x:Name="Map" Mode="Road" Focusable="True" Margin="0,28,9.8,0" CredentialsProvider="AgaQmHHnv60XlDswbLa6YTuKKX8RqzUoV1XdINhXuOgXQgv9c6YiY22ZqwsKoE6l" ZoomLevel="0">
+                <m:Pushpin m:MapLayer.Position="{Binding VM_Location}"/>
             </m:Map>
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
