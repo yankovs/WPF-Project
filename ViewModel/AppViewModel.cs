@@ -15,9 +15,10 @@ namespace WPF_Project.ViewModel
 
         private double aileron, throttle;
 
-        private JoystickViewModel vm_joystick; //viewmodel of joystick inside general viewmodel
-
+        private JoystickViewModel vm_joystick; //viewmodel of joystick inside general viewmodel          
+        
         private const double Ratio = 168.421052631579;
+
 
         public string VM_ConnectionButton
         {
@@ -77,11 +78,11 @@ namespace WPF_Project.ViewModel
 
         public double VM_PositionLongitudeDeg
         {
-            get { return model.PositionLongitudeDeg; }
+            get { return model.PositionLongitudeDeg; }           
         }
         public double VM_PositionLatitudeDeg
         {
-            get { return model.PositionLatitudeDeg; }
+            get { return model.PositionLatitudeDeg; }            
         }
         public Location VM_Location
         {
@@ -90,8 +91,9 @@ namespace WPF_Project.ViewModel
 
         public double VM_IndicatedHeadingDeg
         {
-            get { return model.IndicatedHeadingDeg; }
-        }
+            get { return model.IndicatedHeadingDeg; }           
+        }   
+
         public double VM_GpsIndicatedVerticalSpeed
         {
             get { return model.GpsIndicatedVerticalSpeed; }

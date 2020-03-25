@@ -35,15 +35,14 @@
                 Map
                 </TextBlock>
             </Grid>
-            <m:Map x:Name="Map" Mode="Road" Focusable="True" Margin="0,28,9.8,0" CredentialsProvider="AgaQmHHnv60XlDswbLa6YTuKKX8RqzUoV1XdINhXuOgXQgv9c6YiY22ZqwsKoE6l" ZoomLevel="0">
+            <m:Map x:Name="Map" Mode="Road" CredentialsProvider="AgaQmHHnv60XlDswbLa6YTuKKX8RqzUoV1XdINhXuOgXQgv9c6YiY22ZqwsKoE6l" ZoomLevel="0">
                 <m:Pushpin Location="{Binding VM_Location, Mode=OneWay}">
                     <Canvas Width="15" Height="15">
-                        <Image Source="/images/airplane.png" Width="15" Height="15" RenderTransformOrigin="0.5,0.5">
+                        <Image Source="/src/airplane.png" Width="15" Height="15" RenderTransformOrigin="0.5,0.5">
                             <Image.RenderTransform>
                                 <TransformGroup>
-                                    <ScaleTransform/>
-                                    <SkewTransform/>
-                                    <RotateTransform Angle="0"/>
+                                    <!--Assuming HeadingDeg returns the angle correctly (360 deg system and clockwise) -->
+                                    <RotateTransform Angle="{Binding VM_IndicatedHeadingDeg, Mode=OneWay}"/> 
                                     <TranslateTransform/>
                                 </TransformGroup>
                             </Image.RenderTransform>

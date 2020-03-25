@@ -67,9 +67,17 @@ namespace WPF_Project
             get { return positionLongitudeDeg; }
             set
             {
-                positionLongitudeDeg = value;
-                NotifyPropertyChanged("PositionLongitudeDeg");
-                // "/position/longitude-deg"
+                if(value >= -90 && value <= 90)
+                {
+                    positionLongitudeDeg = value;
+                    NotifyPropertyChanged("PositionLongitudeDeg");
+                    // "/position/longitude-deg"
+                }
+                else
+                {
+                    throw new Exception("Longtitude out of range");
+                }
+
             }
         }
         public double PositionLatitudeDeg
@@ -77,9 +85,16 @@ namespace WPF_Project
             get { return positionLatitudeDeg; }
             set
             {
-                positionLatitudeDeg = value;
-                NotifyPropertyChanged("PositionLatitudeDeg");
-                // "/position/latitude-deg"
+                if(value >= -180 && value <= 180)
+                {
+                    positionLatitudeDeg = value;
+                    NotifyPropertyChanged("PositionLatitudeDeg");
+                    // "/position/latitude-deg"
+                }
+                else
+                {
+                    throw new Exception("Latitude out of range");
+                }
             }
         }
 
@@ -285,11 +300,11 @@ namespace WPF_Project
 
                         //Position:
 
-                        server.write("get /position/longitude-deg\n");
+                        server.write("get /position/longitude-deg\n");                
                         PositionLongitudeDeg = Math.Round(Double.Parse(server.read()), 6);
 
-                        server.write("get /position/latitude-deg\n");
-                        PositionLatitudeDeg = Math.Round(Double.Parse(server.read()), 6);
+                        server.write("get /position/latitude-deg\n");                
+                        PositionLatitudeDeg = Math.Round(Double.Parse(server.read()), 6);                                        
 
                         Location = new Location(PositionLatitudeDeg, PositionLongitudeDeg); //updating location
 
