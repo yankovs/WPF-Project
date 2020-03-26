@@ -35,7 +35,10 @@
                 Map
                 </TextBlock>
             </Grid>
-            <m:Map x:Name="Map" Mode="Road" CredentialsProvider="AgaQmHHnv60XlDswbLa6YTuKKX8RqzUoV1XdINhXuOgXQgv9c6YiY22ZqwsKoE6l" ZoomLevel="0">
+
+            <Image x:Name="Pikachu" Source="/src/pikachu.jpg" Visibility="Hidden" HorizontalAlignment="Stretch" Stretch="Fill" Margin="0,0,9.8,0"/>
+            <TextBox x:Name="VisibilityMode" Text="{Binding VM_VisibilityOfMap, Mode=OneWay}" Visibility="Hidden" TextChanged="VisibilityMode_TextChanged" IsReadOnly="True"></TextBox>
+            <m:Map x:Name="Map" Mode="Road" CredentialsProvider="AgaQmHHnv60XlDswbLa6YTuKKX8RqzUoV1XdINhXuOgXQgv9c6YiY22ZqwsKoE6l" ZoomLevel="0">                
                 <m:Pushpin Location="{Binding VM_Location, Mode=OneWay}">
                     <Canvas Width="15" Height="15">
                         <Image Source="/src/airplane.png" Width="15" Height="15" RenderTransformOrigin="0.5,0.5">

@@ -31,7 +31,7 @@ namespace WPF_Project.Server
                     this.sr = new StreamReader(ns);
                     connected = true;
                 }
-                catch (SocketException e)
+                catch (SocketException)
                 {
                     throw new Exception("Unable to connect");
                 }

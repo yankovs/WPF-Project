@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using WPF_Project.Model;
 
 namespace WPF_Project.ViewModel
@@ -15,8 +16,9 @@ namespace WPF_Project.ViewModel
 
         private double aileron, throttle;
 
-        private JoystickViewModel vm_joystick; //viewmodel of joystick inside general viewmodel          
-        
+        private JoystickViewModel vm_joystick; //viewmodel of joystick inside general viewmodel        
+
+
         private const double Ratio = 168.421052631579;
 
 
@@ -87,6 +89,11 @@ namespace WPF_Project.ViewModel
         public Location VM_Location
         {
             get { return model.Location; }
+        }
+
+        public string VM_VisibilityOfMap
+        {
+            get { return model.VisibilityOfMap; }            
         }
 
         public double VM_IndicatedHeadingDeg

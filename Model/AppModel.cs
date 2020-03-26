@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using WPF_Project.Model;
 using WPF_Project.Server;
 
@@ -15,7 +16,8 @@ namespace WPF_Project
     {
         private double positionLongitudeDeg;
         private double positionLatitudeDeg;
-        private Location location; //default
+        private Location location;
+        private string visibilityOfMap;
         private IJoystickModel joystickModel;
         private double aileron;
         private double throttle;
@@ -38,6 +40,8 @@ namespace WPF_Project
         {
             this.stop = true;
             ConnectionButton = "Connect";
+            Location = new Location(32.009444, 34.876944); //default - location of Ben Gurion Airport
+            VisibilityOfMap = "Visible";
         }
 
         public void startModel()
@@ -85,7 +89,7 @@ namespace WPF_Project
                 }
                 else
                 {
-                    throw new Exception("Longtitude out of range");
+                    throw new Exception("Map problem");
                 }
 
             }
@@ -103,7 +107,7 @@ namespace WPF_Project
                 }
                 else
                 {
-                    throw new Exception("Latitude out of range");
+                    throw new Exception("Map problem");
                 }
             }
         }
@@ -119,6 +123,17 @@ namespace WPF_Project
                 NotifyPropertyChanged("Location");
             }
         }
+
+        public string VisibilityOfMap
+        {
+            get { return visibilityOfMap; }
+            set
+            {
+                visibilityOfMap = value;
+                NotifyPropertyChanged("VisibilityOfMap");
+            }
+        }
+
         public IJoystickModel JoystickModel
         {
             get
@@ -239,7 +254,7 @@ namespace WPF_Project
             {
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
                 //dealing with set commands:
-                if(queueSets != null)
+                if (queueSets != null)
                 {
                     if (propName == "Rudder" && !queueSets.Contains(1))
                     {
@@ -257,7 +272,7 @@ namespace WPF_Project
                     {
                         queueSets.Enqueue(4);
                     }
-                }                              
+                }
             }
         }
 
@@ -266,7 +281,8 @@ namespace WPF_Project
             this.server = server;
             this.joystickModel = new JoystickModel(this);
             stopModel();
-            Location = new Location(0, 0); //default
+            Location = new Location(32.009444, 34.876944); //default - location of Ben Gurion Airport
+            VisibilityOfMap = "Visible";
             queueSets = new Queue<int>();
         }
 
@@ -342,17 +358,68 @@ namespace WPF_Project
                             queueSets.Dequeue();
                         }
 
-                        //Position:
+                        if(visibilityOfMap == "Hidden")
+                        {
+                            Thread.Sleep(25);
+                        }
 
+                        //Position:
+                        //try-catch blocks try to distinguish between map and connectivity problems                       
                         server.write("get /position/longitude-deg\n");
-                        PositionLongitudeDeg = Math.Round(Double.Parse(server.read()), 6);
+                        try
+                        {
+                            PositionLongitudeDeg = Math.Round(Double.Parse(server.read()), 6);                            
+                        }
+                        catch (Exception e)
+                        {
+                            if (e.Message == "Map problem")
+                            {
+                                if(VisibilityOfMap != "Hidden")
+                                {
+                                    VisibilityOfMap = "Hidden";
+                                }                                
+                                continue;
+                            }
+                            else
+                            {
+                                throw e;
+                            }
+                        }
 
                         server.write("get /position/latitude-deg\n");
-                        PositionLatitudeDeg = Math.Round(Double.Parse(server.read()), 6);
+                        try
+                        {
+                            PositionLatitudeDeg = Math.Round(Double.Parse(server.read()), 6);
+                        }
+                        catch (Exception e)
+                        {
+                            if (e.Message == "Map problem")
+                            {
+                                if (VisibilityOfMap != "Hidden")
+                                {
+                                    VisibilityOfMap = "Hidden";
+                                }
+                                continue;
+                            }
+                            else
+                            {
+                                throw e;
+                            }
+                        }
 
-                        Location = new Location(PositionLatitudeDeg, PositionLongitudeDeg); //updating location
+                        //if we reached to this part, location is fine
 
-                        Thread.Sleep(25);
+                        Location = new Location(PositionLatitudeDeg, PositionLongitudeDeg); //updating location      
+
+                        if (VisibilityOfMap == "Visible")
+                        {
+                            Thread.Sleep(25);
+                        }
+                        else
+                        {
+                            //reachable only after Location is fine again
+                            VisibilityOfMap = "Visible";
+                        }                                                              
                     }
                 }
                 catch (Exception)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Maps.MapControl.WPF;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -87,6 +88,33 @@ namespace WPF_Project
                 ms.disconnect();
                 am.stopModel();
             }
-        }      
+        }       
+
+        private void VisibilityMode_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string vis = VisibilityMode.Text;            
+            if (!am.getStop())
+            {
+                if (vis == "Hidden")
+                {
+                    Map.Visibility = Visibility.Hidden;                    
+                    Pikachu.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    Pikachu.Visibility = Visibility.Hidden;
+                    Map.Visibility = Visibility.Visible;              
+                }                
+            }
+            else
+            {
+                if(Pikachu.Visibility == Visibility.Visible)
+                {
+                    Pikachu.Visibility = Visibility.Hidden;
+                    Map.Visibility = Visibility.Visible;
+                }
+            }
+            
+        }
     }
 }
