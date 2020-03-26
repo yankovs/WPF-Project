@@ -30,6 +30,8 @@ namespace WPF_Project
 
         private string connectionButton;
 
+        public Queue<int> queueSets;
+
         IServer server;
         volatile Boolean stop;
         public void stopModel()
@@ -42,6 +44,14 @@ namespace WPF_Project
         {
             this.stop = false;
             ConnectionButton = "Disconnect";
+            //reseting queue if needed
+            if (queueSets != null)
+            {
+                if (queueSets.Count != 0)
+                {
+                    queueSets.Clear();
+                }
+            }
         }
         public bool getStop()
         {
@@ -67,7 +77,7 @@ namespace WPF_Project
             get { return positionLongitudeDeg; }
             set
             {
-                if(value >= -90 && value <= 90)
+                if (value >= -90 && value <= 90)
                 {
                     positionLongitudeDeg = value;
                     NotifyPropertyChanged("PositionLongitudeDeg");
@@ -85,7 +95,7 @@ namespace WPF_Project
             get { return positionLatitudeDeg; }
             set
             {
-                if(value >= -180 && value <= 180)
+                if (value >= -180 && value <= 180)
                 {
                     positionLatitudeDeg = value;
                     NotifyPropertyChanged("PositionLatitudeDeg");
@@ -106,7 +116,7 @@ namespace WPF_Project
                 location = value;
                 PositionLatitudeDeg = location.Latitude;
                 PositionLongitudeDeg = location.Longitude;
-                NotifyPropertyChanged("Location");                
+                NotifyPropertyChanged("Location");
             }
         }
         public IJoystickModel JoystickModel
@@ -228,6 +238,26 @@ namespace WPF_Project
             if (this.PropertyChanged != null)
             {
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
+                //dealing with set commands:
+                if(queueSets != null)
+                {
+                    if (propName == "Rudder" && !queueSets.Contains(1))
+                    {
+                        queueSets.Enqueue(1);
+                    }
+                    if (propName == "Elevator" && !queueSets.Contains(2))
+                    {
+                        queueSets.Enqueue(2);
+                    }
+                    if (propName == "Aileron" && !queueSets.Contains(3))
+                    {
+                        queueSets.Enqueue(3);
+                    }
+                    if (propName == "Throttle" && !queueSets.Contains(4))
+                    {
+                        queueSets.Enqueue(4);
+                    }
+                }                              
             }
         }
 
@@ -237,6 +267,7 @@ namespace WPF_Project
             this.joystickModel = new JoystickModel(this);
             stopModel();
             Location = new Location(0, 0); //default
+            queueSets = new Queue<int>();
         }
 
         public void connect(string ip, int port)
@@ -253,7 +284,7 @@ namespace WPF_Project
         public void start()
         {
             new Thread(delegate ()
-            {                
+            {
                 try
                 {
                     while (!stop)
@@ -285,26 +316,39 @@ namespace WPF_Project
                         AltimeterIndicatedAltitudeFt = Math.Round(Double.Parse(server.read()), 2);
 
                         //Controllers:
-
-                        server.write("set /controls/flight/aileron " + Aileron + "\n");
-                        Aileron = Math.Round(Double.Parse(server.read()), 2);
-
-                        server.write("set /controls/engines/current-engine/throttle " + Throttle + "\n");
-                        Throttle = Math.Round(Double.Parse(server.read()), 2);
-
-                        server.write("set /controls/flight/rudder " + JoystickModel.Rudder + "\n");
-                        JoystickModel.Rudder = Math.Round(Double.Parse(server.read()), 2);
-
-                        server.write("set /controls/flight/elevator " + JoystickModel.Elevator + "\n");
-                        JoystickModel.Elevator = Math.Round(Double.Parse(server.read()), 2);
+                        //sets are only sent if needed
+                        if (queueSets.Count != 0 && queueSets.Peek() == 1)
+                        {
+                            server.write("set /controls/flight/rudder " + JoystickModel.Rudder + "\n");
+                            JoystickModel.Rudder = Math.Round(Double.Parse(server.read()), 2);
+                            queueSets.Dequeue();
+                        }
+                        if (queueSets.Count != 0 && queueSets.Peek() == 2)
+                        {
+                            server.write("set /controls/flight/elevator " + JoystickModel.Elevator + "\n");
+                            JoystickModel.Elevator = Math.Round(Double.Parse(server.read()), 2);
+                            queueSets.Dequeue();
+                        }
+                        if (queueSets.Count != 0 && queueSets.Peek() == 3)
+                        {
+                            server.write("set /controls/flight/aileron " + Aileron + "\n");
+                            Aileron = Math.Round(Double.Parse(server.read()), 2);
+                            queueSets.Dequeue();
+                        }
+                        if (queueSets.Count != 0 && queueSets.Peek() == 4)
+                        {
+                            server.write("set /controls/engines/current-engine/throttle " + Throttle + "\n");
+                            Throttle = Math.Round(Double.Parse(server.read()), 2);
+                            queueSets.Dequeue();
+                        }
 
                         //Position:
 
-                        server.write("get /position/longitude-deg\n");                
+                        server.write("get /position/longitude-deg\n");
                         PositionLongitudeDeg = Math.Round(Double.Parse(server.read()), 6);
 
-                        server.write("get /position/latitude-deg\n");                
-                        PositionLatitudeDeg = Math.Round(Double.Parse(server.read()), 6);                                        
+                        server.write("get /position/latitude-deg\n");
+                        PositionLatitudeDeg = Math.Round(Double.Parse(server.read()), 6);
 
                         Location = new Location(PositionLatitudeDeg, PositionLongitudeDeg); //updating location
 
@@ -315,7 +359,7 @@ namespace WPF_Project
                 {
                     server.disconnect();
                     stopModel();
-                }                
+                }
             }).Start();
         }
 
