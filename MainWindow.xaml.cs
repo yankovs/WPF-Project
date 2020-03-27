@@ -108,11 +108,14 @@ namespace WPF_Project
             }
             else
             {
-                if(Pikachu.Visibility == Visibility.Visible)
+                if(Pikachu != null)
                 {
-                    Pikachu.Visibility = Visibility.Hidden;
-                    Map.Visibility = Visibility.Visible;
-                }
+                    if (Pikachu.Visibility == Visibility.Visible)
+                    {
+                        Pikachu.Visibility = Visibility.Hidden;
+                        Map.Visibility = Visibility.Visible;
+                    }
+                }                
             }
             
         }
