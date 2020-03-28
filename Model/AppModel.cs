@@ -44,7 +44,7 @@ namespace WPF_Project
             this.stop = true;
             ConnectionButton = "Connect";
             Location = new Location(32.009444, 34.876944); //default - location of Ben Gurion Airport
-            VisibilityOfMap = "Visible";           
+            VisibilityOfMap = "Visible";
         }
 
         public void startModel()
@@ -148,7 +148,7 @@ namespace WPF_Project
                     NotifyPropertyChanged("Rudder");
                     // "/controls/flight/rudder"
                 }
-            }                
+            }
         }
         public double Elevator
         {
@@ -296,7 +296,7 @@ namespace WPF_Project
 
         public AppModel(IServer server)
         {
-            this.server = server;           
+            this.server = server;
             stopModel();
             Location = new Location(32.009444, 34.876944); //default - location of Ben Gurion Airport
             VisibilityOfMap = "Visible";
@@ -318,64 +318,152 @@ namespace WPF_Project
         {
             new Thread(delegate ()
             {
-                try
+                String r;
+                while (!stop)
                 {
-                    while (!stop)
+                    try
                     {
+                        //if ERR value is sent from server, Double.NaN it'll be instead of a number
+
                         //Dashboard:
 
                         server.write("get /instrumentation/heading-indicator/indicated-heading-deg\n");
-                        IndicatedHeadingDeg = Math.Round(Double.Parse(server.read()), 6);
-
+                        r = server.read();
+                        if(r != "ERR")
+                        {
+                            IndicatedHeadingDeg = Math.Round(Double.Parse(r), 6);
+                        }
+                        else
+                        {                            
+                            IndicatedHeadingDeg = Double.NaN;
+                        }                       
+                        
                         server.write("get /instrumentation/gps/indicated-vertical-speed\n");
-                        GpsIndicatedVerticalSpeed = Math.Round(Double.Parse(server.read()), 6);
+                        r = server.read();
+                        if (r != "ERR")
+                        {
+                            GpsIndicatedVerticalSpeed = Math.Round(Double.Parse(r), 6);
+                        }
+                        else
+                        {
+                            GpsIndicatedVerticalSpeed = Double.NaN;
+                        }
+                        
 
                         server.write("get /instrumentation/gps/indicated-ground-speed-kt\n");
-                        GpsIndicatedGroundSpeedKt = Math.Round(Double.Parse(server.read()), 6);
+                        r = server.read();
+                        if (r != "ERR")
+                        {
+                            GpsIndicatedGroundSpeedKt = Math.Round(Double.Parse(r), 6);
+                        }
+                        else
+                        {
+                            GpsIndicatedGroundSpeedKt = Double.NaN;
+                        }
+                       
 
                         server.write("get /instrumentation/airspeed-indicator/indicated-speed-kt\n");
-                        AirspeedIndicatorIndicatedSpeedKt = Math.Round(Double.Parse(server.read()), 6);
+                        r = server.read();
+                        if (r != "ERR")
+                        {
+                            AirspeedIndicatorIndicatedSpeedKt = Math.Round(Double.Parse(r), 6);
+                        }
+                        else
+                        {
+                            AirspeedIndicatorIndicatedSpeedKt = Double.NaN;
+                        }
+                       
 
                         server.write("get /instrumentation/gps/indicated-altitude-ft\n");
-                        GpsIndicatedAltitudeFt = Math.Round(Double.Parse(server.read()), 6);
+                        r = server.read();
+                        if (r != "ERR")
+                        {
+                            GpsIndicatedAltitudeFt = Math.Round(Double.Parse(r), 6);
+                        }
+                        else
+                        {
+                            GpsIndicatedAltitudeFt = Double.NaN;
+                        }
+                        
 
                         server.write("get /instrumentation/attitude-indicator/internal-roll-deg\n");
-                        AttitudeIndicatorInternalRollDeg = Math.Round(Double.Parse(server.read()), 6);
-
+                        r = server.read();
+                        if (r != "ERR")
+                        {
+                            AttitudeIndicatorInternalRollDeg = Math.Round(Double.Parse(r), 6);
+                        }
+                        else
+                        {
+                            AttitudeIndicatorInternalRollDeg = Double.NaN;
+                        }
+                                               
                         server.write("get /instrumentation/attitude-indicator/internal-pitch-deg\n");
-                        AttitudeIndicatorInternalPitchDeg = Math.Round(Double.Parse(server.read()), 6);
+                        r = server.read();
+                        if (r != "ERR")
+                        {
+                            AttitudeIndicatorInternalPitchDeg = Math.Round(Double.Parse(r), 6);
+                        }
+                        else
+                        {
+                            AttitudeIndicatorInternalPitchDeg = Double.NaN;
+                        }                        
 
                         server.write("get /instrumentation/gps/indicated-altitude-ft\n");
-                        AltimeterIndicatedAltitudeFt = Math.Round(Double.Parse(server.read()), 6);
+                        r = server.read();
+                        if (r != "ERR")
+                        {
+                            AltimeterIndicatedAltitudeFt = Math.Round(Double.Parse(r), 6);
+                        }
+                        else
+                        {
+                            AltimeterIndicatedAltitudeFt = Double.NaN;
+                        }
+                       
 
                         //Controllers:
                         //sets are only sent if needed
                         if (queueSets.Count != 0 && queueSets.Peek() == 1)
                         {
                             server.write("set /controls/flight/rudder " + Rudder + "\n");
-                            Rudder = Math.Round(Double.Parse(server.read()), 6);
+                            r = server.read();
+                            if (r != "ERR")
+                            {
+                                Rudder = Math.Round(Double.Parse(r), 6);                                
+                            }
                             queueSets.Dequeue();
                         }
                         if (queueSets.Count != 0 && queueSets.Peek() == 2)
                         {
                             server.write("set /controls/flight/elevator " + Elevator + "\n");
-                            Elevator = Math.Round(Double.Parse(server.read()), 6);
+                            r = server.read();
+                            if (r != "ERR")
+                            {
+                                Elevator = Math.Round(Double.Parse(r), 6);                               
+                            }
                             queueSets.Dequeue();
                         }
                         if (queueSets.Count != 0 && queueSets.Peek() == 3)
                         {
                             server.write("set /controls/flight/aileron " + Aileron + "\n");
-                            Aileron = Math.Round(Double.Parse(server.read()), 6);
+                            r = server.read();
+                            if (r != "ERR")
+                            {
+                                Aileron = Math.Round(Double.Parse(r), 6);                                
+                            }
                             queueSets.Dequeue();
                         }
                         if (queueSets.Count != 0 && queueSets.Peek() == 4)
                         {
                             server.write("set /controls/engines/current-engine/throttle " + Throttle + "\n");
-                            Throttle = Math.Round(Double.Parse(server.read()), 6);
+                            r = server.read();
+                            if (r != "ERR")
+                            {
+                                Throttle = Math.Round(Double.Parse(r), 6);                                
+                            }
                             queueSets.Dequeue();
                         }
 
-                        if (visibilityOfMap == "Hidden")
+                        if (VisibilityOfMap == "Hidden")
                         {
                             Thread.Sleep(25);
                         }
@@ -383,9 +471,17 @@ namespace WPF_Project
                         //Position:
                         //try-catch blocks try to distinguish between map and connectivity problems                       
                         server.write("get /position/longitude-deg\n");
+                        r = server.read();                        
                         try
                         {
-                            PositionLongitudeDeg = Math.Round(Double.Parse(server.read()), 6);
+                            if (r != "ERR")
+                            {
+                                PositionLongitudeDeg = Math.Round(Double.Parse(r), 6);
+                            }
+                            else
+                            {
+                                throw new Exception("Map problem");
+                            }                            
                         }
                         catch (Exception e)
                         {
@@ -404,9 +500,17 @@ namespace WPF_Project
                         }
 
                         server.write("get /position/latitude-deg\n");
+                        r = server.read();                        
                         try
                         {
-                            PositionLatitudeDeg = Math.Round(Double.Parse(server.read()), 6);
+                            if (r != "ERR")
+                            {
+                                PositionLatitudeDeg = Math.Round(Double.Parse(r), 6);
+                            }
+                            else
+                            {
+                                throw new Exception("Map problem");
+                            }                            
                         }
                         catch (Exception e)
                         {
@@ -436,16 +540,16 @@ namespace WPF_Project
                         {
                             //reachable only after Location is fine again
                             VisibilityOfMap = "Visible";
-                        }
+                        }                        
+                    }
+                    catch (Exception)
+                    {
+                        server.disconnect();
+                        stopModel();
                     }
                 }
-                catch (Exception)
-                {
-                    server.disconnect();
-                    stopModel();
-                }
             }).Start();
-        }        
+        }
 
         public void controlAileron(double a)
         {
