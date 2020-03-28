@@ -15,7 +15,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WPF_Project.Model;
 using WPF_Project.Server;
 using WPF_Project.ViewModel;
 using WPF_Project.Views;
@@ -27,28 +26,26 @@ namespace WPF_Project
     /// </summary>
     public partial class MainWindow : Window
     {
-        AppViewModel vm;
+        AppViewModel avm;
+        ControllersViewModel cvm;
+        DashboardViewModel dvm;
+        MapViewModel mvm;
         private MyServer ms = new MyServer();
         private AppModel am;
 
         public MainWindow()
         {
             this.am = new AppModel(this.ms);
-            vm = new AppViewModel(am);
-            DataContext = vm;
+            avm = new AppViewModel(am);
+            cvm = new ControllersViewModel(am);
+            dvm = new DashboardViewModel(am);
+            mvm = new MapViewModel(am);
+            DataContext = avm;
             InitializeComponent();
-            myJoystick.DataContext = vm.VM_JoystickModel;            
-        }
-
-        private void aileronSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            vm.VM_Aileron = Convert.ToDouble(e.NewValue);
-        }
-
-        private void throttleSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            vm.VM_Throttle = Convert.ToDouble(e.NewValue);
-        }
+            Controllers.DataContext = cvm;
+            Dashboard.DataContext = dvm;
+            Map.DataContext = mvm;
+        }      
 
         private void Button_Click(object Sender, RoutedEventArgs e)
         {
@@ -76,9 +73,6 @@ namespace WPF_Project
                 ms.disconnect();
                 am.stopModel();                
             }
-
-
-
         }
 
         private void Window_Closed(object sender, EventArgs e)
@@ -88,36 +82,6 @@ namespace WPF_Project
                 ms.disconnect();
                 am.stopModel();
             }
-        }       
-
-        private void VisibilityMode_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            string vis = VisibilityMode.Text;            
-            if (!am.getStop())
-            {
-                if (vis == "Hidden")
-                {
-                    Map.Visibility = Visibility.Hidden;                    
-                    Pikachu.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    Pikachu.Visibility = Visibility.Hidden;
-                    Map.Visibility = Visibility.Visible;              
-                }                
-            }
-            else
-            {
-                if(Pikachu != null)
-                {
-                    if (Pikachu.Visibility == Visibility.Visible)
-                    {
-                        Pikachu.Visibility = Visibility.Hidden;
-                        Map.Visibility = Visibility.Visible;
-                    }
-                }                
-            }
-            
         }
     }
 }

@@ -10,14 +10,12 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WPF_Project.Model;
 using WPF_Project.ViewModel;
 
 namespace WPF_Project.Views
 {    
     public partial class Joystick : UserControl
-    {
-        JoystickViewModel vm;
+    {        
         public Joystick()
         {
             InitializeComponent();                        
@@ -43,8 +41,7 @@ namespace WPF_Project.Views
                 if (Math.Sqrt(x*x + y*y) < Base.Width / 2)
                 {                  
                     knobPosition.X = x;                    
-                    knobPosition.Y = y;
-                    vm = DataContext as JoystickViewModel;                    
+                    knobPosition.Y = y;                                   
                 }
             }
         }
@@ -52,8 +49,7 @@ namespace WPF_Project.Views
         private void Knob_MouseUp(object sender, MouseButtonEventArgs e)
         {            
             knobPosition.X = 0;            
-            knobPosition.Y = 0;
-            vm = DataContext as JoystickViewModel;            
+            knobPosition.Y = 0;                  
         }
     }
 }

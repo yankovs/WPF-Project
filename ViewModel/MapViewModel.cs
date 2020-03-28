@@ -5,18 +5,12 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace WPF_Project.ViewModel
 {
-    class AppViewModel : INotifyPropertyChanged
+    class MapViewModel : INotifyPropertyChanged
     {
         private IAppModel model;
-
-        public string VM_ConnectionButton
-        {
-            get { return model.ConnectionButton; }
-        }
 
         public double VM_PositionLongitudeDeg
         {
@@ -30,18 +24,24 @@ namespace WPF_Project.ViewModel
         {
             get { return model.Location; }
         }
+        //needed for airplane's direction
         public double VM_IndicatedHeadingDeg
         {
             get { return model.IndicatedHeadingDeg; }
         }
+        //Those properties are helpful for deciding whether to show map or not
         public string VM_VisibilityOfMap
         {
             get { return model.VisibilityOfMap; }
         }
-
-        public AppViewModel(IAppModel model)
+        public string VM_ConnectionButton
         {
-            this.model = model;            
+            get { return model.ConnectionButton; }
+        }
+
+        public MapViewModel(IAppModel model)
+        {
+            this.model = model;
             this.model.PropertyChanged +=
                 delegate (Object sender, PropertyChangedEventArgs e)
                 {

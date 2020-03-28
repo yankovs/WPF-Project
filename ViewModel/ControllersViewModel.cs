@@ -4,16 +4,14 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WPF_Project.Model;
 
 namespace WPF_Project.ViewModel
 {
-    class JoystickViewModel : INotifyPropertyChanged
+    class ControllersViewModel : INotifyPropertyChanged
     {
-        private IJoystickModel joystickModel;
-        private AppViewModel appViewModel;
+        private IAppModel model;
 
-        private double rudder, elevator;
+        private double rudder, elevator, aileron, throttle;
 
         private const double Ratio = 168.421052631579;
 
@@ -22,11 +20,11 @@ namespace WPF_Project.ViewModel
             get { return rudder; }
             set
             {
-                if(value != rudder && value != rudder/Ratio)
+                if (value != rudder && value != rudder / Ratio)
                 {
                     rudder = value;
-                    appViewModel.VM_Rudder = rudder;                                      
-                }              
+                    model.Rudder = rudder;
+                }
             }
         }
         public double VM_Elevator
@@ -34,35 +32,51 @@ namespace WPF_Project.ViewModel
             get { return elevator; }
             set
             {
-                if (value != elevator && value != -elevator/Ratio)
+                if (value != elevator && value != elevator / Ratio)
                 {
                     elevator = value;
-                    appViewModel.VM_Elevator = elevator;                    
-                }                
+                    model.Elevator = elevator;
+                }
+
             }
         }
-
-        public JoystickViewModel(IJoystickModel joystickModel, AppViewModel appViewModel)
+        public double VM_Aileron
         {
-            this.joystickModel = joystickModel;
-            this.appViewModel = appViewModel;
-
-            this.joystickModel.PropertyChanged +=
+            get { return aileron; }
+            set
+            {
+                aileron = value;
+                model.controlAileron(aileron);
+            }
+        }
+        public double VM_Throttle
+        {
+            get { return throttle; }
+            set
+            {
+                throttle = value;
+                model.controlThrottle(throttle);
+            }
+        }
+        
+        public ControllersViewModel(IAppModel model)
+        {
+            this.model = model;
+            this.model.PropertyChanged +=
                 delegate (Object sender, PropertyChangedEventArgs e)
                 {
                     NotifyPropertyChanged("VM_" + e.PropertyName);
-                };    
-            
+                };
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         public void NotifyPropertyChanged(string propName)
         {
             if (this.PropertyChanged != null)
             {
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
             }
-            appViewModel.NotifyPropertyChanged(propName);
         }
     }
 }

@@ -67,6 +67,10 @@ namespace WPF_Project.Server
                 {
                     string line = sr.ReadLine();                    
                     Console.WriteLine(line);
+                    if(line == "ERR")
+                    {
+                        throw new Exception("ERR value");
+                    }
                     return line;
                 }
                 catch

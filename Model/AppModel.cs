@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using WPF_Project.Model;
 using WPF_Project.Server;
 
 namespace WPF_Project
@@ -18,7 +17,8 @@ namespace WPF_Project
         private double positionLatitudeDeg;
         private Location location;
         private string visibilityOfMap;
-        private IJoystickModel joystickModel;
+        private double rudder;
+        private double elevator;
         private double aileron;
         private double throttle;
         private double indicatedHeadingDeg;
@@ -32,16 +32,19 @@ namespace WPF_Project
 
         private string connectionButton;
 
+        private const double Ratio = 168.421052631579;
+
         public Queue<int> queueSets;
 
         IServer server;
         volatile Boolean stop;
+
         public void stopModel()
         {
             this.stop = true;
             ConnectionButton = "Connect";
             Location = new Location(32.009444, 34.876944); //default - location of Ben Gurion Airport
-            VisibilityOfMap = "Visible";
+            VisibilityOfMap = "Visible";           
         }
 
         public void startModel()
@@ -134,15 +137,30 @@ namespace WPF_Project
             }
         }
 
-        public IJoystickModel JoystickModel
+        public double Rudder
         {
-            get
-            {
-                return joystickModel;
-            }
+            get { return rudder; }
             set
             {
-                joystickModel.controlJoystick(value.Rudder, value.Elevator);
+                if (value != rudder)
+                {
+                    rudder = value / Ratio;
+                    NotifyPropertyChanged("Rudder");
+                    // "/controls/flight/rudder"
+                }
+            }                
+        }
+        public double Elevator
+        {
+            get { return elevator; }
+            set
+            {
+                if (value != elevator)
+                {
+                    elevator = -value / Ratio;
+                    NotifyPropertyChanged("Elevator");
+                    // "/controls/flight/elevator"
+                }
             }
         }
         public double Aileron
@@ -278,8 +296,7 @@ namespace WPF_Project
 
         public AppModel(IServer server)
         {
-            this.server = server;
-            this.joystickModel = new JoystickModel(this);
+            this.server = server;           
             stopModel();
             Location = new Location(32.009444, 34.876944); //default - location of Ben Gurion Airport
             VisibilityOfMap = "Visible";
@@ -308,57 +325,57 @@ namespace WPF_Project
                         //Dashboard:
 
                         server.write("get /instrumentation/heading-indicator/indicated-heading-deg\n");
-                        IndicatedHeadingDeg = Math.Round(Double.Parse(server.read()), 2);
+                        IndicatedHeadingDeg = Math.Round(Double.Parse(server.read()), 6);
 
                         server.write("get /instrumentation/gps/indicated-vertical-speed\n");
-                        GpsIndicatedVerticalSpeed = Math.Round(Double.Parse(server.read()), 2);
+                        GpsIndicatedVerticalSpeed = Math.Round(Double.Parse(server.read()), 6);
 
                         server.write("get /instrumentation/gps/indicated-ground-speed-kt\n");
-                        GpsIndicatedGroundSpeedKt = Math.Round(Double.Parse(server.read()), 2);
+                        GpsIndicatedGroundSpeedKt = Math.Round(Double.Parse(server.read()), 6);
 
                         server.write("get /instrumentation/airspeed-indicator/indicated-speed-kt\n");
-                        AirspeedIndicatorIndicatedSpeedKt = Math.Round(Double.Parse(server.read()), 2);
+                        AirspeedIndicatorIndicatedSpeedKt = Math.Round(Double.Parse(server.read()), 6);
 
                         server.write("get /instrumentation/gps/indicated-altitude-ft\n");
-                        GpsIndicatedAltitudeFt = Math.Round(Double.Parse(server.read()), 2);
+                        GpsIndicatedAltitudeFt = Math.Round(Double.Parse(server.read()), 6);
 
                         server.write("get /instrumentation/attitude-indicator/internal-roll-deg\n");
-                        AttitudeIndicatorInternalRollDeg = Math.Round(Double.Parse(server.read()), 2);
+                        AttitudeIndicatorInternalRollDeg = Math.Round(Double.Parse(server.read()), 6);
 
                         server.write("get /instrumentation/attitude-indicator/internal-pitch-deg\n");
-                        AttitudeIndicatorInternalPitchDeg = Math.Round(Double.Parse(server.read()), 2);
+                        AttitudeIndicatorInternalPitchDeg = Math.Round(Double.Parse(server.read()), 6);
 
                         server.write("get /instrumentation/gps/indicated-altitude-ft\n");
-                        AltimeterIndicatedAltitudeFt = Math.Round(Double.Parse(server.read()), 2);
+                        AltimeterIndicatedAltitudeFt = Math.Round(Double.Parse(server.read()), 6);
 
                         //Controllers:
                         //sets are only sent if needed
                         if (queueSets.Count != 0 && queueSets.Peek() == 1)
                         {
-                            server.write("set /controls/flight/rudder " + JoystickModel.Rudder + "\n");
-                            JoystickModel.Rudder = Math.Round(Double.Parse(server.read()), 2);
+                            server.write("set /controls/flight/rudder " + Rudder + "\n");
+                            Rudder = Math.Round(Double.Parse(server.read()), 6);
                             queueSets.Dequeue();
                         }
                         if (queueSets.Count != 0 && queueSets.Peek() == 2)
                         {
-                            server.write("set /controls/flight/elevator " + JoystickModel.Elevator + "\n");
-                            JoystickModel.Elevator = Math.Round(Double.Parse(server.read()), 2);
+                            server.write("set /controls/flight/elevator " + Elevator + "\n");
+                            Elevator = Math.Round(Double.Parse(server.read()), 6);
                             queueSets.Dequeue();
                         }
                         if (queueSets.Count != 0 && queueSets.Peek() == 3)
                         {
                             server.write("set /controls/flight/aileron " + Aileron + "\n");
-                            Aileron = Math.Round(Double.Parse(server.read()), 2);
+                            Aileron = Math.Round(Double.Parse(server.read()), 6);
                             queueSets.Dequeue();
                         }
                         if (queueSets.Count != 0 && queueSets.Peek() == 4)
                         {
                             server.write("set /controls/engines/current-engine/throttle " + Throttle + "\n");
-                            Throttle = Math.Round(Double.Parse(server.read()), 2);
+                            Throttle = Math.Round(Double.Parse(server.read()), 6);
                             queueSets.Dequeue();
                         }
 
-                        if(visibilityOfMap == "Hidden")
+                        if (visibilityOfMap == "Hidden")
                         {
                             Thread.Sleep(25);
                         }
@@ -368,16 +385,16 @@ namespace WPF_Project
                         server.write("get /position/longitude-deg\n");
                         try
                         {
-                            PositionLongitudeDeg = Math.Round(Double.Parse(server.read()), 6);                            
+                            PositionLongitudeDeg = Math.Round(Double.Parse(server.read()), 6);
                         }
                         catch (Exception e)
                         {
                             if (e.Message == "Map problem")
                             {
-                                if(VisibilityOfMap != "Hidden")
+                                if (VisibilityOfMap != "Hidden")
                                 {
                                     VisibilityOfMap = "Hidden";
-                                }                                
+                                }
                                 continue;
                             }
                             else
@@ -419,7 +436,7 @@ namespace WPF_Project
                         {
                             //reachable only after Location is fine again
                             VisibilityOfMap = "Visible";
-                        }                                                              
+                        }
                     }
                 }
                 catch (Exception)
@@ -428,12 +445,7 @@ namespace WPF_Project
                     stopModel();
                 }
             }).Start();
-        }
-
-        public void controlJoystick(double r, double e)
-        {
-            joystickModel.controlJoystick(r, e);
-        }
+        }        
 
         public void controlAileron(double a)
         {

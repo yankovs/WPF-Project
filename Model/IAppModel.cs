@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
-using WPF_Project.Model;
 using Microsoft.Maps.MapControl.WPF;
 using System.Windows;
 
@@ -18,7 +17,8 @@ namespace WPF_Project
         Location Location { set; get; }
         string VisibilityOfMap { set; get; }
         /*Controllers properties*/
-        IJoystickModel JoystickModel { set; get; } //JoystickModel has Rudder and Elevator properties     
+        double Rudder { set; get; } // "/controls/flight/rudder"
+        double Elevator { set; get; } // "/controls/flight/elevator"
         double Aileron { set; get; } // /controls/flight/aileron
         double Throttle { set; get; } // /controls/engines/engine/throttle
         /*Dashboard properties*/
@@ -35,7 +35,6 @@ namespace WPF_Project
         string ConnectionButton { set; get; }
 
         void NotifyPropertyChanged(string propName);
-        void controlJoystick(double r, double e);
         void controlAileron(double a);
         void controlThrottle(double t);
 
