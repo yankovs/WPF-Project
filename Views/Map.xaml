@@ -32,7 +32,12 @@
                 </m:Pushpin>
             </m:Map>
             <Viewbox Stretch="Fill">
-                <Image x:Name="Pikachu" Source="/src/pikachu.jpg" Visibility="Hidden" Margin="5"/>
+                <Grid>
+                    <Image x:Name="Pikachu" Source="/src/pikachu.jpg" Visibility="Visible" Margin="5"/>
+                    <Viewbox VerticalAlignment="Center" HorizontalAlignment="Left"  Margin="10,5,5,60">
+                        <TextBlock x:Name="MapErrorMsg"  TextWrapping="Wrap" Text="Map can't be shown&#x0a;at the moment" Visibility="Visible" FontWeight="ExtraBold" Foreground="White" FontSize="12"/>
+                    </Viewbox>
+                </Grid>
             </Viewbox>
         </Grid>
     </Grid>

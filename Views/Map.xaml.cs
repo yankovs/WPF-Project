@@ -39,10 +39,12 @@ namespace WPF_Project.Views
                 {
                     Map1.Visibility = Visibility.Hidden;
                     Pikachu.Visibility = Visibility.Visible;
+                    MapErrorMsg.Visibility = Visibility.Visible;
                 }
                 else
                 {
                     Pikachu.Visibility = Visibility.Hidden;
+                    MapErrorMsg.Visibility = Visibility.Hidden;
                     Map1.Visibility = Visibility.Visible;
                 }
             }
@@ -53,6 +55,7 @@ namespace WPF_Project.Views
                     if (Pikachu.Visibility == Visibility.Visible)
                     {
                         Pikachu.Visibility = Visibility.Hidden;
+                        MapErrorMsg.Visibility = Visibility.Hidden;
                         Map1.Visibility = Visibility.Visible;
                     }
                 }
