@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace WPF_Project.ViewModel
 {
-    class MapViewModel : INotifyPropertyChanged
+    public class MapViewModel : INotifyPropertyChanged
     {
         private IAppModel model;
 
@@ -36,7 +36,7 @@ namespace WPF_Project.ViewModel
         }
         public string VM_ConnectionButton
         {
-            get { return model.ConnectionButton; }
+            get { return model.ConnectionMode; }
         }
 
         public MapViewModel(IAppModel model)

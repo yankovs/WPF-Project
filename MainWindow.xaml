@@ -18,7 +18,8 @@
                 <ColumnDefinition Width="10*"/>
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
-            <Button Content="{Binding VM_ConnectionButton, Mode=OneWay}" Grid.Column="0"  Click="Button_Click" BorderBrush="#FFEEEEEE" Background="#FF454545" Foreground="White"/>
+            <TextBox x:Name="ConnectionMode" Text="{Binding VM_ConnectionMode, Mode=TwoWay}" Visibility="Hidden" TextChanged="ConnectionMode_TextChanged"/>
+            <Button x:Name="ConnectionBtn" Content="Connect" Grid.Column="0"  Click="Button_Click" BorderBrush="#FFEEEEEE" Background="#FF454545" Foreground="White"/>
             <Viewbox Grid.Column="1">
                 <TextBlock TextWrapping="Wrap" Text="FlightGear Simulator" FontWeight="Bold"/>
             </Viewbox>

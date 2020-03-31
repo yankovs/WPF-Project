@@ -5,13 +5,38 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using WPF_Project.Server;
+using WPF_Project.ViewModel;
 
 namespace WPF_Project
 {
     /// <summary>
     /// Interaction logic for App.xaml
-    /// </summary>
+    /// </summary>    
+
     public partial class App : Application
     {
+        private MyServer ms = new MyServer();
+        private AppModel am;
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+            this.am = new AppModel(this.ms);
+            AppViewModel = new AppViewModel(am);
+            ControllersViewModel = new ControllersViewModel(am);
+            DashboardViewModel = new DashboardViewModel(am);
+            MapViewModel = new MapViewModel(am);
+            MainWindow wnd = new MainWindow();
+            wnd.Show();
+        }
+
+        public AppViewModel AppViewModel { get; set; }
+
+        public ControllersViewModel ControllersViewModel { get; set; }
+
+        public DashboardViewModel DashboardViewModel { get; set; }
+
+        public MapViewModel MapViewModel { get; set; }
+
     }
 }

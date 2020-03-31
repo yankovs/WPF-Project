@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WPF_Project.ViewModel
 {
-    class DashboardViewModel : INotifyPropertyChanged
+    public class DashboardViewModel : INotifyPropertyChanged
     {
         private IAppModel model;
 

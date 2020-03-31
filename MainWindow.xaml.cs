@@ -27,60 +27,48 @@ namespace WPF_Project
     public partial class MainWindow : Window
     {
         AppViewModel avm;
-        ControllersViewModel cvm;
-        DashboardViewModel dvm;
-        MapViewModel mvm;
-        private MyServer ms = new MyServer();
-        private AppModel am;
-
         public MainWindow()
         {
-            this.am = new AppModel(this.ms);
-            avm = new AppViewModel(am);
-            cvm = new ControllersViewModel(am);
-            dvm = new DashboardViewModel(am);
-            mvm = new MapViewModel(am);
-            DataContext = avm;
             InitializeComponent();
-            Controllers.DataContext = cvm;
-            Dashboard.DataContext = dvm;
-            Map.DataContext = mvm;
-        }      
+            DataContext = (Application.Current as App).AppViewModel;
+            avm = DataContext as AppViewModel;
+        }
 
         private void Button_Click(object Sender, RoutedEventArgs e)
         {
             var button = Sender as Button;
             if ((string)button.Content == "Connect")
             {
-                try
-                {
-                    if (am.getStop())
-                    {
-                        am.startModel();
-                    }
-                    ms.Connect(ConfigurationManager.AppSettings["IP"], int.Parse(ConfigurationManager.AppSettings["Port"]));                    
-                    am.start();
-                }
-                catch (Exception)
-                {
-                    MessageBox.Show("Couldn't connect, is the server on?");
-                    ms.disconnect();
-                    am.stopModel();
-                }
+                avm.VM_ConnectionMode = "Connected";                
             }
             else if ((string)button.Content == "Disconnect")
             {
-                ms.disconnect();
-                am.stopModel();                
+                avm.VM_ConnectionMode = "Disconnected";                
             }
         }
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            if (ms.isConnected())
+            if (ConnectionMode.Text != "Disconnected")
             {
-                ms.disconnect();
-                am.stopModel();
+                avm.VM_ConnectionMode = "Disconnected";
+            }
+        }
+
+        private void ConnectionMode_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (ConnectionMode.Text == "Connected")
+            {
+                ConnectionBtn.Content = "Disconnect";
+            }
+            else if (ConnectionMode.Text == "Disconnected")
+            {
+                ConnectionBtn.Content = "Connect";
+            }
+            else if(ConnectionMode.Text == "Connection Error")
+            {
+                ConnectionBtn.Content = "Connect";
+                MessageBox.Show("Couldn't connect, is the server on?");               
             }
         }
     }

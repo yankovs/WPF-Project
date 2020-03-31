@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WPF_Project.ViewModel
 {
-    class ControllersViewModel : INotifyPropertyChanged
+    public class ControllersViewModel : INotifyPropertyChanged
     {
         private IAppModel model;
 

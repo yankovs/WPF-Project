@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -11,7 +12,7 @@ using WPF_Project.Server;
 
 namespace WPF_Project
 {
-    class AppModel : IAppModel
+    public class AppModel : IAppModel
     {
         private double positionLongitudeDeg;
         private double positionLatitudeDeg;
@@ -30,7 +31,7 @@ namespace WPF_Project
         private double attitudeIndicatorInternalPitchDeg;
         private double altimeterIndicatedAltitudeFt;
 
-        private string connectionButton;
+        private string connectionMode;
 
         private const double Ratio = 168.421052631579;
 
@@ -42,7 +43,10 @@ namespace WPF_Project
         public void stopModel()
         {
             this.stop = true;
-            ConnectionButton = "Connect";
+            if(ConnectionMode == "Connected" || ConnectionMode == "Start Of App")
+            {
+                ConnectionMode = "Disconnected";
+            }            
             Location = new Location(32.009444, 34.876944); //default - location of Ben Gurion Airport
             VisibilityOfMap = "Visible";
         }
@@ -50,7 +54,10 @@ namespace WPF_Project
         public void startModel()
         {
             this.stop = false;
-            ConnectionButton = "Disconnect";
+            if(ConnectionMode != "Connected")
+            {
+                ConnectionMode = "Connected";
+            }
             //reseting queue if needed
             if (queueSets != null)
             {
@@ -65,16 +72,16 @@ namespace WPF_Project
             return this.stop;
         }
 
-        public string ConnectionButton
+        public string ConnectionMode
         {
             get
             {
-                return connectionButton;
+                return connectionMode;
             }
             set
             {
-                connectionButton = value;
-                NotifyPropertyChanged("ConnectionButton");
+                connectionMode = value;
+                NotifyPropertyChanged("ConnectionMode");
             }
         }
 
@@ -291,12 +298,42 @@ namespace WPF_Project
                         queueSets.Enqueue(4);
                     }
                 }
+
+                //dealing with server connectivity
+                if(propName == "ConnectionMode")
+                {
+                    if(ConnectionMode == "Connected")
+                    {
+                        try
+                        {
+                            if(getStop())
+                            {
+                                startModel();
+                            }
+                            connect(ConfigurationManager.AppSettings["IP"],
+                                           int.Parse(ConfigurationManager.AppSettings["Port"]));
+                            start();
+                        }
+                        catch(Exception)
+                        {
+                            ConnectionMode = "Connection Error";
+                            disconnect();
+                            stopModel();
+                        }
+                    }
+                    else if(ConnectionMode == "Disconnected")
+                    {
+                        disconnect();
+                        stopModel();
+                    }
+                }
             }
         }
 
         public AppModel(IServer server)
         {
             this.server = server;
+            ConnectionMode = "Start Of App";
             stopModel();
             Location = new Location(32.009444, 34.876944); //default - location of Ben Gurion Airport
             VisibilityOfMap = "Visible";

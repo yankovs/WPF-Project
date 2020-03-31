@@ -26,6 +26,7 @@ namespace WPF_Project.Views
         public Map()
         {
             InitializeComponent();
+            DataContext = (Application.Current as App).MapViewModel;
         }
 
         private void VisibilityMode_TextChanged(object sender, TextChangedEventArgs e)

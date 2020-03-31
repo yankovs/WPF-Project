@@ -21,8 +21,9 @@ namespace WPF_Project.Views
     public partial class Dashboard : UserControl
     {
         public Dashboard()
-        {
+        {            
             InitializeComponent();
+            DataContext = (Application.Current as App).DashboardViewModel;
         }
     }
 }

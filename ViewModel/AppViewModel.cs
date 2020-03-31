@@ -9,35 +9,21 @@ using System.Windows;
 
 namespace WPF_Project.ViewModel
 {
-    class AppViewModel : INotifyPropertyChanged
+    public class AppViewModel : INotifyPropertyChanged
     {
         private IAppModel model;
 
-        public string VM_ConnectionButton
-        {
-            get { return model.ConnectionButton; }
-        }
+        private string conMode;
 
-        public double VM_PositionLongitudeDeg
+        public string VM_ConnectionMode
         {
-            get { return model.PositionLongitudeDeg; }
-        }
-        public double VM_PositionLatitudeDeg
-        {
-            get { return model.PositionLatitudeDeg; }
-        }
-        public Location VM_Location
-        {
-            get { return model.Location; }
-        }
-        public double VM_IndicatedHeadingDeg
-        {
-            get { return model.IndicatedHeadingDeg; }
-        }
-        public string VM_VisibilityOfMap
-        {
-            get { return model.VisibilityOfMap; }
-        }
+            get { return conMode; }
+            set
+            {
+                conMode = value;
+                model.ConnectionMode = conMode;
+            }
+        }               
 
         public AppViewModel(IAppModel model)
         {

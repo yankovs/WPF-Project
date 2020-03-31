@@ -24,9 +24,9 @@ namespace WPF_Project.Views
         ControllersViewModel cvm;
 
         public Controllers()
-        {
+        {            
             InitializeComponent();
-            //In the main window, DataContext of this view is set to be ControllersViewModel
+            DataContext = (Application.Current as App).ControllersViewModel;
         }
 
         private void aileronSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)

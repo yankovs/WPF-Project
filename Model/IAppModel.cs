@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace WPF_Project
 {
-    interface IAppModel : INotifyPropertyChanged
+    public interface IAppModel : INotifyPropertyChanged
     {
         /*Position properties for map*/
         double PositionLongitudeDeg { set; get; } // /position/longitude-deg
@@ -32,7 +32,7 @@ namespace WPF_Project
         double AltimeterIndicatedAltitudeFt { set; get; } // /instrumentation/altimeter/indicated-altitude-ft
        
         /*returns whether it's connected to server or not, (for content of botton)*/
-        string ConnectionButton { set; get; }
+        string ConnectionMode { set; get; }
 
         void NotifyPropertyChanged(string propName);
         void controlAileron(double a);

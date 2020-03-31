@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace WPF_Project.Server
 {
-    class MyServer : IServer
+    public class MyServer : IServer
     {
         TcpClient client = null;
         NetworkStream ns = null;
@@ -55,6 +55,7 @@ namespace WPF_Project.Server
                 }
                 catch (Exception e)
                 {
+                    Console.WriteLine(e.Message);
                     this.sw.Flush();
                     if (e.Message != "Unable to read data from the transport connection: A connection attempt failed" +
                         "because the connected party did not properly respond after a period of time, or established" +
@@ -86,6 +87,7 @@ namespace WPF_Project.Server
                 }
                 catch (Exception e)
                 {
+                    Console.WriteLine(e.Message);
                     sr.DiscardBufferedData();
                     if (e.Message != "Unable to read data from the transport connection: A connection attempt failed" +
                         "because the connected party did not properly respond after a period of time, or established" +
