@@ -23,7 +23,7 @@
             <Viewbox Grid.Column="1">
                 <TextBlock TextWrapping="Wrap" Text="FlightGear Simulator" FontWeight="Bold"/>
             </Viewbox>
-            <Button Content="Settings" Grid.Column="2" BorderBrush="#FFEEEEEE" Background="#FF454545" Foreground="White"/>
+            <Button Content="Settings" Grid.Column="2" BorderBrush="#FFEEEEEE" Background="#FF454545" Foreground="White" Click="Button_Click_1"/>
         </Grid>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -31,15 +31,15 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="50*"/>
             </Grid.ColumnDefinitions>
-            <Views:Map x:Name="Map" Grid.Column="0"/>
+            <Views:Map Grid.Column="0"/>
             <Grid Grid.Column="1" Background="LightGray"/>
             <Grid Grid.Column="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Views:Dashboard x:Name="Dashboard" Grid.Row="0"/>
-                <Views:Controllers x:Name="Controllers" Grid.Row="1"/>
+                <Views:Dashboard Grid.Row="0"/>
+                <Views:Controllers Grid.Row="1"/>
             </Grid>
         </Grid>
     </Grid>

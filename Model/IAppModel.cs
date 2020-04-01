@@ -34,6 +34,10 @@ namespace WPF_Project
         /*returns whether it's connected to server or not, (for content of botton)*/
         string ConnectionMode { set; get; }
 
+        /* IP and Port */
+        string IP { set; get; }
+        int Port { set; get; }
+
         void NotifyPropertyChanged(string propName);
         void controlAileron(double a);
         void controlThrottle(double t);

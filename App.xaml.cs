@@ -26,6 +26,7 @@ namespace WPF_Project
             ControllersViewModel = new ControllersViewModel(am);
             DashboardViewModel = new DashboardViewModel(am);
             MapViewModel = new MapViewModel(am);
+            SettingsViewModel = new SettingsViewModel(am);
             MainWindow wnd = new MainWindow();
             wnd.Show();
         }
@@ -38,5 +39,6 @@ namespace WPF_Project
 
         public MapViewModel MapViewModel { get; set; }
 
+        public SettingsViewModel SettingsViewModel { get; set; }
     }
 }

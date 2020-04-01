@@ -1,0 +1,17 @@
+﻿<Window x:Class="WPF_Project.Settings"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPF_Project"
+        mc:Ignorable="d"
+        Title="Settings" Height="350" Width="300">
+    <Grid Background="#FF575757">
+        <TextBox x:Name="IPBox" HorizontalAlignment="Left" Height="23" Margin="99,44,0,0" TextWrapping="Wrap" Text="Enter server IP" VerticalAlignment="Top" Width="155"/>
+        <TextBox x:Name="PortBox" HorizontalAlignment="Left" Height="23" Margin="99,126,0,0" TextWrapping="Wrap" Text="Enter server port" VerticalAlignment="Top" Width="155"/>
+        <Label Content="IP:&#xD;&#xA;" HorizontalAlignment="Left" Margin="40,44,0,0" VerticalAlignment="Top" Width="43" Foreground="White"/>
+        <Label Content="Port:" HorizontalAlignment="Left" Margin="40,126,0,0" VerticalAlignment="Top" Width="43" Foreground="White"/>
+        <Button Content="Connect" HorizontalAlignment="Left" Margin="99,261,0,0" VerticalAlignment="Top" Width="85" Height="22" Click="Button_Click"/>
+
+    </Grid>
+</Window>

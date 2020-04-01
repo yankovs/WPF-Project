@@ -34,7 +34,7 @@ namespace WPF_Project
             avm = DataContext as AppViewModel;
         }
 
-        private void Button_Click(object Sender, RoutedEventArgs e)
+        public void Button_Click(object Sender, RoutedEventArgs e)
         {
             var button = Sender as Button;
             if ((string)button.Content == "Connect")
@@ -75,6 +75,12 @@ namespace WPF_Project
                 ConnectionBtn.Content = "Connect";
                 MessageBox.Show("Couldn't connect, is the server on?");
             }
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            Settings s = new Settings(this);
+            s.Show();
         }
     }
 }
