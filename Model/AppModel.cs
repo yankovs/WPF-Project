@@ -32,6 +32,7 @@ namespace WPF_Project
         private double altimeterIndicatedAltitudeFt;
 
         private string connectionMode;
+        private string isError;
 
         private string ip;
         private int port;
@@ -57,7 +58,8 @@ namespace WPF_Project
         public void startModel()
         {
             this.stop = false;
-            if(ConnectionMode != "Connected")
+            IsError = "No";
+            if (ConnectionMode != "Connected")
             {
                 ConnectionMode = "Connected";
             }
@@ -85,6 +87,19 @@ namespace WPF_Project
             {
                 connectionMode = value;
                 NotifyPropertyChanged("ConnectionMode");                
+            }
+        }
+
+        public string IsError
+        {
+            get
+            {
+                return isError;
+            }
+            set
+            {
+                isError = value;
+                NotifyPropertyChanged("IsError");
             }
         }
 
@@ -344,8 +359,7 @@ namespace WPF_Project
                         }
                         catch(Exception)
                         {
-                            ConnectionMode = "Connection Error";
-                            NotifyPropertyChanged(propName);
+                            IsError = "Yes";                            
                             disconnect();
                             stopModel();
                         }
@@ -361,11 +375,12 @@ namespace WPF_Project
         }
 
         public AppModel(IServer server)
-        {
-            IP = ConfigurationManager.AppSettings["IP"];
-            Port = int.Parse(ConfigurationManager.AppSettings["Port"]);
+        {            
             this.server = server;
             ConnectionMode = "Start Of App";
+            //Default IP and Port
+            IP = ConfigurationManager.AppSettings["IP"];
+            Port = int.Parse(ConfigurationManager.AppSettings["Port"]);
             stopModel();
             Location = new Location(32.009444, 34.876944); //default - location of Ben Gurion Airport
             VisibilityOfMap = "Visible";

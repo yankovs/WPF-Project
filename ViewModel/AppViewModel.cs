@@ -14,17 +14,20 @@ namespace WPF_Project.ViewModel
         private IAppModel model;
 
         private string conMode;
-
-        //first one is for view -> model
+       
         public string VM_ConnectionMode
         {
             get { return conMode; }
             set
             {
                 conMode = value;
-                model.ConnectionMode = conMode;
-                NotifyPropertyChanged("VM_ConnectionMode");
+                model.ConnectionMode = conMode;                
             }
+        }
+
+        public string VM_IsError
+        {
+            get { return model.IsError; }
         }
 
         public AppViewModel(IAppModel model)

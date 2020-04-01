@@ -18,8 +18,11 @@
                 <ColumnDefinition Width="10*"/>
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
-            <TextBox x:Name="ConnectionMode" Text="{Binding VM_ConnectionMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="Hidden" TextChanged="ConnectionMode_TextChanged"/>
-            <Button x:Name="ConnectionBtn" Content="Connect" Grid.Column="0"  Click="Button_Click" BorderBrush="#FFEEEEEE" Background="#FF454545" Foreground="White"/>
+            <TextBox x:Name="ConnectionMode" Text="{Binding VM_ConnectionMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="Hidden" TextChanged="ConnectionMode_TextChanged"/>                       
+            <Button x:Name="ConnectionBtn" Content="Connect" Grid.Column="0"  Click="Button_Click" BorderBrush="#FFEEEEEE" Background="#FF454545" Foreground="White" Visibility="Visible"/>
+            <Viewbox Grid.Column="0" Margin="5,0,0,0">
+                <TextBlock x:Name="ConnectionFailed" TextWrapping="Wrap" Text="Connection Failed" FontWeight="Bold" Visibility="Hidden"/>
+            </Viewbox>
             <Viewbox Grid.Column="1">
                 <TextBlock TextWrapping="Wrap" Text="FlightGear Simulator" FontWeight="Bold"/>
             </Viewbox>

@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -29,9 +30,9 @@ namespace WPF_Project
         AppViewModel avm;
         public MainWindow()
         {
-            InitializeComponent();
             DataContext = (Application.Current as App).AppViewModel;
             avm = DataContext as AppViewModel;
+            InitializeComponent();            
         }
 
         public void Button_Click(object Sender, RoutedEventArgs e)
@@ -39,7 +40,11 @@ namespace WPF_Project
             var button = Sender as Button;
             if ((string)button.Content == "Connect")
             {
-                avm.VM_ConnectionMode = "Connected";                
+                avm.VM_ConnectionMode = "Connected";  
+                if(avm.VM_IsError == "Yes")
+                {
+                    avm.VM_ConnectionMode = "Disconnected";
+                }
             }
             else if ((string)button.Content == "Disconnect")
             {
@@ -55,12 +60,8 @@ namespace WPF_Project
             }
         }
 
-        private void ConnectionMode_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (ConnectionMode.Text != avm.VM_ConnectionMode)
-            {
-                avm.VM_ConnectionMode = ConnectionMode.Text;
-            }
+        private async void ConnectionMode_TextChanged(object sender, TextChangedEventArgs e)
+        {           
 
             if (ConnectionMode.Text == "Connected")
             {
@@ -68,13 +69,17 @@ namespace WPF_Project
             }
             else if (ConnectionMode.Text == "Disconnected")
             {
+                if(avm.VM_IsError == "Yes")
+                {
+                    //MessageBox.Show("Couldn't connect, is the server on?");
+                    ConnectionBtn.Visibility = Visibility.Hidden;
+                    ConnectionFailed.Visibility = Visibility.Visible;
+                    await Task.Delay(5000);
+                    ConnectionFailed.Visibility = Visibility.Hidden;
+                    ConnectionBtn.Visibility = Visibility.Visible;                    
+                }
                 ConnectionBtn.Content = "Connect";
-            }
-            else if (ConnectionMode.Text == "Connection Error")
-            {
-                ConnectionBtn.Content = "Connect";
-                MessageBox.Show("Couldn't connect, is the server on?");
-            }
+            }            
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)

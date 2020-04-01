@@ -31,8 +31,9 @@ namespace WPF_Project
         double AttitudeIndicatorInternalPitchDeg { set; get; } // /instrumentation/attitude-indicator/internal-pitch-deg
         double AltimeterIndicatedAltitudeFt { set; get; } // /instrumentation/altimeter/indicated-altitude-ft
        
-        /*returns whether it's connected to server or not, (for content of botton)*/
+        /*returns whether it's connected to server or not, (for content of bUtton)*/
         string ConnectionMode { set; get; }
+        string IsError { set; get; }
 
         /* IP and Port */
         string IP { set; get; }
