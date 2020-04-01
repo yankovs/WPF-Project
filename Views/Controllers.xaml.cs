@@ -27,17 +27,16 @@ namespace WPF_Project.Views
         {            
             InitializeComponent();
             DataContext = (Application.Current as App).ControllersViewModel;
+            cvm = DataContext as ControllersViewModel;
         }
 
         private void aileronSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            cvm = DataContext as ControllersViewModel;
+        {            
             cvm.VM_Aileron = Convert.ToDouble(e.NewValue);
         }
 
         private void throttleSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            cvm = DataContext as ControllersViewModel;
+        {            
             cvm.VM_Throttle = Convert.ToDouble(e.NewValue);
         }
     }

@@ -34,7 +34,7 @@ namespace WPF_Project.ViewModel
         {
             get { return model.VisibilityOfMap; }
         }
-        public string VM_ConnectionButton
+        public string VM_ConnectionMode
         {
             get { return model.ConnectionMode; }
         }

@@ -15,6 +15,7 @@ namespace WPF_Project.ViewModel
 
         private string conMode;
 
+        //first one is for view -> model
         public string VM_ConnectionMode
         {
             get { return conMode; }
@@ -22,12 +23,13 @@ namespace WPF_Project.ViewModel
             {
                 conMode = value;
                 model.ConnectionMode = conMode;
+                NotifyPropertyChanged("VM_ConnectionMode");
             }
-        }               
+        }
 
         public AppViewModel(IAppModel model)
         {
-            this.model = model;            
+            this.model = model;
             this.model.PropertyChanged +=
                 delegate (Object sender, PropertyChangedEventArgs e)
                 {

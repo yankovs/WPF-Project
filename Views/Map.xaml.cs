@@ -27,13 +27,13 @@ namespace WPF_Project.Views
         {
             InitializeComponent();
             DataContext = (Application.Current as App).MapViewModel;
+            mvm = DataContext as MapViewModel;
         }
 
         private void VisibilityMode_TextChanged(object sender, TextChangedEventArgs e)
         {
-            string vis = VisibilityMode.Text;
-            mvm = DataContext as MapViewModel;
-            if (mvm.VM_ConnectionButton == "Disconnect")
+            string vis = VisibilityMode.Text;            
+            if (mvm.VM_ConnectionMode == "Connected")
             {
                 //it means the app is connected to server, so the map is also connected
                 if (vis == "Hidden")

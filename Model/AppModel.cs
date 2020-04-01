@@ -81,7 +81,7 @@ namespace WPF_Project
             set
             {
                 connectionMode = value;
-                NotifyPropertyChanged("ConnectionMode");
+                NotifyPropertyChanged("ConnectionMode");                
             }
         }
 
@@ -277,7 +277,7 @@ namespace WPF_Project
         {
             if (this.PropertyChanged != null)
             {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
+                
                 //dealing with set commands:
                 if (queueSets != null)
                 {
@@ -317,6 +317,7 @@ namespace WPF_Project
                         catch(Exception)
                         {
                             ConnectionMode = "Connection Error";
+                            NotifyPropertyChanged(propName);
                             disconnect();
                             stopModel();
                         }
@@ -327,7 +328,8 @@ namespace WPF_Project
                         stopModel();
                     }
                 }
-            }
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
+            }            
         }
 
         public AppModel(IServer server)

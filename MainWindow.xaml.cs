@@ -43,7 +43,7 @@ namespace WPF_Project
             }
             else if ((string)button.Content == "Disconnect")
             {
-                avm.VM_ConnectionMode = "Disconnected";                
+                avm.VM_ConnectionMode = "Disconnected";
             }
         }
 
@@ -57,6 +57,11 @@ namespace WPF_Project
 
         private void ConnectionMode_TextChanged(object sender, TextChangedEventArgs e)
         {
+            if (ConnectionMode.Text != avm.VM_ConnectionMode)
+            {
+                avm.VM_ConnectionMode = ConnectionMode.Text;
+            }
+
             if (ConnectionMode.Text == "Connected")
             {
                 ConnectionBtn.Content = "Disconnect";
@@ -65,10 +70,10 @@ namespace WPF_Project
             {
                 ConnectionBtn.Content = "Connect";
             }
-            else if(ConnectionMode.Text == "Connection Error")
+            else if (ConnectionMode.Text == "Connection Error")
             {
                 ConnectionBtn.Content = "Connect";
-                MessageBox.Show("Couldn't connect, is the server on?");               
+                MessageBox.Show("Couldn't connect, is the server on?");
             }
         }
     }
