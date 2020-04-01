@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,10 +35,23 @@ namespace WPF_Project
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            svm.VM_IP = IPBox.Text;
-            svm.VM_Port = int.Parse(PortBox.Text);
-            (Application.Current.MainWindow as MainWindow).Button_Click(sender, e);
-            Close();
+            IPAddress ip;
+            bool validateIP = IPAddress.TryParse(IPBox.Text, out ip);
+
+            int port;
+            bool validatePort = int.TryParse(PortBox.Text, out port);
+
+           if (!validateIP || !validatePort)
+           {
+                MessageBox.Show("Bad IP or Port, try again");
+                Close();
+                return;
+           }
+
+           svm.VM_IP = IPBox.Text;
+           svm.VM_Port = int.Parse(PortBox.Text);
+           (Application.Current.MainWindow as MainWindow).Button_Click(sender, e);
+           Close();
         }
     }
 }
