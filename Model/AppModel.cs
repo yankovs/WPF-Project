@@ -33,6 +33,9 @@ namespace WPF_Project
 
         private string connectionMode;
 
+        private string ip;
+        private int port;
+
         private const double Ratio = 168.421052631579;
 
         public Queue<int> queueSets;
@@ -271,6 +274,26 @@ namespace WPF_Project
             }
         }
 
+        public string IP
+        {
+            get { return ip; }
+            set
+            {
+                ip = value;
+                NotifyPropertyChanged("IP");
+            }
+        }
+
+        public int Port
+        {
+            get { return port; }
+            set
+            {
+                port = value;
+                NotifyPropertyChanged("Port");
+            }
+        }
+
         //dealing with property changing
         public event PropertyChangedEventHandler PropertyChanged;
         public void NotifyPropertyChanged(string propName)
@@ -310,8 +333,13 @@ namespace WPF_Project
                             {
                                 startModel();
                             }
-                            connect(ConfigurationManager.AppSettings["IP"],
-                                           int.Parse(ConfigurationManager.AppSettings["Port"]));
+                            if (IP != ConfigurationManager.AppSettings["IP"] || Port != int.Parse(ConfigurationManager.AppSettings["Port"])) {
+                                connect(IP, Port);
+                            }
+                            else {
+                                connect(ConfigurationManager.AppSettings["IP"],
+                                               int.Parse(ConfigurationManager.AppSettings["Port"]));
+                            }
                             start();
                         }
                         catch(Exception)
@@ -332,6 +360,8 @@ namespace WPF_Project
 
         public AppModel(IServer server)
         {
+            IP = ConfigurationManager.AppSettings["IP"];
+            Port = int.Parse(ConfigurationManager.AppSettings["Port"]);
             this.server = server;
             ConnectionMode = "Start Of App";
             stopModel();

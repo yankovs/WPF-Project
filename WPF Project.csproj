@@ -67,10 +67,14 @@
     <Compile Include="Model\IAppModel.cs" />
     <Compile Include="Server\IServer.cs" />
     <Compile Include="Server\MyServer.cs" />
+    <Compile Include="Settings.xaml.cs">
+      <DependentUpon>Settings.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\AppViewModel.cs" />
     <Compile Include="ViewModel\ControllersViewModel.cs" />
     <Compile Include="ViewModel\DashboardViewModel.cs" />
     <Compile Include="ViewModel\MapViewModel.cs" />
+    <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="Views\Controllers.xaml.cs">
       <DependentUpon>Controllers.xaml</DependentUpon>
     </Compile>
@@ -95,6 +99,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Settings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Controllers.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
