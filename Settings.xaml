@@ -41,11 +41,7 @@
             <TextBox x:Name="PortBox" Grid.Column="1" TextWrapping="Wrap" Text="Enter server port"/>
         </Grid>
         <Grid Grid.Row="4">
-            <Button x:Name="Button" Click="Button_Click">
-                <StackPanel>
-                    <TextBlock Text="Connect" FontSize="15"/>
-                </StackPanel>                
-            </Button>
+            <Button x:Name="Button" Content="Connect" Click="Button_Click"/>
             <Viewbox Grid.Column="0">
                 <TextBlock x:Name="ErrorTxt" Text="Bad IP or Port, try again" TextWrapping="Wrap" Foreground="White" Visibility="Hidden"/>
             </Viewbox>
