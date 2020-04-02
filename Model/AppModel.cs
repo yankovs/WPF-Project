@@ -47,10 +47,10 @@ namespace WPF_Project
         public void stopModel()
         {
             this.stop = true;
-            if(ConnectionMode == "Connected" || ConnectionMode == "Start Of App")
+            if (ConnectionMode == "Connected" || ConnectionMode == "Start Of App")
             {
                 ConnectionMode = "Disconnected";
-            }            
+            }
             Location = new Location(32.009444, 34.876944); //default - location of Ben Gurion Airport
             VisibilityOfMap = "Visible";
         }
@@ -86,7 +86,7 @@ namespace WPF_Project
             set
             {
                 connectionMode = value;
-                NotifyPropertyChanged("ConnectionMode");                
+                NotifyPropertyChanged("ConnectionMode");
             }
         }
 
@@ -315,7 +315,7 @@ namespace WPF_Project
         {
             if (this.PropertyChanged != null)
             {
-                
+
                 //dealing with set commands:
                 if (queueSets != null)
                 {
@@ -338,44 +338,46 @@ namespace WPF_Project
                 }
 
                 //dealing with server connectivity
-                if(propName == "ConnectionMode")
+                if (propName == "ConnectionMode")
                 {
-                    if(ConnectionMode == "Connected")
+                    if (ConnectionMode == "Connected")
                     {
                         try
                         {
-                            if(getStop())
+                            if (getStop())
                             {
                                 startModel();
                             }
-                            if (IP != ConfigurationManager.AppSettings["IP"] || Port != int.Parse(ConfigurationManager.AppSettings["Port"])) {
+                            if (IP != ConfigurationManager.AppSettings["IP"] || Port != int.Parse(ConfigurationManager.AppSettings["Port"]))
+                            {
                                 connect(IP, Port);
                             }
-                            else {
+                            else
+                            {
                                 connect(ConfigurationManager.AppSettings["IP"],
                                                int.Parse(ConfigurationManager.AppSettings["Port"]));
                             }
                             start();
                         }
-                        catch(Exception)
+                        catch (Exception)
                         {
-                            IsError = "Yes";                            
+                            IsError = "Yes";
                             disconnect();
                             stopModel();
                         }
                     }
-                    else if(ConnectionMode == "Disconnected")
+                    else if (ConnectionMode == "Disconnected")
                     {
                         disconnect();
                         stopModel();
                     }
                 }
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
-            }            
+            }
         }
 
         public AppModel(IServer server)
-        {            
+        {
             this.server = server;
             ConnectionMode = "Start Of App";
             //Default IP and Port
@@ -409,19 +411,18 @@ namespace WPF_Project
                     {
                         //if ERR value is sent from server, Double.NaN it'll be instead of a number
 
-                        //Dashboard:
-
+                        //Dashboard:                        
                         server.write("get /instrumentation/heading-indicator/indicated-heading-deg\n");
                         r = server.read();
-                        if(r != "ERR")
+                        if (r != "ERR")
                         {
                             IndicatedHeadingDeg = Math.Round(Double.Parse(r), 6);
                         }
                         else
-                        {                            
+                        {
                             IndicatedHeadingDeg = Double.NaN;
-                        }                       
-                        
+                        }
+
                         server.write("get /instrumentation/gps/indicated-vertical-speed\n");
                         r = server.read();
                         if (r != "ERR")
@@ -432,7 +433,7 @@ namespace WPF_Project
                         {
                             GpsIndicatedVerticalSpeed = Double.NaN;
                         }
-                        
+
 
                         server.write("get /instrumentation/gps/indicated-ground-speed-kt\n");
                         r = server.read();
@@ -444,7 +445,7 @@ namespace WPF_Project
                         {
                             GpsIndicatedGroundSpeedKt = Double.NaN;
                         }
-                       
+
 
                         server.write("get /instrumentation/airspeed-indicator/indicated-speed-kt\n");
                         r = server.read();
@@ -456,7 +457,7 @@ namespace WPF_Project
                         {
                             AirspeedIndicatorIndicatedSpeedKt = Double.NaN;
                         }
-                       
+
 
                         server.write("get /instrumentation/gps/indicated-altitude-ft\n");
                         r = server.read();
@@ -468,7 +469,7 @@ namespace WPF_Project
                         {
                             GpsIndicatedAltitudeFt = Double.NaN;
                         }
-                        
+
 
                         server.write("get /instrumentation/attitude-indicator/internal-roll-deg\n");
                         r = server.read();
@@ -480,7 +481,7 @@ namespace WPF_Project
                         {
                             AttitudeIndicatorInternalRollDeg = Double.NaN;
                         }
-                                               
+
                         server.write("get /instrumentation/attitude-indicator/internal-pitch-deg\n");
                         r = server.read();
                         if (r != "ERR")
@@ -490,7 +491,7 @@ namespace WPF_Project
                         else
                         {
                             AttitudeIndicatorInternalPitchDeg = Double.NaN;
-                        }                        
+                        }
 
                         server.write("get /instrumentation/gps/indicated-altitude-ft\n");
                         r = server.read();
@@ -502,7 +503,7 @@ namespace WPF_Project
                         {
                             AltimeterIndicatedAltitudeFt = Double.NaN;
                         }
-                       
+
 
                         //Controllers:
                         //sets are only sent if needed
@@ -512,7 +513,7 @@ namespace WPF_Project
                             r = server.read();
                             if (r != "ERR")
                             {
-                                Rudder = Math.Round(Double.Parse(r), 6);                                
+                                Rudder = Math.Round(Double.Parse(r), 6);
                             }
                             queueSets.Dequeue();
                         }
@@ -522,7 +523,7 @@ namespace WPF_Project
                             r = server.read();
                             if (r != "ERR")
                             {
-                                Elevator = Math.Round(Double.Parse(r), 6);                               
+                                Elevator = Math.Round(Double.Parse(r), 6);
                             }
                             queueSets.Dequeue();
                         }
@@ -532,7 +533,7 @@ namespace WPF_Project
                             r = server.read();
                             if (r != "ERR")
                             {
-                                Aileron = Math.Round(Double.Parse(r), 6);                                
+                                Aileron = Math.Round(Double.Parse(r), 6);
                             }
                             queueSets.Dequeue();
                         }
@@ -542,7 +543,7 @@ namespace WPF_Project
                             r = server.read();
                             if (r != "ERR")
                             {
-                                Throttle = Math.Round(Double.Parse(r), 6);                                
+                                Throttle = Math.Round(Double.Parse(r), 6);
                             }
                             queueSets.Dequeue();
                         }
@@ -555,7 +556,7 @@ namespace WPF_Project
                         //Position:
                         //try-catch blocks try to distinguish between map and connectivity problems                       
                         server.write("get /position/longitude-deg\n");
-                        r = server.read();                        
+                        r = server.read();
                         try
                         {
                             if (r != "ERR")
@@ -565,7 +566,7 @@ namespace WPF_Project
                             else
                             {
                                 throw new Exception("Map problem");
-                            }                            
+                            }
                         }
                         catch (Exception e)
                         {
@@ -584,7 +585,7 @@ namespace WPF_Project
                         }
 
                         server.write("get /position/latitude-deg\n");
-                        r = server.read();                        
+                        r = server.read();
                         try
                         {
                             if (r != "ERR")
@@ -594,7 +595,7 @@ namespace WPF_Project
                             else
                             {
                                 throw new Exception("Map problem");
-                            }                            
+                            }
                         }
                         catch (Exception e)
                         {
@@ -624,12 +625,23 @@ namespace WPF_Project
                         {
                             //reachable only after Location is fine again
                             VisibilityOfMap = "Visible";
-                        }                        
+                        }
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
-                        server.disconnect();
-                        stopModel();
+                        if (e.Message == "Timeout (writing)" || e.Message == "Timeout (reading)")
+                        {
+                            IsError = "Timeout";
+                        }
+                        else if (e.Message == "Server's disconnection")
+                        {
+                            IsError = "Server's disconnection";
+                        }
+                        else
+                        {
+                            server.disconnect();
+                            stopModel();
+                        }
                     }
                 }
             }).Start();

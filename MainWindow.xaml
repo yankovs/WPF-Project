@@ -9,8 +9,9 @@
         Title="FlightGear Simulator" Height="450" Width="800" Closed="Window_Closed">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="30*"/>
             <RowDefinition Height="1*"/>
-            <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Background="LightGray">
             <Grid.ColumnDefinitions>
@@ -18,7 +19,8 @@
                 <ColumnDefinition Width="10*"/>
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
-            <TextBox x:Name="ConnectionMode" Text="{Binding VM_ConnectionMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="Hidden" TextChanged="ConnectionMode_TextChanged"/>                       
+            <TextBox x:Name="ConnectionMode" Text="{Binding VM_ConnectionMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="Hidden" TextChanged="ConnectionMode_TextChanged"/>
+            <TextBox x:Name="IsError" Text="{Binding VM_IsError, Mode=OneWay}" Visibility="Hidden" TextChanged="IsError_TextChanged"/>
             <Button x:Name="ConnectionBtn" Content="Connect" Grid.Column="0"  Click="Button_Click" BorderBrush="#FFEEEEEE" Background="#FF454545" Foreground="White" Visibility="Visible"/>
             <Viewbox Grid.Column="0" Margin="5,0,0,0">
                 <TextBlock x:Name="ConnectionFailed" TextWrapping="Wrap" Text="Connection Failed" FontWeight="Bold" Visibility="Hidden"/>
@@ -26,7 +28,7 @@
             <Viewbox Grid.Column="1">
                 <TextBlock TextWrapping="Wrap" Text="FlightGear Simulator" FontWeight="Bold"/>
             </Viewbox>
-            <Button Content="Settings" Grid.Column="2" BorderBrush="#FFEEEEEE" Background="#FF454545" Foreground="White" Click="Button_Click_1"/>
+            <Button x:Name="SettingsBtn" Content="Settings" Grid.Column="2" BorderBrush="#FFEEEEEE" Background="#FF454545" Foreground="White" Click="SettingsBtn_Click" />
         </Grid>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -34,16 +36,31 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="50*"/>
             </Grid.ColumnDefinitions>
-            <Views:Map Grid.Column="0"/>
+            <Grid Grid.Column="0" Background="#243665"/>
+            <Views:Map x:Name="Map" Grid.Column="0"/>
             <Grid Grid.Column="1" Background="LightGray"/>
             <Grid Grid.Column="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Views:Dashboard Grid.Row="0"/>
-                <Views:Controllers Grid.Row="1"/>
+                <Grid Grid.Row="0" Background="#8C9C9A"/>
+                <Views:Dashboard x:Name="Dashboard" Grid.Row="0"/>
+                <Grid Grid.Row="1" Background="#66FCF1"/>
+                <Views:Controllers  x:Name="Controllers" Grid.Row="1"/>
             </Grid>
+        </Grid>
+        <Grid Grid.Row="2" Background="LightGray">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="50*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0" Background="#243665"/>
+            <Grid Grid.Column="2" Background="#66FCF1"/>
+            <Viewbox Grid.Column="2" HorizontalAlignment="Right">
+                <TextBlock x:Name="StatusTxt" TextWrapping="Wrap" Text="Disconnected" FontWeight="Bold" Visibility="Visible" Background="#FF454545" Foreground="White"/>
+            </Viewbox>        
         </Grid>
     </Grid>
 </Window>

@@ -17,7 +17,9 @@ namespace WPF_Project.Server
         StreamWriter sw = null;
         StreamReader sr = null;
 
-        bool connected = false;
+        volatile bool connected = false;
+        volatile bool writing = false;
+        volatile bool reading = false;
 
         public void Connect(string ip, int port)
         {
@@ -29,12 +31,12 @@ namespace WPF_Project.Server
                     this.client.SendTimeout = 10000;
                     this.client.ReceiveTimeout = 10000;
                     this.client.Connect(ip, port);
+                    connected = true;
                     this.ns = client.GetStream();
                     this.sw = new StreamWriter(ns);
                     this.sw.BaseStream.WriteTimeout = 10000;
                     this.sr = new StreamReader(ns);
                     this.sr.BaseStream.ReadTimeout = 10000;
-                    connected = true;
                 }
                 catch (SocketException)
                 {
@@ -46,27 +48,37 @@ namespace WPF_Project.Server
 
         public void write(string command)
         {
-            if (client != null)
+            if (client != null && isConnected())
             {
                 try
                 {
+                    writing = true;
                     this.sw.WriteLine(command);
                     this.sw.Flush();
+                    writing = false;
                 }
                 catch (Exception e)
                 {
+                    writing = false;
                     Console.WriteLine(e.Message);
                     this.sw.Flush();
-                    if (e.Message != "Unable to read data from the transport connection: A connection attempt failed" +
-                        "because the connected party did not properly respond after a period of time, or established" +
-                        " connection failed because connected host has failed to respond.")
-                    {
-                        throw new Exception("Unable to write");
-                    }
-                    else
+                    if (e.Message.Contains("the connected party did not properly respond after a period of time, or established " +
+                        "connection failed because connected host has failed to respond."))
                     {
                         throw new Exception("Timeout (writing)");
                     }
+                    else if (e.Message.Contains("An existing connection was forcibly closed by the remote host."))
+                    {
+                        throw new Exception("Server's disconnection");
+                    }
+                    else if (e.Message.Contains("A blocking operation was interrupted by a call to WSACancelBlockingCall."))
+                    {
+                        throw new Exception("User's disconnection while using the server");
+                    }
+                    else
+                    {
+                        throw new Exception("Unable to read");
+                    }                   
                 }
             }
             else
@@ -77,27 +89,36 @@ namespace WPF_Project.Server
 
         public string read()
         {
-            if (client != null)
+            if (client != null && isConnected())
             {
                 try
                 {
+                    reading = true;
                     string line = sr.ReadLine();
                     Console.WriteLine(line);
-                    return line;
+                    reading = false;
+                    return line;                    
                 }
                 catch (Exception e)
                 {
+                    reading = false;
                     Console.WriteLine(e.Message);
-                    sr.DiscardBufferedData();
-                    if (e.Message != "Unable to read data from the transport connection: A connection attempt failed" +
-                        "because the connected party did not properly respond after a period of time, or established" +
-                        " connection failed because connected host has failed to respond.")
+                    if (e.Message.Contains("the connected party did not properly respond after a period of time, or established " +
+                        "connection failed because connected host has failed to respond."))
                     {
-                        throw new Exception("Unable to read");
+                        throw new Exception("Timeout (reading)");
+                    }
+                    else if (e.Message.Contains("An existing connection was forcibly closed by the remote host."))
+                    {
+                        throw new Exception("Server's disconnection");
+                    }
+                    else if(e.Message.Contains("A blocking operation was interrupted by a call to WSACancelBlockingCall."))
+                    {
+                        throw new Exception("User's disconnection while using the server");
                     }
                     else
                     {
-                        throw new Exception("Timeout (reading)");
+                        throw new Exception("Unable to read");
                     }
                 }
             }
@@ -111,6 +132,13 @@ namespace WPF_Project.Server
         {
             if (isConnected())
             {
+                int i = 0;
+                //waiting to end reading/writing before closing, or one second at max
+                while((isWriting() || isReading()) && i < 1000)
+                {
+                    Thread.Sleep(1);
+                    i += 1;
+                }
                 sw.Close();
                 sr.Close();
                 ns.Close();
@@ -122,6 +150,16 @@ namespace WPF_Project.Server
         public bool isConnected()
         {
             return connected;
+        }
+
+        public bool isWriting()
+        {
+            return writing;
+        }
+
+        public bool isReading()
+        {
+            return reading;
         }
 
     }

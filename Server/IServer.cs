@@ -14,5 +14,7 @@ namespace WPF_Project.Server
         string read();
         void disconnect();
         bool isConnected();
+        bool isWriting();
+        bool isReading();
     }
 }

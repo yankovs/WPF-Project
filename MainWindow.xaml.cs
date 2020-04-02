@@ -45,10 +45,15 @@ namespace WPF_Project
                 {
                     avm.VM_ConnectionMode = "Disconnected";
                 }
+                else
+                {
+                    StatusTxt.Text = "Connected";
+                }
             }
             else if ((string)button.Content == "Disconnect")
             {
                 avm.VM_ConnectionMode = "Disconnected";
+                StatusTxt.Text = "Disconnected";
             }
         }
 
@@ -82,10 +87,50 @@ namespace WPF_Project
             }            
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void SettingsBtn_Click(object sender, RoutedEventArgs e)
         {
             Settings s = new Settings(this);
             s.Show();
+        }        
+
+        private async void IsError_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if(IsError.Text == "Timeout")
+            {
+                Map.Visibility = Visibility.Hidden;
+                Dashboard.Visibility = Visibility.Hidden; 
+                Controllers.Visibility = Visibility.Hidden;
+                ConnectionBtn.Visibility = Visibility.Hidden;
+                SettingsBtn.Visibility = Visibility.Hidden;
+                StatusTxt.Text = "Timeout Occurred (Disconnecting)";                
+                avm.VM_ConnectionMode = "Disconnected";
+                await Task.Delay(5000);                
+                StatusTxt.Text = "Disconnected";
+                ConnectionBtn.Visibility = Visibility.Visible;
+                SettingsBtn.Visibility = Visibility.Visible;
+                Map.Visibility = Visibility.Visible;
+                Dashboard.Visibility = Visibility.Visible;
+                Controllers.Visibility = Visibility.Visible;
+            }
+            else if(IsError.Text == "Server's disconnection")
+            {
+                Map.Visibility = Visibility.Hidden;
+                Dashboard.Visibility = Visibility.Hidden;
+                Controllers.Visibility = Visibility.Hidden;
+                ConnectionBtn.Visibility = Visibility.Hidden;
+                SettingsBtn.Visibility = Visibility.Hidden;
+                StatusTxt.Text = "Server's Disconnection (Disconnecting)";
+                avm.VM_ConnectionMode = "Disconnected";
+                await Task.Delay(5000);
+                StatusTxt.Text = "Disconnected";
+                ConnectionBtn.Visibility = Visibility.Visible;
+                SettingsBtn.Visibility = Visibility.Visible;
+                Map.Visibility = Visibility.Visible;
+                Dashboard.Visibility = Visibility.Visible;
+                Controllers.Visibility = Visibility.Visible;
+            }
         }
+
+        
     }
 }
