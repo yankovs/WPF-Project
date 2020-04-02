@@ -8,17 +8,21 @@
         xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
         Title="FlightGear Simulator" Height="450" Width="800" Closed="Window_Closed">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="626*"/>
+            <ColumnDefinition Width="167*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Background="LightGray">
+        <Grid Grid.Row="0" Background="LightGray" Grid.ColumnSpan="2" Margin="0,0,-0.4,0.4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="10*"/>
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
-            <TextBox x:Name="ConnectionMode" Text="{Binding VM_ConnectionMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="Hidden" TextChanged="ConnectionMode_TextChanged"/>                       
+            <TextBox x:Name="ConnectionMode" Text="{Binding VM_ConnectionMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="Hidden" TextChanged="ConnectionMode_TextChanged"/>
             <Button x:Name="ConnectionBtn" Content="Connect" Grid.Column="0"  Click="Button_Click" BorderBrush="#FFEEEEEE" Background="#FF454545" Foreground="White" Visibility="Visible"/>
             <Viewbox Grid.Column="0" Margin="5,0,0,0">
                 <TextBlock x:Name="ConnectionFailed" TextWrapping="Wrap" Text="Connection Failed" FontWeight="Bold" Visibility="Hidden"/>
@@ -28,7 +32,7 @@
             </Viewbox>
             <Button Content="Settings" Grid.Column="2" BorderBrush="#FFEEEEEE" Background="#FF454545" Foreground="White" Click="Button_Click_1"/>
         </Grid>
-        <Grid Grid.Row="1">
+        <Grid Grid.ColumnSpan="2" Margin="0,38,-0.4,0" Grid.RowSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50*"/>
                 <ColumnDefinition Width="*"/>
@@ -43,6 +47,13 @@
                 </Grid.RowDefinitions>
                 <Views:Dashboard Grid.Row="0"/>
                 <Views:Controllers Grid.Row="1"/>
+                <TextBlock HorizontalAlignment="Left" Margin="247,-35,0,0" TextWrapping="Wrap" Text="?" VerticalAlignment="Top" Height="35" FontSize="20" Foreground="#FF017C14">
+                    <TextBlock.ToolTip>
+                        <ToolTip>
+                            Default IP and Port are 127.0.0.1 and 5402. To change press on "Settings".
+                        </ToolTip>
+                    </TextBlock.ToolTip>
+                </TextBlock>
             </Grid>
         </Grid>
     </Grid>
