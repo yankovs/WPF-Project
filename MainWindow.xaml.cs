@@ -78,10 +78,12 @@ namespace WPF_Project
                 {
                     //MessageBox.Show("Couldn't connect, is the server on?");
                     ConnectionBtn.Visibility = Visibility.Hidden;
+                    SettingsBtn.Visibility = Visibility.Hidden;
                     ConnectionFailed.Visibility = Visibility.Visible;
                     await Task.Delay(5000);
                     ConnectionFailed.Visibility = Visibility.Hidden;
-                    ConnectionBtn.Visibility = Visibility.Visible;                    
+                    ConnectionBtn.Visibility = Visibility.Visible;
+                    SettingsBtn.Visibility = Visibility.Visible;
                 }
                 ConnectionBtn.Content = "Connect";
             }            
@@ -129,8 +131,6 @@ namespace WPF_Project
                 Dashboard.Visibility = Visibility.Visible;
                 Controllers.Visibility = Visibility.Visible;
             }
-        }
-
-        
+        }        
     }
 }

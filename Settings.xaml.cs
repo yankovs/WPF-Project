@@ -43,7 +43,8 @@ namespace WPF_Project
 
            if (!validateIP || !validatePort)
            {
-                MessageBox.Show("Bad IP or Port, try again");
+                //MessageBox.Show("Bad IP or Port, try again");
+                showingError();
                 return;
            }
 
@@ -51,6 +52,15 @@ namespace WPF_Project
            svm.VM_Port = int.Parse(PortBox.Text);
            (Application.Current.MainWindow as MainWindow).Button_Click(sender, e);
            Close();
+        }
+
+        private async void showingError()
+        {
+            Button.Visibility = Visibility.Hidden;
+            ErrorTxt.Visibility = Visibility.Visible;
+            await Task.Delay(3000);
+            ErrorTxt.Visibility = Visibility.Hidden;
+            Button.Visibility = Visibility.Visible;
         }
     }
 }
