@@ -44,7 +44,6 @@ namespace WPF_Project
            if (!validateIP || !validatePort)
            {
                 MessageBox.Show("Bad IP or Port, try again");
-                Close();
                 return;
            }
 
