@@ -344,6 +344,10 @@ namespace WPF_Project
                     {
                         try
                         {
+                            if(server.isConnected())
+                            {
+                                throw new Exception("server is still connected");
+                            }                            
                             if (getStop())
                             {
                                 startModel();
@@ -359,9 +363,16 @@ namespace WPF_Project
                             }
                             start();
                         }
-                        catch (Exception)
+                        catch (Exception e)
                         {
-                            IsError = "Yes";
+                            if (e.Message == "server is still connected")
+                            {
+                                IsError = e.Message;                                                        
+                            }
+                            else
+                            {
+                                IsError = "Yes";
+                            }
                             disconnect();
                             stopModel();
                         }
@@ -636,6 +647,10 @@ namespace WPF_Project
                         else if (e.Message == "Server's disconnection")
                         {
                             IsError = "Server's disconnection";
+                        }
+                        else if(e.Message == "User's disconnection while using the server")
+                        {
+                            IsError = "User's disconnection while using the server";
                         }
                         else
                         {

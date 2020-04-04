@@ -45,6 +45,11 @@ namespace WPF_Project
                 {
                     avm.VM_ConnectionMode = "Disconnected";
                 }
+                //when disconnecting while using the server, connecting again isn't allowed while using
+                else if(avm.VM_IsError == "server is still connected")
+                {
+                    avm.VM_ConnectionMode = "Disconnected v2";
+                }
                 else
                 {
                     StatusTxt.Text = "Connected";
@@ -72,15 +77,25 @@ namespace WPF_Project
             {
                 ConnectionBtn.Content = "Disconnect";
             }
-            else if (ConnectionMode.Text == "Disconnected")
+            else if (ConnectionMode.Text == "Disconnected" || ConnectionMode.Text == "Disconnected v2")
             {
-                if(avm.VM_IsError == "Yes")
-                {
-                    //MessageBox.Show("Couldn't connect, is the server on?");
+                if(avm.VM_IsError == "Yes" || avm.VM_IsError == "server is still connected")
+                {                   
                     ConnectionBtn.Visibility = Visibility.Hidden;
                     SettingsBtn.Visibility = Visibility.Hidden;
-                    ConnectionFailed.Visibility = Visibility.Visible;
-                    await Task.Delay(5000);
+                    if(avm.VM_IsError == "server is still connected")
+                    {
+                        ConnectionFailed.Text = "Connection failed, is server still running ?...";
+                        ConnectionFailed.Visibility = Visibility.Visible;
+                        //waiting for server to disconnect so this code is used only once per connection
+                        await Task.Delay(10000); 
+                    }
+                    else
+                    {
+                        ConnectionFailed.Text = "Connection failed";
+                        ConnectionFailed.Visibility = Visibility.Visible;
+                        await Task.Delay(5000);
+                    }                   
                     ConnectionFailed.Visibility = Visibility.Hidden;
                     ConnectionBtn.Visibility = Visibility.Visible;
                     SettingsBtn.Visibility = Visibility.Visible;
@@ -130,7 +145,7 @@ namespace WPF_Project
                 Map.Visibility = Visibility.Visible;
                 Dashboard.Visibility = Visibility.Visible;
                 Controllers.Visibility = Visibility.Visible;
-            }
+            }            
         }        
     }
 }

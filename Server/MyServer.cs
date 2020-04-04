@@ -64,19 +64,19 @@ namespace WPF_Project.Server
                     this.sw.Flush();
                     if (e.Message.Contains("the connected party did not properly respond after a period of time, or established " +
                         "connection failed because connected host has failed to respond."))
-                    {
+                    {                        
                         throw new Exception("Timeout (writing)");
                     }
                     else if (e.Message.Contains("An existing connection was forcibly closed by the remote host."))
-                    {
+                    {                       
                         throw new Exception("Server's disconnection");
                     }
                     else if (e.Message.Contains("A blocking operation was interrupted by a call to WSACancelBlockingCall."))
-                    {
+                    {                        
                         throw new Exception("User's disconnection while using the server");
                     }
                     else
-                    {
+                    {                        
                         throw new Exception("Unable to read");
                     }                   
                 }
@@ -105,19 +105,19 @@ namespace WPF_Project.Server
                     Console.WriteLine(e.Message);
                     if (e.Message.Contains("the connected party did not properly respond after a period of time, or established " +
                         "connection failed because connected host has failed to respond."))
-                    {
+                    {                        
                         throw new Exception("Timeout (reading)");
                     }
                     else if (e.Message.Contains("An existing connection was forcibly closed by the remote host."))
-                    {
+                    {                        
                         throw new Exception("Server's disconnection");
                     }
                     else if(e.Message.Contains("A blocking operation was interrupted by a call to WSACancelBlockingCall."))
-                    {
+                    {                        
                         throw new Exception("User's disconnection while using the server");
                     }
                     else
-                    {
+                    {                        
                         throw new Exception("Unable to read");
                     }
                 }
@@ -131,19 +131,17 @@ namespace WPF_Project.Server
         public void disconnect()
         {
             if (isConnected())
-            {
-                int i = 0;
-                //waiting to end reading/writing before closing, or one second at max
-                while((isWriting() || isReading()) && i < 1000)
-                {
-                    Thread.Sleep(1);
-                    i += 1;
-                }
+            {                
                 sw.Close();
                 sr.Close();
                 ns.Close();
                 client.Close();
-                connected = false;
+                //if disconnection happens while writing/reading, it's still "connected"
+                if(!isWriting() && !isReading())
+                {
+                    connected = false;
+                }
+                
             }
         }
 
