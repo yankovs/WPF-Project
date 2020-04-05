@@ -6,9 +6,11 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Timers;
 using System.Threading.Tasks;
 using System.Windows;
 using WPF_Project.Server;
+using System.Diagnostics;
 
 namespace WPF_Project
 {
@@ -40,6 +42,9 @@ namespace WPF_Project
         private const double Ratio = 168.421052631579;
 
         public Queue<int> queueSets;
+
+        private volatile Stopwatch timerForException;
+        private volatile bool reachedToTimeout;
 
         IServer server;
         volatile Boolean stop;
@@ -343,11 +348,16 @@ namespace WPF_Project
                     if (ConnectionMode == "Connected")
                     {
                         try
-                        {
-                            if(server.isConnected())
+                        {                            
+                            if (timerForException.ElapsedMilliseconds > 0 && timerForException.ElapsedMilliseconds < 10000)
                             {
                                 throw new Exception("server is still connected");
                             }                            
+                            else if (timerForException.ElapsedMilliseconds >= 10000)
+                            {
+                                timerForException.Reset();                                                             
+                            }
+                            reachedToTimeout = false;
                             if (getStop())
                             {
                                 startModel();
@@ -364,10 +374,19 @@ namespace WPF_Project
                             start();
                         }
                         catch (Exception e)
-                        {
+                        {                            
                             if (e.Message == "server is still connected")
-                            {
-                                IsError = e.Message;                                                        
+                            {                               
+                                if(!reachedToTimeout)
+                                {
+                                    timerForException.Reset();
+                                    IsError = e.Message;
+                                }
+                                else
+                                {
+                                    IsError = "Yes";
+                                    reachedToTimeout = true;
+                                }
                             }
                             else
                             {
@@ -378,7 +397,7 @@ namespace WPF_Project
                         }
                     }
                     else if (ConnectionMode == "Disconnected")
-                    {
+                    {                                                
                         disconnect();
                         stopModel();
                     }
@@ -398,6 +417,8 @@ namespace WPF_Project
             Location = new Location(32.009444, 34.876944); //default - location of Ben Gurion Airport
             VisibilityOfMap = "Visible";
             queueSets = new Queue<int>();
+            timerForException = new Stopwatch();            
+            reachedToTimeout = false;
         }
 
         public void connect(string ip, int port)
@@ -643,14 +664,20 @@ namespace WPF_Project
                         if (e.Message == "Timeout (writing)" || e.Message == "Timeout (reading)")
                         {
                             IsError = "Timeout";
+                            reachedToTimeout = true;
                         }
                         else if (e.Message == "Server's disconnection")
                         {
                             IsError = "Server's disconnection";
                         }
-                        else if(e.Message == "User's disconnection while using the server")
+                        else if (e.Message == "User's disconnection while using the server")
                         {
                             IsError = "User's disconnection while using the server";
+                            //the timer is used for denying the client to connect again (till the server stops running)
+                            if(!reachedToTimeout)
+                            {
+                                timerForException.Start();                                
+                            }                            
                         }
                         else
                         {

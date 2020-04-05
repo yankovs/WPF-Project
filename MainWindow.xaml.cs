@@ -32,7 +32,7 @@ namespace WPF_Project
         {
             DataContext = (Application.Current as App).AppViewModel;
             avm = DataContext as AppViewModel;
-            InitializeComponent();            
+            InitializeComponent();
         }
 
         public void Button_Click(object Sender, RoutedEventArgs e)
@@ -40,13 +40,13 @@ namespace WPF_Project
             var button = Sender as Button;
             if ((string)button.Content == "Connect")
             {
-                avm.VM_ConnectionMode = "Connected";  
-                if(avm.VM_IsError == "Yes")
+                avm.VM_ConnectionMode = "Connected";
+                if (avm.VM_IsError == "Yes")
                 {
                     avm.VM_ConnectionMode = "Disconnected";
                 }
                 //when disconnecting while using the server, connecting again isn't allowed while using
-                else if(avm.VM_IsError == "server is still connected")
+                else if (avm.VM_IsError == "server is still connected")
                 {
                     avm.VM_ConnectionMode = "Disconnected v2";
                 }
@@ -71,7 +71,7 @@ namespace WPF_Project
         }
 
         private async void ConnectionMode_TextChanged(object sender, TextChangedEventArgs e)
-        {           
+        {
 
             if (ConnectionMode.Text == "Connected")
             {
@@ -79,65 +79,58 @@ namespace WPF_Project
             }
             else if (ConnectionMode.Text == "Disconnected" || ConnectionMode.Text == "Disconnected v2")
             {
-                if(avm.VM_IsError == "Yes" || avm.VM_IsError == "server is still connected")
-                {                   
+                if (avm.VM_IsError == "Yes" || avm.VM_IsError == "server is still connected")
+                {
                     ConnectionBtn.Visibility = Visibility.Hidden;
                     SettingsBtn.Visibility = Visibility.Hidden;
-                    if(avm.VM_IsError == "server is still connected")
+                    if (avm.VM_IsError == "server is still connected")
                     {
                         ConnectionFailed.Text = "Connection failed, is server still running ?...";
-                        ConnectionFailed.Visibility = Visibility.Visible;
+                        ConnectionFailed.Visibility = Visibility.Visible;                        
+                        this.Dispatcher.Invoke(() => counter(10));
                         //waiting for server to disconnect so this code is used only once per connection
-                        await Task.Delay(10000); 
+                        await Task.Delay(10000);
                     }
                     else
                     {
                         ConnectionFailed.Text = "Connection failed";
                         ConnectionFailed.Visibility = Visibility.Visible;
+                        this.Dispatcher.Invoke(() => counter(5));
                         await Task.Delay(5000);
-                    }                   
+                    }
                     ConnectionFailed.Visibility = Visibility.Hidden;
                     ConnectionBtn.Visibility = Visibility.Visible;
                     SettingsBtn.Visibility = Visibility.Visible;
                 }
                 ConnectionBtn.Content = "Connect";
-            }            
+            }
         }
 
         private void SettingsBtn_Click(object sender, RoutedEventArgs e)
         {
             Settings s = new Settings(this);
             s.Show();
-        }        
+        }
 
         private async void IsError_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if(IsError.Text == "Timeout")
-            {
-                Map.Visibility = Visibility.Hidden;
-                Dashboard.Visibility = Visibility.Hidden; 
-                Controllers.Visibility = Visibility.Hidden;
-                ConnectionBtn.Visibility = Visibility.Hidden;
-                SettingsBtn.Visibility = Visibility.Hidden;
-                StatusTxt.Text = "Timeout Occurred (Disconnecting)";                
-                avm.VM_ConnectionMode = "Disconnected";
-                await Task.Delay(5000);                
-                StatusTxt.Text = "Disconnected";
-                ConnectionBtn.Visibility = Visibility.Visible;
-                SettingsBtn.Visibility = Visibility.Visible;
-                Map.Visibility = Visibility.Visible;
-                Dashboard.Visibility = Visibility.Visible;
-                Controllers.Visibility = Visibility.Visible;
-            }
-            else if(IsError.Text == "Server's disconnection")
+            if (IsError.Text == "Timeout" || IsError.Text == "Server's disconnection")
             {
                 Map.Visibility = Visibility.Hidden;
                 Dashboard.Visibility = Visibility.Hidden;
                 Controllers.Visibility = Visibility.Hidden;
                 ConnectionBtn.Visibility = Visibility.Hidden;
                 SettingsBtn.Visibility = Visibility.Hidden;
-                StatusTxt.Text = "Server's Disconnection (Disconnecting)";
+                if(IsError.Text == "Timeout")
+                {
+                    StatusTxt.Text = "Timeout Occurred (Disconnecting)";
+                }
+                else
+                {
+                    StatusTxt.Text = "Server's Disconnection (Disconnecting)";
+                }
                 avm.VM_ConnectionMode = "Disconnected";
+                this.Dispatcher.Invoke(() => counter(5));
                 await Task.Delay(5000);
                 StatusTxt.Text = "Disconnected";
                 ConnectionBtn.Visibility = Visibility.Visible;
@@ -145,7 +138,22 @@ namespace WPF_Project
                 Map.Visibility = Visibility.Visible;
                 Dashboard.Visibility = Visibility.Visible;
                 Controllers.Visibility = Visibility.Visible;
-            }            
-        }        
+            }
+            if(IsError.Text == "User's disconnection while using the server")
+            {
+                avm.VM_ConnectionMode = "Disconnected";
+            }
+        }
+
+        private async void counter(int x)
+        {
+            Counter.Visibility = Visibility.Visible;
+            for (int i = x; i > 0; i--)
+            {
+                Counter.Text = i.ToString();
+                await Task.Delay(1000);
+            }
+            Counter.Visibility = Visibility.Hidden;
+        }
     }
 }

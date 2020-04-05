@@ -113,7 +113,7 @@ namespace WPF_Project.Server
                         throw new Exception("Server's disconnection");
                     }
                     else if(e.Message.Contains("A blocking operation was interrupted by a call to WSACancelBlockingCall."))
-                    {                        
+                    {                       
                         throw new Exception("User's disconnection while using the server");
                     }
                     else
@@ -140,7 +140,7 @@ namespace WPF_Project.Server
                 if(!isWriting() && !isReading())
                 {
                     connected = false;
-                }
+                }                
                 
             }
         }
