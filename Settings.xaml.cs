@@ -24,11 +24,10 @@ namespace WPF_Project
     public partial class Settings : Window
     {
         SettingsViewModel svm;
-        MainWindow mw;
-        public Settings(MainWindow mw)
+
+        public Settings()
         {
             InitializeComponent();
-            this.mw = mw;
             DataContext = (Application.Current as App).SettingsViewModel;
             svm = DataContext as SettingsViewModel;
         }
@@ -41,20 +40,20 @@ namespace WPF_Project
             int port;
             bool validatePort = int.TryParse(PortBox.Text, out port);
 
-           if (!validateIP || !validatePort)
-           {
+            if (!validateIP || !validatePort)
+            {
                 //MessageBox.Show("Bad IP or Port, try again");
-                showingError();
+                ShowingError();
                 return;
-           }
+            }
 
-           svm.VM_IP = IPBox.Text;
-           svm.VM_Port = int.Parse(PortBox.Text);
-           (Application.Current.MainWindow as MainWindow).Button_Click(sender, e);
-           Close();
+            svm.VM_IP = IPBox.Text;
+            svm.VM_Port = int.Parse(PortBox.Text);
+            (Application.Current.MainWindow as MainWindow).Button_Click(sender, e);
+            Close();
         }
 
-        private async void showingError()
+        private async void ShowingError()
         {
             Button.Visibility = Visibility.Hidden;
             ErrorTxt.Visibility = Visibility.Visible;

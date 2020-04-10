@@ -23,7 +23,7 @@ namespace WPF_Project.Server
 
         public void Connect(string ip, int port)
         {
-            if (!isConnected())
+            if (!IsConnected())
             {
                 try
                 {
@@ -46,9 +46,9 @@ namespace WPF_Project.Server
 
         }
 
-        public void write(string command)
+        public void Write(string command)
         {
-            if (client != null && isConnected())
+            if (client != null && IsConnected())
             {
                 try
                 {
@@ -87,9 +87,9 @@ namespace WPF_Project.Server
             }
         }
 
-        public string read()
+        public string Read()
         {
-            if (client != null && isConnected())
+            if (client != null && IsConnected())
             {
                 try
                 {
@@ -128,16 +128,16 @@ namespace WPF_Project.Server
             }
         }
 
-        public void disconnect()
+        public void Disconnect()
         {
-            if (isConnected())
+            if (IsConnected())
             {                
                 sw.Close();
                 sr.Close();
                 ns.Close();
                 client.Close();
                 //if disconnection happens while writing/reading, it's still "connected"
-                if(!isWriting() && !isReading())
+                if(!IsWriting() && !IsReading())
                 {
                     connected = false;
                 }                
@@ -145,17 +145,17 @@ namespace WPF_Project.Server
             }
         }
 
-        public bool isConnected()
+        public bool IsConnected()
         {
             return connected;
         }
 
-        public bool isWriting()
+        public bool IsWriting()
         {
             return writing;
         }
 
-        public bool isReading()
+        public bool IsReading()
         {
             return reading;
         }

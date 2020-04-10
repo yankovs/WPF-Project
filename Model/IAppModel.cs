@@ -30,8 +30,8 @@ namespace WPF_Project
         double AttitudeIndicatorInternalRollDeg { set; get; } // /instrumentation/attitude-indicator/internal-roll-deg
         double AttitudeIndicatorInternalPitchDeg { set; get; } // /instrumentation/attitude-indicator/internal-pitch-deg
         double AltimeterIndicatedAltitudeFt { set; get; } // /instrumentation/altimeter/indicated-altitude-ft
-       
-        /*returns whether it's connected to server or not, (for content of bUtton)*/
+
+        /*returns whether it's connected to server or not, (for content of button)*/
         string ConnectionMode { set; get; }
         string IsError { set; get; }
 
@@ -40,8 +40,8 @@ namespace WPF_Project
         int Port { set; get; }
 
         void NotifyPropertyChanged(string propName);
-        void controlAileron(double a);
-        void controlThrottle(double t);
+        void ControlAileron(double a);
+        void ControlThrottle(double t);
 
 
     }

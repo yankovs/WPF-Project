@@ -41,7 +41,7 @@
             </Viewbox>
             <Button x:Name="SettingsBtn" Content="Settings" Grid.Column="4" BorderBrush="#FFEEEEEE" Background="#FF454545" Foreground="White" Click="SettingsBtn_Click"/>
             <Viewbox Grid.Column="4" Margin="0,0,5,0">
-                <TextBlock x:Name="Counter" TextWrapping="Wrap" FontWeight="Bold" Visibility="Hidden"/>
+                <TextBlock x:Name="counter" TextWrapping="Wrap" FontWeight="Bold" Visibility="Hidden"/>
             </Viewbox>
         </Grid>
         <Grid Grid.Row="1">

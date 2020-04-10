@@ -429,7 +429,7 @@ namespace WPF_Project
         public void disconnect()
         {
             stop = true;
-            server.disconnect();
+            server.Disconnect();
         }
 
         public void start()
@@ -444,8 +444,8 @@ namespace WPF_Project
                         //if ERR value is sent from server, Double.NaN it'll be instead of a number
 
                         //Dashboard:                        
-                        server.write("get /instrumentation/heading-indicator/indicated-heading-deg\n");
-                        r = server.read();
+                        server.Write("get /instrumentation/heading-indicator/indicated-heading-deg\n");
+                        r = server.Read();
                         if (r != "ERR")
                         {
                             IndicatedHeadingDeg = Math.Round(Double.Parse(r), 6);
@@ -455,8 +455,8 @@ namespace WPF_Project
                             IndicatedHeadingDeg = Double.NaN;
                         }
 
-                        server.write("get /instrumentation/gps/indicated-vertical-speed\n");
-                        r = server.read();
+                        server.Write("get /instrumentation/gps/indicated-vertical-speed\n");
+                        r = server.Read();
                         if (r != "ERR")
                         {
                             GpsIndicatedVerticalSpeed = Math.Round(Double.Parse(r), 6);
@@ -467,8 +467,8 @@ namespace WPF_Project
                         }
 
 
-                        server.write("get /instrumentation/gps/indicated-ground-speed-kt\n");
-                        r = server.read();
+                        server.Write("get /instrumentation/gps/indicated-ground-speed-kt\n");
+                        r = server.Read();
                         if (r != "ERR")
                         {
                             GpsIndicatedGroundSpeedKt = Math.Round(Double.Parse(r), 6);
@@ -479,8 +479,8 @@ namespace WPF_Project
                         }
 
 
-                        server.write("get /instrumentation/airspeed-indicator/indicated-speed-kt\n");
-                        r = server.read();
+                        server.Write("get /instrumentation/airspeed-indicator/indicated-speed-kt\n");
+                        r = server.Read();
                         if (r != "ERR")
                         {
                             AirspeedIndicatorIndicatedSpeedKt = Math.Round(Double.Parse(r), 6);
@@ -491,8 +491,8 @@ namespace WPF_Project
                         }
 
 
-                        server.write("get /instrumentation/gps/indicated-altitude-ft\n");
-                        r = server.read();
+                        server.Write("get /instrumentation/gps/indicated-altitude-ft\n");
+                        r = server.Read();
                         if (r != "ERR")
                         {
                             GpsIndicatedAltitudeFt = Math.Round(Double.Parse(r), 6);
@@ -503,8 +503,8 @@ namespace WPF_Project
                         }
 
 
-                        server.write("get /instrumentation/attitude-indicator/internal-roll-deg\n");
-                        r = server.read();
+                        server.Write("get /instrumentation/attitude-indicator/internal-roll-deg\n");
+                        r = server.Read();
                         if (r != "ERR")
                         {
                             AttitudeIndicatorInternalRollDeg = Math.Round(Double.Parse(r), 6);
@@ -514,8 +514,8 @@ namespace WPF_Project
                             AttitudeIndicatorInternalRollDeg = Double.NaN;
                         }
 
-                        server.write("get /instrumentation/attitude-indicator/internal-pitch-deg\n");
-                        r = server.read();
+                        server.Write("get /instrumentation/attitude-indicator/internal-pitch-deg\n");
+                        r = server.Read();
                         if (r != "ERR")
                         {
                             AttitudeIndicatorInternalPitchDeg = Math.Round(Double.Parse(r), 6);
@@ -525,8 +525,8 @@ namespace WPF_Project
                             AttitudeIndicatorInternalPitchDeg = Double.NaN;
                         }
 
-                        server.write("get /instrumentation/gps/indicated-altitude-ft\n");
-                        r = server.read();
+                        server.Write("get /instrumentation/gps/indicated-altitude-ft\n");
+                        r = server.Read();
                         if (r != "ERR")
                         {
                             AltimeterIndicatedAltitudeFt = Math.Round(Double.Parse(r), 6);
@@ -541,8 +541,8 @@ namespace WPF_Project
                         //sets are only sent if needed
                         if (queueSets.Count != 0 && queueSets.Peek() == 1)
                         {
-                            server.write("set /controls/flight/rudder " + Rudder + "\n");
-                            r = server.read();
+                            server.Write("set /controls/flight/rudder " + Rudder + "\n");
+                            r = server.Read();
                             if (r != "ERR")
                             {
                                 Rudder = Math.Round(Double.Parse(r), 6);
@@ -551,8 +551,8 @@ namespace WPF_Project
                         }
                         if (queueSets.Count != 0 && queueSets.Peek() == 2)
                         {
-                            server.write("set /controls/flight/elevator " + Elevator + "\n");
-                            r = server.read();
+                            server.Write("set /controls/flight/elevator " + Elevator + "\n");
+                            r = server.Read();
                             if (r != "ERR")
                             {
                                 Elevator = Math.Round(Double.Parse(r), 6);
@@ -561,8 +561,8 @@ namespace WPF_Project
                         }
                         if (queueSets.Count != 0 && queueSets.Peek() == 3)
                         {
-                            server.write("set /controls/flight/aileron " + Aileron + "\n");
-                            r = server.read();
+                            server.Write("set /controls/flight/aileron " + Aileron + "\n");
+                            r = server.Read();
                             if (r != "ERR")
                             {
                                 Aileron = Math.Round(Double.Parse(r), 6);
@@ -571,8 +571,8 @@ namespace WPF_Project
                         }
                         if (queueSets.Count != 0 && queueSets.Peek() == 4)
                         {
-                            server.write("set /controls/engines/current-engine/throttle " + Throttle + "\n");
-                            r = server.read();
+                            server.Write("set /controls/engines/current-engine/throttle " + Throttle + "\n");
+                            r = server.Read();
                             if (r != "ERR")
                             {
                                 Throttle = Math.Round(Double.Parse(r), 6);
@@ -587,8 +587,8 @@ namespace WPF_Project
 
                         //Position:
                         //try-catch blocks try to distinguish between map and connectivity problems                       
-                        server.write("get /position/longitude-deg\n");
-                        r = server.read();
+                        server.Write("get /position/longitude-deg\n");
+                        r = server.Read();
                         try
                         {
                             if (r != "ERR")
@@ -612,12 +612,12 @@ namespace WPF_Project
                             }
                             else
                             {
-                                throw e;
+                                throw;
                             }
                         }
 
-                        server.write("get /position/latitude-deg\n");
-                        r = server.read();
+                        server.Write("get /position/latitude-deg\n");
+                        r = server.Read();
                         try
                         {
                             if (r != "ERR")
@@ -641,7 +641,7 @@ namespace WPF_Project
                             }
                             else
                             {
-                                throw e;
+                                throw;
                             }
                         }
 
@@ -681,7 +681,7 @@ namespace WPF_Project
                         }
                         else
                         {
-                            server.disconnect();
+                            server.Disconnect();
                             stopModel();
                         }
                     }
@@ -689,7 +689,7 @@ namespace WPF_Project
             }).Start();
         }
 
-        public void controlAileron(double a)
+        public void ControlAileron(double a)
         {
             if (a > 1)
             {
@@ -705,7 +705,7 @@ namespace WPF_Project
             }
         }
 
-        public void controlThrottle(double t)
+        public void ControlThrottle(double t)
         {
             if (t > 1)
             {

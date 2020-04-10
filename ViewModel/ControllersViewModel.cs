@@ -46,7 +46,7 @@ namespace WPF_Project.ViewModel
             set
             {
                 aileron = value;
-                model.controlAileron(aileron);
+                model.ControlAileron(aileron);
             }
         }
         public double VM_Throttle
@@ -55,7 +55,7 @@ namespace WPF_Project.ViewModel
             set
             {
                 throttle = value;
-                model.controlThrottle(throttle);
+                model.ControlThrottle(throttle);
             }
         }
         

@@ -10,11 +10,11 @@ namespace WPF_Project.Server
     public interface IServer
     {
         void Connect(string ip, int port);
-        void write(string command);
-        string read();
-        void disconnect();
-        bool isConnected();
-        bool isWriting();
-        bool isReading();
+        void Write(string command);
+        string Read();
+        void Disconnect();
+        bool IsConnected();
+        bool IsWriting();
+        bool IsReading();
     }
 }
