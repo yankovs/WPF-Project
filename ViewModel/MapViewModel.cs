@@ -12,6 +12,10 @@ namespace WPF_Project.ViewModel
     {
         private IAppModel model;
 
+        /* Properties in any ViewModel are the same as in Model but with "VM_" prefix
+           which is exactly the same as shown in week 4.
+           We are aware that those names aren't like it should've been, code conventions wise. */
+
         public double VM_PositionLongitudeDeg
         {
             get { return model.PositionLongitudeDeg; }

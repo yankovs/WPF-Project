@@ -10,18 +10,23 @@ namespace WPF_Project.ViewModel
     public class SettingsViewModel : INotifyPropertyChanged
     {
         private IAppModel model;
-        private string IP;
-        private int Port;
+        private string ip;
+        private int port;
+
+        /* Properties in any ViewModel are the same as in Model but with "VM_" prefix
+           which is exactly the same as shown in week 4.
+           We are aware that those names aren't like it should've been, code conventions wise. */
+
         public string VM_IP
         {
             get
             {
-                return IP;
+                return ip;
             }
             set
             {
-                IP = value;
-                model.IP = IP;
+                ip = value;
+                model.IP = ip;
             }
         }
 
@@ -29,12 +34,12 @@ namespace WPF_Project.ViewModel
         {
             get
             {
-                return Port;
+                return port;
             }
             set
             {
-                Port = value;
-                model.Port = Port;
+                port = value;
+                model.Port = port;
             }
         }
 
