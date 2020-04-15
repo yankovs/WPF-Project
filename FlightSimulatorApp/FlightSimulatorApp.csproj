@@ -39,7 +39,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Maps.MapControl.WPF">
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\Bing Maps WPF Control\V1\Libraries\Microsoft.Maps.MapControl.WPF.dll</HintPath>
+      <HintPath>.\Lib\Microsoft.Maps.MapControl.WPF.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -158,6 +158,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="src\pikachu.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Lib\Microsoft.Maps.MapControl.WPF.dll" />
+    <Resource Include="Lib\Microsoft.Maps.MapControl.WPF.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
