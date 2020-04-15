@@ -1,0 +1,70 @@
+﻿<UserControl x:Class="FlightSimulatorApp.Views.Controllers"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FlightSimulatorApp.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="#66FCF1">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="35*"/>
+        </Grid.RowDefinitions>
+        <Viewbox Grid.Row="0">
+            <TextBlock TextWrapping="Wrap" Text="Controllers" FontWeight="Bold" Foreground="#FF101457"/>
+        </Viewbox>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Viewbox Grid.Column="0" Stretch="Uniform" Margin="0,5,5,5">
+               <local:Joystick x:Name="myJoystick"/>
+            </Viewbox>
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+                <Viewbox Grid.Row="0" Margin="0">
+                    <TextBlock TextWrapping="Wrap" Text="Aileron" FontWeight="Bold" Foreground="#FF101457"/>
+                </Viewbox>
+                <Slider Grid.Row="1"
+                        VerticalAlignment="Center"
+                        x:Name="aileronSlider"  
+                        Minimum="-1" 
+                        Maximum="1"
+                        Value="{Binding VM_Aileron, Mode=TwoWay}"
+                        TickFrequency="0.1"
+                        AutoToolTipPrecision="2"
+                        AutoToolTipPlacement="TopLeft"
+                        TickPlacement="BottomRight"
+                        ValueChanged="aileronSlider_ValueChanged"                             
+                        Background="#FF101457"
+                        LargeChange="0.1"
+                        SmallChange="0.1" Margin="5,10,5,0"/>
+                <Viewbox Grid.Row="2">
+                    <TextBlock TextWrapping="Wrap" Text="Throttle" FontWeight="Bold" Foreground="#FF101457"/>
+                </Viewbox>
+                <Slider Grid.Row="3"
+                        VerticalAlignment="Center"
+                        x:Name="throttleSlider"  
+                        Minimum="0" 
+                        Maximum="1"
+                        Value="{Binding VM_Throttle, Mode=TwoWay}"
+                        TickFrequency="0.05"
+                        AutoToolTipPrecision="2"
+                        AutoToolTipPlacement="TopLeft"
+                        TickPlacement="BottomRight"
+                        ValueChanged="throttleSlider_ValueChanged"                                          
+                        Background="#FF101457"
+                        LargeChange="0.05"
+                        SmallChange="0.05" Margin="5,10,5,0"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

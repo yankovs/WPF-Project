@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="FlightSimulatorApp.Views.Map"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
+             xmlns:local="clr-namespace:FlightSimulatorApp.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="#243665">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="12*"/>
+        </Grid.RowDefinitions>
+        <Viewbox Grid.Row="0">
+            <TextBlock TextWrapping="Wrap" Text="Map" FontWeight="Bold" Foreground="#8BD8BD"/>
+        </Viewbox>
+        <Grid Grid.Row="1">
+            <TextBox x:Name="VisibilityMode" Text="{Binding VM_VisibilityOfMap, Mode=OneWay}" Visibility="Hidden" TextChanged="VisibilityMode_TextChanged"/>
+            <m:Map x:Name="Map1" Mode="Road" CredentialsProvider="AgaQmHHnv60XlDswbLa6YTuKKX8RqzUoV1XdINhXuOgXQgv9c6YiY22ZqwsKoE6l" ZoomLevel="0" BorderThickness="5" Background="#243665">
+                <m:Pushpin Location="{Binding VM_Location, Mode=OneWay}">
+                    <Canvas Width="15" Height="15">
+                        <Image Source="/src/airplane.png" Width="15" Height="15" RenderTransformOrigin="0.5,0.5">
+                            <Image.RenderTransform>
+                                <TransformGroup>
+                                    <!--Assuming HeadingDeg returns the angle correctly (360 deg system and clockwise) -->
+                                    <RotateTransform Angle="{Binding VM_IndicatedHeadingDeg, Mode=OneWay}"/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Image.RenderTransform>
+                        </Image>
+                    </Canvas>
+                </m:Pushpin>
+            </m:Map>
+            <Viewbox Stretch="Fill">
+                <Grid>
+                    <Image x:Name="Pikachu" Source="/src/pikachu.jpg" Visibility="Hidden" Margin="5"/>
+                    <Viewbox VerticalAlignment="Center" HorizontalAlignment="Left"  Margin="10,5,5,60">
+                        <TextBlock x:Name="MapErrorMsg"  TextWrapping="Wrap" Text="Map can't be shown&#x0a;at the moment" Visibility="Hidden" FontWeight="ExtraBold" Foreground="White" FontSize="12"/>
+                    </Viewbox>
+                </Grid>
+            </Viewbox>
+        </Grid>
+    </Grid>
+</UserControl>
