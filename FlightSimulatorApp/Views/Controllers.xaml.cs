@@ -28,6 +28,7 @@ namespace FlightSimulatorApp.Views
             InitializeComponent();
             DataContext = (Application.Current as App).ControllersViewModel;
             cvm = DataContext as ControllersViewModel;
+            myJoystick.DataContext = cvm;
         }
 
         private void aileronSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)

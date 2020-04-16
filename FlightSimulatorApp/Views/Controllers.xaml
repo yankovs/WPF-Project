@@ -20,10 +20,40 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Viewbox Grid.Column="0" Stretch="Uniform" Margin="0,5,5,5">
-               <local:Joystick x:Name="myJoystick"/>
-            </Viewbox>
-            <Grid Grid.Column="2">
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="9*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">                                      
+                    <Viewbox Stretch="Uniform">
+                        <local:Joystick x:Name="myJoystick"/>
+                    </Viewbox>
+                </Grid>
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="9*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="9*"/>
+                    </Grid.ColumnDefinitions>
+                    <Viewbox Grid.Column="0">
+                        <TextBlock TextWrapping="Wrap" Text="Rudder " FontWeight="Bold" Foreground="#FF101457"/>
+                    </Viewbox>
+                    <Viewbox Grid.Column="1">
+                        <TextBlock TextWrapping="Wrap" Text="{Binding VM_RealRudder, Mode=OneWay, StringFormat=N6}" FontWeight="Bold" Foreground="#FF101457"/>
+                    </Viewbox>
+                    <Viewbox Grid.Column="3">
+                        <TextBlock TextWrapping="Wrap" Text="Elevator " FontWeight="Bold" Foreground="#FF101457"/>
+                    </Viewbox>
+                    <Viewbox Grid.Column="4">
+                        <TextBlock TextWrapping="Wrap" Text="{Binding VM_RealElevator, Mode=OneWay, StringFormat=N6}" FontWeight="Bold" Foreground="#FF101457"/>
+                    </Viewbox>
+                </Grid>
+            </Grid>
+            <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="2*"/>

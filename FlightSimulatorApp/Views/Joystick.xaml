@@ -117,9 +117,7 @@
                     <TranslateTransform x:Name="knobPosition" X="{Binding VM_Rudder, Mode=TwoWay}" Y="{Binding VM_Elevator, Mode=TwoWay}"/>
                 </Canvas.RenderTransform>
                 <Canvas.Resources>
-
                     <Storyboard x:Key="CenterKnob" Name="centerKnob" Completed="centerKnob_Completed">
-
                         <DoubleAnimation Storyboard.TargetName="knobPosition"
                              Storyboard.TargetProperty="X" To="0" Duration="0:0:0.2">
                             <DoubleAnimation.EasingFunction>

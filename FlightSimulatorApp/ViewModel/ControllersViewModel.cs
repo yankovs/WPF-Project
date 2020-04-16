@@ -14,7 +14,7 @@ namespace FlightSimulatorApp.ViewModel
 
         private double rudder, elevator, aileron, throttle;
 
-        private const double Ratio = 168.421052631579;
+        private const double Ratio = 170; //not accurate but relatively good enough
 
         /* Properties in any ViewModel are the same as in Model but with "VM_" prefix
            which is exactly the same as shown in week 4.
@@ -42,7 +42,6 @@ namespace FlightSimulatorApp.ViewModel
                     elevator = value;
                     model.Elevator = elevator;
                 }
-
             }
         }
         public double VM_Aileron
@@ -64,6 +63,17 @@ namespace FlightSimulatorApp.ViewModel
             }
         }
 
+        //Those "real" properties are only for showing on screen real values, they aren't in Model.
+        public double VM_RealRudder
+        {
+            get { return VM_Rudder / Ratio; }
+        }
+
+        public double VM_RealElevator
+        {
+            get { return -VM_Elevator / Ratio; }
+        }
+
         public ControllersViewModel(IAppModel model)
         {
             this.model = model;
@@ -81,6 +91,15 @@ namespace FlightSimulatorApp.ViewModel
             if (this.PropertyChanged != null)
             {
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
+            }
+
+            if (propName == "VM_Rudder")
+            {
+                NotifyPropertyChanged("VM_RealRudder");
+            }
+            else if (propName == "VM_Elevator")
+            {
+                NotifyPropertyChanged("VM_RealElevator");
             }
         }
     }

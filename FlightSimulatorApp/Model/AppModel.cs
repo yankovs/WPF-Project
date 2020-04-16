@@ -40,7 +40,7 @@ namespace FlightSimulatorApp.Model
         private string ip;
         private int port;
 
-        private const double Ratio = 168.421052631579;
+        private const double Ratio = 170;
 
         public Queue<int> queueSets;
 
